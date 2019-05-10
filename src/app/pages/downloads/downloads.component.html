@@ -1,0 +1,99 @@
+<div class="row">
+    <div class="col-md-6">
+        <nb-card status="info">
+            <nb-card-header>Documents Required for Admission</nb-card-header>
+          <nb-card-body>
+            <nb-select placeholder="Select Document" status="success"  ngModel="document" (ngModelChange)="getDocument($event)" >
+              <nb-option value="Sponsorship Letter" >Sponsorship Letter from the Sponsor parent (NRI of Gulf Category Only)</nb-option>
+              <nb-option value="SelfAffidavit" >Self Affidavit</nb-option>
+              <nb-option value="Self_Affidavit_pp" >	Self Affidavit - Pune to Pune</nb-option>
+              <nb-option value="3rd_Person_Affidavit" >	3rd Person Affidavit (Candidates below 18 years of age)</nb-option>
+              <nb-option value="3rd_Person_Affidavit_pp" >	3rd Person Affidavit - Pune to Pune (Candidates below 18 years of age)</nb-option>
+            </nb-select>
+          </nb-card-body>
+          </nb-card>
+    </div>
+    <div class="col-md-6">
+        <nb-card status="info" id="Sponsorship" style="visibility: hidden;">
+            <nb-card-header>{{document_name}}<nb-action style="float:right;" icon="ion-information" nbPopover="{{document_name}}" ></nb-action></nb-card-header>
+            <nb-card-footer>
+              <button nbButton shape="round" size="small" status="success" (click)="downloaddocument(document_name,file)">Download</button>
+            </nb-card-footer>
+          </nb-card>
+    </div>
+</div>
+<div class="row">
+<div class="col-md-6" *ngIf="applications_count >= 2">
+    <nb-card status="info">
+      <nb-card-header>Select specialization</nb-card-header>
+    <nb-card-body>
+      <nb-select placeholder="Select specialization" status="success"  ngModel="specialization" (ngModelChange)="getLetter($event)"  [(selected)]="altCountry">
+        <nb-option  *ngFor= "let d of applicationsdata" value="{{d.id}}" >{{d.specialization}}</nb-option>
+       </nb-select>
+      </nb-card-body>
+  </nb-card>
+</div>
+
+<div class="col-md-6" *ngIf="applications_count >= 2">
+   <nb-card status="info" *ngIf = "application_letter_count > 0 &&  show == true">
+      <nb-card-header>Application Letter<nb-action style="float:right;" icon="ion-information" nbPopover="This is the letter from university displaying your preferences for college and course." ></nb-action></nb-card-header>
+      <nb-card-footer *ngFor= "let f of appdata">
+        <button nbButton shape="round" size="small" status="success" (click)="downloadletter(f.id,f.letter)">Download</button>
+        <button nbButton shape="round" size="small" status="success" (click)="close('show')">Close</button>
+      </nb-card-footer>
+    </nb-card>
+  
+    <nb-card status="info"  *ngIf = "first_challan_count > 0 &&  show1 == true">
+        <nb-card-header>Payment Reciepts<nb-action style="float:right;" icon="ion-information" nbPopover=" Download your Payment Reciepts for :  First Payment - Eligibility Fees  Second Payment - Application Processing Fees  Third Payment - College Admission Fees" ></nb-action></nb-card-header>
+        <nb-card-footer  *ngIf = "first_challan_count > 0"><button nbButton shape="round" size="small" status="success" (click)="downloadchallan(challan_data.first_challan)">First Payment Reciepts Download</button></nb-card-footer>
+        <nb-card-footer  *ngIf = "second_challan_count > 0"><button nbButton shape="round" size="small" status="success" (click)="downloadchallan(challan_data.second_challan)">Second Payment Reciepts Download</button></nb-card-footer>
+        <nb-card-footer  *ngIf = "third_challan_count  > 0"><button nbButton shape="round" size="small" status="success" (click)="downloadchallan(challan_data.third_challan)">Third Payment Reciepts Download</button></nb-card-footer>
+        <nb-card-footer><button nbButton shape="round" size="small" status="success" (click)="close('show1')">Close</button></nb-card-footer>
+      </nb-card>
+  
+      <nb-card status="info" *ngIf = "provisional_eligiblity_letter_count > 0 &&  show2 == true">
+     <nb-card-header>Provisional Eligibility Letter<nb-action style="float:right;" icon="ion-information" nbPopover=" Provisional Eligibility Letter means that you are eligible for admission in the university and based on this letter you can issue visa on your passport by your embassy." ></nb-action></nb-card-header>
+      <nb-card-footer *ngFor= "let f of provisionalletterdata">
+        <button nbButton shape="round" size="small" status="success" (click)="downloadletter(f.id,f.letter)">Download</button>
+        <button nbButton shape="round" size="small" status="success" (click)="close('show2')">Close</button>
+      </nb-card-footer>
+   </nb-card>
+  
+    <nb-card status="info" *ngIf = "final_letter_count > 0 &&  show3 == true">
+        <nb-card-header>Final Letter<nb-action style="float:right;" icon="ion-information" nbPopover=" Final Letter will allow you to attend college" ></nb-action></nb-card-header>
+        <nb-card-footer *ngFor= "let f of finalletterdata">
+          <button nbButton shape="round" size="small" status="success" (click)="downloadletter(f.id,f.letter)">Download</button>
+          <button nbButton shape="round" size="small" status="success" (click)="close('show3')">Close</button>
+        </nb-card-footer>
+      </nb-card>
+  </div>
+</div>
+  
+   <div  class="row" *ngIf = "applications_count === 1">
+      <div class="col-md-6">
+    <nb-card status="info" *ngIf = "application_letter_count > 0">
+      <nb-card-header>Application Letter<nb-action style="float:right;" icon="ion-information" nbPopover=" This is the letter from university displaying your preferences for college and course." ></nb-action></nb-card-header>
+      <nb-card-footer  *ngFor= "let data of appdata"><div *ngFor= "let d of data"> <button nbButton shape="round" size="small" status="success"  (click)="downloadletter(d.id,d.letter)">Download</button></div></nb-card-footer>
+    </nb-card>
+  
+    <nb-card status="info"  *ngIf = "first_challan_count > 0">
+        <nb-card-header>Payment Reciepts<nb-action style="float:right;" icon="ion-information" nbPopover=" Download your Payment Reciepts for :  First Payment - Eligibility Fees  Second Payment - Application Processing Fees  Third Payment - College Admission Fees" ></nb-action></nb-card-header>
+        <nb-card-footer  *ngIf = "first_challan_count > 0"><button nbButton shape="round" size="small" status="success" (click)="downloadchallan(challan_data.first_challan)">First Payment Reciepts Download</button></nb-card-footer>
+        <nb-card-footer  *ngIf = "second_challan_count > 0"><button nbButton shape="round" size="small" status="success" (click)="downloadchallan(challan_data.second_challan)">Second Payment Reciepts Download</button></nb-card-footer>
+        <nb-card-footer  *ngIf = "third_challan_count  > 0"><button nbButton shape="round" size="small" status="success" (click)="downloadchallan(challan_data.third_challan)">Third Payment Reciepts Download</button></nb-card-footer>
+      </nb-card>
+         
+    </div>
+    <div class="col-md-6">
+      <nb-card status="info" *ngIf = "provisional_eligiblity_letter_count > 0">
+     <nb-card-header>Provisional Eligibility Letter<nb-action style="float:right;" icon="ion-information" nbPopover=" Provisional Eligibility Letter means that you are eligible for admission in the university and based on this letter you can issue visa on your passport by your embassy." ></nb-action></nb-card-header>
+    <nb-card-footer *ngFor= "let data1 of provisionalletterdata"> <div *ngFor= "let p of data1"><button nbButton shape="round" size="small" status="success" (click)="downloadletter(p.id,p.letter)">Download</button> </div></nb-card-footer>
+   </nb-card>
+  
+    <nb-card status="info" *ngIf = "final_letter_count > 0">
+        <nb-card-header>Final Letter<nb-action style="float:right;" icon="ion-information" nbPopover="Final Letter will allow you to attend college" ></nb-action></nb-card-header>
+        <nb-card-footer *ngFor= "let data2 of finalletterdata"> <div *ngFor= "let f of data2"><button nbButton shape="round" size="small" status="success" (click)="downloadletter(f.id,f.letter)">Download</button></div></nb-card-footer>
+      </nb-card>
+    </div>
+</div>
+    

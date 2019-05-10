@@ -1,0 +1,320 @@
+<nb-actions size="large">
+   <nb-action icon="ion-arrow-left-c"  (click)="Back()"></nb-action>
+</nb-actions>
+<nb-card size="large">
+   <nb-card-body>
+      <nb-stepper orientation="horizontal">
+         <nb-step label="Personal" [completed]="true">
+            <h3>Personal Information</h3>
+               <nb-card>
+                  <table class="" border="1" bordercolor="#c4c4c4" style="width:100%">
+                     <thead >
+                        <tr>
+                           <th class="tableHead">Full Name</th>
+                           <td class="tableData">{{studentData?.personal_info.name}}</td>
+                        </tr>
+                        <tr>
+                           <th class="tableHead">Email ID</th>
+                           <td class="tableData">{{studentData?.personal_info.email}}</td>
+                        </tr>
+                        <tr>
+                           <th class="tableHead">Mobile No</th>
+                           <td class="tableData">+{{studentData?.personal_info.countryCode}}-{{studentData?.personal_info.mobile}}</td>
+                        </tr>
+                        <tr>
+                           <th class="tableHead">Date of Birth</th>
+                           <td class="tableData">{{studentData?.personal_info.dob}}</td>
+                        </tr>
+                        <tr>
+                           <th class="tableHead">Gender</th>
+                           <td class="tableData">{{studentData?.personal_info.gender}}</td>
+                        </tr>
+                        <tr>
+                           <th class="tableHead">City</th>
+                           <td class="tableData">{{studentData?.personal_info.city}}</td>
+                        </tr>
+                        <tr>
+                           <th class="tableHead">State</th>
+                           <td class="tableData">{{studentData?.personal_info.state}}</td>
+                        </tr>
+                        <tr>
+                           <th class="tableHead">Country</th>
+                           <td class="tableData">{{studentData?.personal_info.country}}</td>
+                        </tr>
+                     </thead>
+                  </table>
+               </nb-card>
+         </nb-step>
+         <nb-step label="Nationality" [completed]="true">
+            <h3>Nationality Information</h3>
+            <nb-card>
+               <table class="" border="1" bordercolor="#c4c4c4" style="width:100%">
+                  <thead >
+                     <tr>
+                        <th class="tableHead">Address Line 1</th>
+                        <td class="tableData">{{studentData?.nationality_info.address1}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">Address Line 2</th>
+                        <td class="tableData">{{studentData?.nationality_info.address2}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">Country of Birth</th>
+                        <td class="tableData">{{studentData?.nationality_info.countryOfBirth}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">Citizenship</th>
+                        <td class="tableData">{{studentData?.nationality_info.citizenship}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">State</th>
+                        <td class="tableData">{{studentData?.nationality_info.state}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">City</th>
+                        <td class="tableData">{{studentData?.nationality_info.city}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">State</th>
+                        <td class="tableData">{{studentData?.nationality_info.state}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">Postal Code</th>
+                        <td class="tableData">{{studentData?.nationality_info.postalCode}}</td>
+                     </tr>
+                  </thead>
+               </table><br>
+            </nb-card>
+            <nb-card>
+               <h3>Passport Details</h3>
+               <table class="" border="1" bordercolor="#c4c4c4" style="width:100%">
+                  <thead >
+                     <tr>
+                        <th class="tableHead">Passport No</th>
+                        <td class="tableData">{{studentData?.nationality_info.passportNo}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">Date of issuance</th>
+                        <td class="tableData">{{studentData?.nationality_info.dateOfIssuance}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">Country of Issuance</th>
+                        <td class="tableData">{{studentData?.nationality_info.countryOfIssuance}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">Expiry date</th>
+                        <td class="tableData">{{studentData?.nationality_info.passportExpDate}}</td>
+                     </tr>
+                  </thead>
+               </table>
+            </nb-card>
+         </nb-step>
+         <nb-step label="Guardian" [completed]="true">
+            <h3>Guardian Information</h3>
+            <nb-card>
+               <table class="" border="1" bordercolor="#c4c4c4" style="width:100%">
+                  <thead >
+                     <tr>
+                        <th class="tableHead">Full Name</th>
+                        <td class="tableData">{{studentData?.guardian_info.name}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">Email ID</th>
+                        <td class="tableData">{{studentData?.guardian_info.email}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">Mobile No</th>
+                        <td class="tableData">+{{studentData?.guardian_info.countryCode}}-{{studentData?.guardian_info.mobile}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">Date of Birth</th>
+                        <td class="tableData">{{studentData?.guardian_info.dob}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">Country</th>
+                        <td class="tableData">{{studentData?.guardian_info.country}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">State</th>
+                        <td class="tableData">{{studentData?.guardian_info.state}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">Postal Code</th>
+                        <td class="tableData">{{studentData?.guardian_info.postalCode}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">Citizenship</th>
+                        <td class="tableData">{{studentData?.guardian_info.citizenship}}</td>
+                     </tr>
+                  </thead>
+               </table>
+            </nb-card>
+         </nb-step>
+         <nb-step label="Educational" [completed]="true">
+            <h3>Educational Information</h3>
+            <h2>Particulars of Examination passed by the candidate on the basis of which the provisional statement of eligibility is sought</h2>
+            <nb-card>
+               <table class="" border="1" bordercolor="#c4c4c4" style="width:100%">
+                  <thead>
+                     <tr>
+                        <th class="tableHead"> (a) Full name of the examination passed</th>
+                        <td class="tableData">{{studentData?.user_education.name}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">(b) Full Name of the University of Examining Body that conducted the qualifying examiantion</th>
+                        <td class="tableData">{{studentData?.user_education.university}}</td>
+                     </tr>
+                     
+                     <tr>
+                        <th class="tableHead">(c) Year and Month of passing the qualifying examination</th>
+                        <td class="tableData">{{studentData?.user_education.date_month}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">(d) Medium of instruction and Seat no. or Roll no. at the qualifying examination</th>
+                        <td class="tableData">{{studentData?.user_education.seatno}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">(e) Medium of Examination</th>
+                        <td class="tableData">{{studentData?.user_education.medium}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">(f) Subjects with which the applicant passed the qualifying examination</th>
+                        <td class="tableData">{{studentData?.user_education.subject}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">(g) Division/Class/Grades/Credits Obtained</th>
+                        <td class="tableData">{{studentData?.user_education.credit}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">(h) Name and Address of the college/school through which he/she appeared</th>
+                        <td class="tableData">{{studentData?.user_education.add}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">(i) Email address of the University/College/Institution</th>
+                        <td class="tableData">{{studentData?.user_education.colmail}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">(j) Website of the University/College/Institution</th>
+                        <td class="tableData">{{studentData?.user_education.website}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">Year and Month of passing the Matriculation/S.S.C./Cambridge School Certificate/Indian School Certificate/High School examination with the name of the university of Examining Body</th>
+                        <td class="tableData">{{studentData?.user_education.highschool}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">Year and Month of passing the pre-University/Higher Secondary Examination with the name of University/Board</th>
+                        <td class="tableData">{{studentData?.user_education.HigherSecondary}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">Year and Month of passing the Intermediate/pre-Professional/High School Certificate examination with the name of the University/Board</th>
+                        <td class="tableData">{{studentData?.user_education.Intermediate}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">Year and Month of passing the graduation or any other examination with the name of the University</th>
+                        <td class="tableData">{{studentData?.user_education.Graduation}}</td>
+                     </tr>
+                  </thead>
+               </table>
+            </nb-card>
+         </nb-step>
+         <nb-step label="Employment Details" [completed]="true">
+            <h3>Employment Details</h3>
+            <nb-card>
+               <table class="" border="1" bordercolor="#c4c4c4" style="width:100%">
+                  <thead >
+                     <tr>
+                        <th class="tableHead">Company Name</th>
+                        <td class="tableData">{{studentData?.userEmployments.companyName}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">Years</th>
+                        <td class="tableData">{{studentData?.userEmployments.workExpYears}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">Months</th>
+                        <td class="tableData">{{studentData?.userEmployments.workExpMonths}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">Designation</th>
+                        <td class="tableData">{{studentData?.userEmployments.workTitle}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">Type of Work</th>
+                        <td class="tableData">{{studentData?.userEmployments.typeOfWork}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">Work description</th>
+                        <td class="tableData">{{studentData?.userEmployments.workDescription}}</td>
+                     </tr>
+                  </thead>
+               </table>
+            </nb-card>
+         </nb-step>
+         <nb-step label="User Transcript" [completed]="true">
+            <h3>User Transcript</h3><br>
+            <input type="hidden" id="userId" value="{{studentData?.personal_info.user_id}}"/>
+            <input type="hidden" id="Id" value="{{studentData?.personal_info.id}}"/>
+            <input type="hidden" id="courseId" value="{{studentData?.personal_info.courseId}}"/>
+           
+            
+            <div class="row">
+               <div class="col-md-3">
+                  <div>
+                     <nb-card status="success" size="small">
+                        <nb-card-body>
+                           <img class="viewMoreImg img-responsive" src="{{serverUrl}}/front_assets/img/pdf1.png" (click)="preview(category)"/>
+                        </nb-card-body>
+                        <nb-card-footer>
+                              <h5>Download Preview Letter</h5>
+                        </nb-card-footer>
+                     </nb-card>
+                  </div>
+               </div>
+               <div class="col-md-3" *ngFor = "let data of userTranscripts">
+                  <div>
+                     <nb-card status="success" size="small">
+                        <nb-card-header >{{data?.name}}</nb-card-header>
+                        <nb-card-body>
+                           <!-- <img class="img-responsive viewMoreImg" src="{{data?.image}}"/> -->
+                           <div *ngIf="data?.extension=='pdf'">
+                              <img src="{{serverUrl}}/front_assets/img/pdf1.png"  style="height:150px; width:150px;">
+                           </div>
+                           <div *ngIf="data?.extension != 'pdf'">
+                              <img class="img-responsive viewMoreImg" src="{{data?.image}}"/>
+                           </div>
+                        </nb-card-body>
+                        <nb-card-footer>
+                           <button size="x-small" status="info" (click)="DownloadTranscript(data?.file_path,data?.file_name);" nbButton>Download</button>
+                        </nb-card-footer>
+                     </nb-card> 
+                  </div>
+               </div>
+            </div>
+         </nb-step>
+         <nb-step label="Payment Details" [completed]="true" *ngIf="category==='application' || category==='eligibility'">
+            <h3>Payment Details</h3><br>
+            <h4><b>Payment Mode :</b>{{studentData?.payment_detail.paymentMode}}</h4>
+            <table class="" border="1" bordercolor="#c4c4c4" style="width:100%">
+               <thead >
+                  <tr>
+                     <th class="tableHead">Date of Payment</th>
+                     <td class="tableData">{{studentData?.payment_detail.dateOfPaymebnt}}</td>
+                  </tr>
+                  <tr>
+                     <th class="tableHead">Order ID</th>
+                     <td class="tableData">{{studentData?.payment_detail.orderId}}</td>
+                  </tr>
+                  <tr>
+                     <th class="tableHead">Currency</th>
+                     <td class="tableData">{{studentData?.payment_detail.currency}}</td>
+                  </tr>
+                  <tr>
+                     <th class="tableHead">Total Amount</th>
+                     <td class="tableData">{{studentData?.payment_detail.totalAppAmount}}</td>
+                  </tr>
+               </thead>
+            </table>            
+         </nb-step>
+      </nb-stepper>
+   </nb-card-body>
+</nb-card>

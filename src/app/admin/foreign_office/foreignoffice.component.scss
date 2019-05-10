@@ -1,0 +1,116 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+.example-container {
+    height: 400px;
+    overflow: auto;
+  }
+table {
+    width: 100%;
+  }
+  .example-full-width {
+    width: 50%;
+  }
+  .clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+
+  .allDetails{
+    font-size:12px;
+    color:#000;
+    padding-top: 9px;
+    padding-bottom: 9px;
+    font-family: 'lato-Regular';
+    word-wrap: break-word; 
+  }
+
+  .widthCol06{
+    float: left;
+    width: 6%;
+    padding: 13px 13px 20px 8px;
+    min-height: 1px;
+    position: relative;
+  }
+
+  .widthCol07{
+    float: left;
+    width: 7%;
+    padding: 13px 13px 20px 8px;
+    min-height: 1px;
+    position: relative;
+  }
+
+  .widthCol08{
+    float: left;
+    width: 8%;
+    padding: 13px 13px 20px 8px;
+    min-height: 1px;
+    position: relative;
+  }
+
+  .widthCol10{
+    float: left;
+    width: 10%;
+    padding: 13px 13px 20px 8px;
+    min-height: 1px;
+    position: relative;
+  }
+
+  .noPadLeft{
+    padding-left:0 !important;
+  }
+  .text-center{
+    text-align: center;
+    text-align: -moz-center;
+    text-align: -webkit-center;
+  }
+  .widthCol102{
+    float: left;
+    width: 14%;
+    padding: 13px 13px 20px 8px;
+    min-height: 1px;
+    position: relative;
+  }
+
+  .widthCol13{
+    float: left;
+    width: 13%;
+    padding: 13px 13px 20px 30px;
+    min-height: 1px;
+    position: relative;
+  }
+  
+  .cStnd{
+    font-size: 14px;
+    font-weight: 900;
+  }
+
+  .fa {
+    width: 18px;
+    text-align: center;
+    font-size: 50px;
+    visibility: visible;
+  }
+  
+  .fa {
+    
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: 20px;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  i:hover {
+    //background-color: red;
+    font-size: xx-large;
+    font-family: Arial, Helvetica, sans-serif;
+    color: red;
+    outline-color : aqua;
+  }
+  
+  .ion-email{
+    font-size: 25px;
+  }

@@ -1,0 +1,91 @@
+@import '../../../@theme/styles/themes';
+@import '~bootstrap/scss/mixins/breakpoints';
+@import '~@nebular/theme/styles/global/breakpoints';
+
+@include nb-install-component() {
+  .solar-card nb-card-header {
+    border: none;
+    padding-bottom: 0;
+  }
+
+  @include media-breakpoint-down(sm) {
+    ngx-traffic {
+      display: none;
+    }
+  }
+
+
+
+  .downloadPagebtn{
+    background: #9a91ff	;
+    border-top: 0;
+    border-right: 0;
+    border-bottom: 5px solid #9a91ff	;
+    border-left: 0;
+    border-radius: 4px;
+    color: #fff;
+    font-family: "Raleway-semibold";
+    font-size: 22px;
+    margin: 20px 0;
+    padding: 10px 20px;
+    margin-left: 300px;
+  }
+
+  .visahead{
+    margin-top: 15px;
+    margin-bottom: 15px;
+    text-decoration: underline;
+    color: #005ca1;
+  }
+
+  .passbutton_div{
+    margin-left: 200px;
+    text-decoration: underline;
+    color: #005ca1
+  }
+
+  .passhead{
+    margin-left: 250px;
+    text-decoration: underline;
+    color: #005ca1
+  }
+
+  .enrollDetailsCol1{
+    font-size:16px;
+    color: #5d5d5d;
+    padding-left: 40px;
+    font-weight: 700;
+  }
+  .enrollDetailsCol2 ,.enrollEmailDetailsCol2{
+    color: #757171;
+    font-size: 14px;
+    max-height: 60px;
+    overflow: hidden;
+    font-weight: 700;
+  }
+
+  .paddingForDetails
+  {
+    padding-bottom: 15px;
+  }
+
+  .names{
+    font-weight: 800;
+    font-size: 14px;
+  }
+
+  .span1{
+    font-size: 21px;
+    font-family: Raleway-semibold;
+  }
+  .span2{
+    font-size: 25px;
+    font-family: Raleway-bold;
+  }
+
+  @include media-breakpoint-down(is) {
+    /deep/ nb-card.large-card {
+      height: nb-theme(card-height-medium);
+    }
+  }
+}

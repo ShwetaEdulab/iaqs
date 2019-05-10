@@ -1,0 +1,22 @@
+<nb-card >
+  <nb-card-header id="header">Verify Otp Here </nb-card-header>
+  <nb-card-body>
+    <div class="row">
+         <input  id="enterOtp" style="visibility: visible;" nbInput type="text" (keyup.enter)="verify()"  placeholder="Enter OTP Here"  class="form-control"> 
+         <span *ngIf="otpValidation===false" style="color:red;">Please enter OTP</span> 
+         
+    </div>         
+    <div *ngIf="alert == 200">
+    <h2>Otp Verified Successfully.</h2>	  
+    </div>
+    <div *ngIf="alert == 400">
+        <h3 style="color:red;">Please Enter Valid OTP.</h3>
+    </div>  
+    <span></span>
+  </nb-card-body>
+  <nb-card-footer> 
+  <div class="row">
+      <div class="col-lg-3"><button nbButton hero status="primary" id="verify" style="visibility: visible;" (click)="verify()" >Verify</button></div>
+  </div>
+  </nb-card-footer>
+</nb-card>

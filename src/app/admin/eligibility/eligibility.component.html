@@ -1,0 +1,183 @@
+<nb-card [nbSpinner]="loading" nbSpinnerStatus="danger" nbSpinnerSize="xlarge">
+	<nb-card-body>
+		<div class="titleWrap">
+			<label>Eligibility</label>
+		</div>
+		<p-tabView (onChange)="getApplication($event)">
+			<p-tabPanel header="Personal Interview Details">
+				<b><h3>Personal Interview Details</h3></b><br>
+				<div class="row">
+					<div class="col-xl-4">
+						<mat-form-field class="example-full-width">
+							<input matInput  type="text" [value]="filterText"
+							[placeholder]="filterPlaceholder" [formControl]="filterInput" />
+						</mat-form-field>
+					</div>
+					<div class="col-xl-4">
+						<label for="DOBtxt">Date of PI Test<span style="color:red;">*</span></label><br>
+						<input nbInput [(ngModel)]="piTest" placeholder="Select Date of PI Test" id="DOBtxt" 
+								[nbDatepicker]="formpicker" ><br>
+						<nb-datepicker #formpicker [min]="max"></nb-datepicker><br>
+						<button nbButton  size="xsmall" outline status="info" (click)="saveDate('pit')">Save Date</button>
+						<span *ngIf="showOne" style="color: red">{{message}}</span><br>
+					</div>
+					<div class="col-xl-4">
+						<label for="inputPITime">Time of Personal Interview Test<span style="color:red;">*</span></label><br>
+						<!-- <input [ngxTimepicker]="picker1" id="inputPITime" [(ngModel)]="onlinePITime" nbInput 
+							placeholder="Select Time of Online Test" name="onlinePITime"><br>
+						<ngx-material-timepicker #picker1></ngx-material-timepicker><br> -->
+						<p-calendar [readonlyInput]="true" id="inputPITime" [(ngModel)]="onlinePITime" [timeOnly]="true"></p-calendar><br><br>
+						<button nbButton size="xsmall" outline status="info" (click)="saveTime(serverTimeId)">Save Time</button>
+						<span *ngIf="showTwo" style="color: red">{{message}}</span><br>
+					</div>
+				</div>
+				
+				<table class="table table-striped w-auto">
+						<thead>
+							<h5><b>Total Count:</b></h5>{{application_data?.length}}
+							<tr>
+								<th>Application No.</th>
+								<th>Application No.For 1st Payment</th>
+								<th>Category</th>
+								<!-- <th>Country Name</th> -->
+								<th>Student Name</th>
+								<th>Email Address</th>
+								<th>Selected Course</th>
+								<!-- <th>Check Eligibility</th> -->
+								<th>Action</th>
+								<th>Personal Interview Exam Date</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="info" *ngFor="let application of application_data | filter:{date:filterText,email:filterText,course:filterText,specialization:filterText,student_category:filterText,enrollment_no: filterText,stu_name : filterText,country_name:filterText,user_id:filterText} : false | paginate: { itemsPerPage: 10, currentPage: p } ">
+								<th scope="row">{{application?.enrollment_no}}</th>
+								<td>{{application?.user_id}}</td>
+								<td>{{application?.student_category}}</td>
+								<!-- <td>{{application?.country_name}}</td> -->
+								<td>{{application?.stu_name}}</td>
+								<td>{{application?.email}}</td>
+								<td>{{application?.specialization}} ({{application?.course}})</td>
+								<!-- <td><button nbButton  size="xsmall" outline status="info" (click)="Check_Eligibility(application.user_id,application.college_university,application.college_name,application.Subject_first_hsc,application.Subject_Second_hsc,application.Subject_Third_hsc,application.Subject_fourth_hsc,application.Subject_fifth_hsc,application.Subject_Six_hsc,application.specialization,application.course)">Check Eligibility</button></td> -->
+								<td><i class="fa ion-person" status="danger" nbPopover="View More" nbPopoverMode="hover" (click)="viewMore('application',application.user_id,application.course_id,'new',application.id);"></i>
+									<i class="fa ion-android-lock" id='documentverify{{application.id}}' nbPopover="Errata" nbPopoverMode="hover" (click)="errata(application.user_id,'self_financed');"></i>
+									<section class="example-section">
+										<mat-slide-toggle
+											class="example-margin"
+											[color]="color"
+											(change)="sendToForeign($event,application.id,application.course_id,application.user_id,application.check_eligibility)"
+											[checked]="application.check_foreign"
+											[disabled]="disabled">
+											Send Email about PI Test 
+										</mat-slide-toggle>
+									</section>
+									<i class="fa ion-email" status="info" nbPopover="Raise Ticket" nbPopoverMode="hover" (click)="Ticket(application.email);"></i>
+								</td>
+								<td>{{application?.pi_test_date}}</td>				
+							</tr>
+						</tbody>				
+					</table>
+				<pagination-controls (pageChange)="p = $event"></pagination-controls>
+			</p-tabPanel>
+			<!-- <p-tabPanel header="Applications">
+				<b><h3>Eligibility</h3></b><br>
+				<div class="row">
+					<div class="col-md-12 ">
+						<mat-form-field class="example-full-width">
+							<input matInput  type="text" [value]="filterText"
+							[placeholder]="filterPlaceholder" [formControl]="filterInput" />
+						</mat-form-field>
+					</div>
+				</div>
+				
+				<table class="table table-striped w-auto">
+					<thead>
+						<tr><b><h5>Total Count:{{application_data?.length}}</h5></b></tr>
+						<tr>
+							<th>Application Id</th>
+							<th>Student Name</th>
+							<th>Email Address</th>
+							<th>Selected Course</th>
+							<th>Online test marks</th>
+							<th>Eligblity Number</th>
+							<th>Actions</th>
+							<th>Raise Ticket</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="info" *ngFor="let application of application_data | filter:{stu_name: filterText, email: filterText, specialization: filterText, course: filterText} | paginate: { itemsPerPage: 10, currentPage: p }">
+							<td>{{application?.enrollment_no}}</td>
+							<td>{{application?.stu_name}}</td>
+							<td>{{application?.email}}</td>
+							<td>{{application?.specialization}} ({{application?.course}})</td>
+							
+							<td>
+								<mat-form-field class="example-full-width">
+									<input matInput placeholder="Online Test Marks" id='onlineMark{{application.id}}' value="40" readonly>
+								</mat-form-field></td>
+							<td><mat-form-field class="example-full-width">
+									<input matInput placeholder="PI Test Marks" id='eligib_number{{application.id}}'>
+								</mat-form-field><br>
+								<span id="elignumbererror{{application.id}}"></span>
+							</td>
+							<td>
+								<i class="fa ion-person" id='view_eligibility{{application.id}}' status="danger" nbPopover="View More" nbPopoverMode="hover" (click)="viewMore('eligibility',application.user_id,application.course_id,'new',application.id);"></i>
+								<i class="fa ion-android-lock" id='documentverify{{application.id}}' nbPopover="Errata" nbPopoverMode="hover" (click)="errata(application.user_id,'self_financed');"></i>
+								<i class="fa ion-checkmark" id='acceptbutton{{application.id}}' nbPopover="Accept" nbPopoverMode="hover" (click)="acceptApplication(application.user_id,application.course_id,application.id);"></i>
+								<i class="fa ion-close-round" id='rejectbutton{{application.id}}' nbPopover = "Reject"  nbPopoverMode="hover" (click)="rejectApplication(application.user_id,application.course_id,application.id);"></i>
+								<div *ngIf="application.requestToReupload ==true">
+									<div>
+										<span style="color: red;">You have requested {{application.stu_name}} to re-upload transcript !</span>
+									</div>	
+								</div>
+							</td>
+							<td>
+								<i class="fa ion-email" status="info" nbPopover="Raise Ticket" nbPopoverMode="hover" (click)="Ticket(application.email);"></i>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<pagination-controls (pageChange)="p = $event"></pagination-controls>
+			</p-tabPanel> -->
+			<p-tabPanel header="Re-Uploaded Transcripts">
+				<b><h3>Re-Uploaded Transcripts of Student's</h3></b><br>
+				<div class="row">
+					<div class="col-md-12 ">
+						<mat-form-field class="example-full-width">
+							<input matInput  type="text" [value]="filterText"
+							[placeholder]="filterPlaceholder" [formControl]="filterInput" />
+						</mat-form-field>
+					</div>
+				</div>
+				<table class="table table-striped w-auto">
+					<thead>
+						<tr><b><h4>Total Count:{{application_data?.length}}</h4></b></tr>
+						<tr>
+							<th>Student Name</th>
+							<th>Email Address</th>
+							<th>Mobile Country Code</th>
+							<th>Mobile</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="info" *ngFor="let application of application_data | filter:{name: filterText, email: filterText, mobile_country_code: filterText,mobile: filterText} | paginate: { itemsPerPage: 10, currentPage: p }">
+							<td>{{application?.name}}</td>
+							<td>{{application?.email}}</td>
+							<td>{{application?.mobile_country_code}}</td>
+							<td>{{application?.mobile}}</td>
+							<td><button nbButton status="info" (click)="view_reupload_transcript(application?.user_id,'self_financed')">View</button></td>
+						</tr>
+					</tbody>
+				</table>
+				<pagination-controls (pageChange)="p = $event"></pagination-controls>
+			</p-tabPanel>
+		</p-tabView>    
+   </nb-card-body>
+</nb-card>
+<div>
+	<p-confirmDialog #cd header="Confirmation" icon="pi pi-exclamation-triangle">
+		<p-footer>
+			<button type="button" pButton  label="OK" (click)="cd.accept()"></button>
+		</p-footer>
+	</p-confirmDialog>
+</div>	

@@ -1,0 +1,122 @@
+@import '../../@theme/styles/themes';
+@import '~bootstrap/scss/mixins/breakpoints';
+@import '~@nebular/theme/styles/global/breakpoints';
+
+@include nb-install-component() {
+  .solar-card nb-card-header {
+    border: none;
+    padding-bottom: 0;
+  }
+}
+
+.titleWrap{
+	font-size:22px;
+	color:#666666;
+	margin-bottom:10px;
+	border-bottom: 2px solid #c1c1c1;    
+}
+
+.detailsWrap{
+	border:1px solid #d3d3d3;
+	background: #ffffff;
+	line-height: 1;
+}
+
+.collName{
+	float:left;
+	width: 100%;
+	padding-bottom: 10px;
+	margin-top: 2%;
+	border-bottom: 1px solid #979797;
+}
+
+.forAdmission{
+	float:left;
+	padding-top:12px;
+}
+
+.courselabel{
+	font-size: 20px;
+	font-weight:550 !important;
+	color: #707070;
+}
+
+.Cname{
+	padding-left:15px;
+	font-size:14px;
+	font-weight:900;
+}
+
+.Ctotal{
+	font-size:14px;
+	font-weight:900;
+}
+
+.collValue{
+	float:left;
+	width: 100%;
+	border-bottom: 1px solid #e4e4e4; 
+}
+
+.Cmba{
+	padding:10px 10px 10px 20px;
+	font-size:14px;
+}
+
+.wordWrap{
+	word-wrap:break-word;
+}
+
+.mbaData{
+	font-size:14px;
+	padding: 10px 10px 10px 20px;
+	text-align: justify;
+}
+
+.numberEdit{
+	color:#005ca1;
+	font-size: 15px;
+	float: left;
+	font-family: 'Lato-Bold';
+	padding-right: 5px;
+}
+
+.textEdit{
+	color:#005ca1;
+	font-size: 12px;
+	float: left;
+	font-family: 'Lato-Regular';
+	padding-top: 4px;
+}
+
+table {
+	width: 100%;
+}
+
+.overview{
+	width: 55%;
+}
+
+.adyear{
+	width: 10%;	
+}
+
+.courname{
+	width: 20%;	
+}
+
+.allDetails{
+    font-size:12px;
+    color:#000;
+    padding-top: 9px;
+    padding-bottom: 9px;
+    word-wrap: break-word; 
+  }
+
+  .widthCol06{
+    float: left;
+    width: 100%;
+    padding: 13px 13px 20px 8px;
+    min-height: 1px;
+    position: relative;
+  }

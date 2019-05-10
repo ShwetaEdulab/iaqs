@@ -1,0 +1,31 @@
+<nb-card>
+    <nb-card-header>
+        <h3>Course List</h3>
+        <div *ngIf="courselist_data?.length > 0">
+            <input class="form-control" type="text" [value]="filterText"
+            [placeholder]="filterPlaceholder" [formControl]="filterInput" />
+            <span style="float:right;">Total Count: {{courselist_data?.length}}</span>
+        </div>
+    </nb-card-header>
+    <nb-card-body>
+        <nb-list>
+            <nb-list-item *ngFor="let course of courselist_data | filter:{name: filterText,specialization: filterText} | paginate: { itemsPerPage: 5, currentPage: p }">
+                <div class="row">
+                    <!-- <div class="col-md-2">
+                        <img class="img-responsive" style= "width: 100px;" src="{{serverUrl}}/upload/college/logo/1/HyqgpAfCz.jpg"/> 
+                    </div> -->
+                    <div class="col-xl-1">
+                        <i class="fa fa-circle"></i>
+                    </div>
+                    <div class="col-xl-7">
+                        <h6>{{course?.specialization}}</h6> 
+                    </div>
+                    <div class="col-xl-4">
+                        <button nbButton shape="semi-round" size="xsmall" (click)="redirectCourse();">View More</button>
+                    </div>
+                </div>
+            </nb-list-item>
+        </nb-list>
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </nb-card-body>
+</nb-card>

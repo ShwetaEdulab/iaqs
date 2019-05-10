@@ -1,0 +1,44 @@
+<nb-card status="success">
+  <nb-card-header>
+    <!-- All Courses List<span></span><button nbButton shape="rectangle" hero status="primary">Rectangle Hero</button> -->
+    <div class="modal-header">               
+        <div class="popupTitle">All Courses List</div>
+        <button nbButton shape="semi-round" size="xsmall" outline (click)="courseAddEdit();">Add New</button>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <h3>All Courses</h3>
+    <form [formGroup]="searchForm">
+      <div class="row">
+          <mat-form-field class="col-xl-12">
+              <mat-select placeholder="Select Degree" [(ngModel)]="d" name="d"   formControlName="degreeCtrl"  (ngModelChange)="getcourse($event)">
+                  <mat-option *ngFor="let d of searchdegrees" [value]="d.name">
+                  {{d.name}}
+                  </mat-option>
+              </mat-select>
+          </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field class="col-xl-6">
+            <mat-select placeholder="Select Course" [(ngModel)]="cour" name="cour" formControlName="courseCtrl" (ngModelChange)="getspecialization($event)" >
+                <mat-option *ngFor="let cour of searchCourse" [value]="cour.name">
+                {{cour.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="col-xl-6">
+          <mat-select placeholder="Select Specialization" [(ngModel)]="spec" name="spec" formControlName="specializationCtrl">
+              <mat-option *ngFor="let spec of searchspecializaion" [value]="spec.specialization">
+              {{spec.specialization}}
+              </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      </form>
+  </nb-card-body>
+  <nb-card-footer>
+    <div class="row">
+        <div class="offset-lg-4"></div><button nbButton  status="info" (click)="onSearch()" class="col-lg-4">Search</button>
+    </div>
+  </nb-card-footer>
+</nb-card>

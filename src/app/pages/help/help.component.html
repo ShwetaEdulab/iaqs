@@ -1,0 +1,80 @@
+<nb-card accent="success">
+  <nb-card-header>
+    <div class="row">
+        <div class="col-md-8" style="font-family: 'Times New Roman', Times, serif; font-size: 30px;">TICKETS</div>
+        <div class="col-md-2">
+          <div *ngIf = "user.role == 'admin'" style="margin-top : 10px;">
+           <a  href="http://93.104.211.51:90" target="_blank" hero><u>For More Details</u></a>
+          </div>
+        </div>
+      <div class="col-md-2">
+        <nb-actions size="medium">
+          <nb-action  icon="nb-plus"  nbPopover="Create Ticket" nbPopoverMode="hint" (click)="createTicket()"></nb-action>
+          <nb-action icon="fas fa-comments" nbPopover="Chat" nbPopoverMode="hint" routerLink="/pages/chat"></nb-action>
+        </nb-actions>
+      </div>
+      <div class="col-md-10">
+        <span> </span>
+      </div>
+      <div class="col-md-2">
+        <span style="font-size:10px;">Create Ticket</span>
+        <span style="font-size:10px; margin-left:12px;">Chat With Us</span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-4">&nbsp;&nbsp;&nbsp;&nbsp;</div>
+      <div class="col-xs-2">
+        Total Tickets 
+      </div>
+      <div class="col-xs-1">:</div>
+      <div class="col-xs-3">
+        {{length}}
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-list *ngIf="show == true">
+    <nb-list-item>
+        <div class="row">
+          <div class="col-md-1" style="font-weight: bold">
+            Ticket ID
+          </div>
+          <div class="col-md-2" style="font-weight: bold">
+            Status
+          </div>
+          <div class="col-md-3" style="font-weight: bold">
+            Subject
+          </div>
+          <div class="col-md-3" style="font-weight: bold">
+            User
+          </div>
+          <div class="col-md-3" style="font-weight: bold">
+            Date  
+          </div> 
+        </div>
+    </nb-list-item>
+    <nb-list-item *ngFor="let ticket of tickets | paginate: { itemsPerPage: 10, currentPage: p }" (click)="viewTicket(ticket.uid)">
+      <div class="row" [style.font-weight]= "ticket.status == 'New'  ? 'bold' : 'normal'" >
+        <div class="col-md-1">
+          #{{ticket.uid}}
+        </div>
+        <div class="col-md-2">
+          <button nbButton size="xsmall" [style.background-color]="ticket.status == 'New' ? 'red' : ticket.status == 'Pending' ? '#33C4FF' : 'green'" style="color:white; width:70%;" >{{ticket.status}}</button>
+        </div>
+        <div class="col-md-3">
+          {{ticket.subject}}
+        </div>
+        <div class="col-md-3">
+          {{ticket.user}}
+        </div>
+        <div class="col-md-3">
+          {{ticket.date}}  
+        </div> 
+      </div>
+    </nb-list-item>
+  </nb-list>
+  <nb-card-body *ngIf="show == false">
+    <span style="font-weight: bold; font-size: 20px; color:red; text-align: center;">No tickets to display.</span>
+  </nb-card-body>
+  <nb-card-footer *ngIf="show == true"><pagination-controls (pageChange)="p = $event"></pagination-controls></nb-card-footer>
+</nb-card>
+  

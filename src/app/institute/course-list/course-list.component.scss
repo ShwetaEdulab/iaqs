@@ -1,0 +1,26 @@
+.noPadding{
+    padding:0 !important;
+}
+    
+.text-center{
+    text-align: center;
+    text-align: -moz-center;
+    text-align: -webkit-center;
+}
+
+.modal-header{
+    border-bottom: none;
+}
+    
+.popupTitle{
+    color: #5c5c5c;
+    font-size: 22px;
+    text-align: center;
+}
+
+.closeBtn{
+    font-size: 12px;
+    color: #000;
+    font-weight: lighter;
+    opacity: 1;
+}

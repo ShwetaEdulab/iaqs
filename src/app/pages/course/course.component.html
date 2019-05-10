@@ -1,0 +1,181 @@
+<div class="row">
+        <div class="col-md-12" *ngFor= "let college of collegelist">
+            <nb-card status="success">
+                <nb-card-header>
+                    <div class="row" >
+                        <div class="col-md-8">
+                            <h3>{{college?.collegename}}</h3><br>
+                            <h5>{{college?.city}}, {{college?.state}}</h5>
+                        </div>
+                        <div class="col-md-2">
+                            <button nbButton   size="small" status="info" (click)="addCart(college.course_id,college.degree)">Add To Cart</button>
+                        </div>
+                        <div class="col-md-2">
+                            <a status="info" size="small" (click)="redirectToPeers(college.college_id,college.course_id);" class="btn btn-primary" tabindex="0"> <a class="ion ion-ios-telephone" style="color:white;"></a> Peers </a>
+                        </div>
+                    </div>
+                 </nb-card-header>
+            </nb-card>
+            <nb-alert status="danger" closable (close)="onClose()" *ngIf="alertflag == 2">
+              Seats are not available in  {{college?.collegename}} for {{college?.specialization}}.Kindly apply to another colleges!!!!!!
+          </nb-alert>
+        </div>
+      </div>
+      <nb-alert status="danger" closable (close)="onClose()" *ngIf="alertflag == 1">
+          You have already applied for this course!!!!
+      </nb-alert>
+      <nb-alert status="danger" closable (close)="onClose()" *ngIf="alertflag == 3">
+        This course is already in Cart. If you want to apply this course then go to cart and make the payment.
+      </nb-alert>
+      <div class="row">
+        <div class="col-md-12">
+               <div class="row">
+                      <div class="col-lg-4">
+                          <div *ngFor= "let college of collegelist">
+                              <nb-card status="primary">
+                                  <nb-card-body >
+                                      <img src={{college.logo}}  height=":500px;" width="100%;">
+                                  </nb-card-body>
+                              </nb-card>
+                          </div>
+                          <div *ngFor= "let college of collegelist">
+                              <nb-card status="primary">
+                                  <nb-card-body>
+                                      <h3>{{college?.specialization}} </h3><br>
+                                      <div class="row">
+                                            <div class="col-md-4">
+                                            <img src="https://img.icons8.com/color/100/000000/property-time.png">
+                                          </div>
+                                            <h3 class="col-md-8" style="margin-top:30px;"><b>Duration :</b> {{course_duration}}</h3>
+                                          </div>
+                                          <div class="row">
+                                                  <div class="col-md-4">
+                                          <img src="https://img.icons8.com/color/100/000000/banknotes.png">
+                                                </div>
+                                          <h3 class="col-md-8" style="margin-top:30px;"><b>Fees :</b> {{college?.fees}}</h3>
+                                            </div>
+                                  </nb-card-body>
+                              </nb-card>
+                          </div>
+                          <div *ngIf="gallery != '' ">
+                                <nb-card>
+                                    <nb-card-header><b>Gallery</b></nb-card-header>
+                                    <nb-card-body >
+                                        <ngb-carousel >
+                                            <ng-template ngbSlide *ngFor="let img of gallery">
+                                                <div (click)="galleryPopup()"><img [src]="img.image" height=":600px;" width="100%;" alt="Random first slide"></div>
+                                            </ng-template>
+                                        </ngb-carousel>
+                                    </nb-card-body>
+                                </nb-card>
+
+                          </div>
+                          <div *ngIf="placement != '' ">
+                              <div class="row">
+                                      <div class="col-lg-12">
+                                          <nb-card status="success">
+                                                  <nb-card-header><b>Placement :</b></nb-card-header>
+                                                  <nb-card-body>
+                                                          <ngb-carousel  >
+                                                              <ng-template ngbSlide *ngFor="let img of placement">
+                                                                  <div ><img [src]="img.image" alt="Random first slide"></div>
+                                                              </ng-template>
+                                                          </ngb-carousel>
+                                          </nb-card-body>
+                                          </nb-card>
+                                      </div>
+                                  </div>
+                      </div>
+                      <div *ngFor= "let college of collegelist">
+                        <nb-card status="success">
+                            <nb-card-header><b>Admission Schedule  :</b></nb-card-header>
+                            <nb-card-body>
+                                <h6>Last date for submission of completed application form : {{college?.admissionDate}} </h6><br>
+                                <h6>Last date of submission with late fee : {{college?.LateFeeFormDate}} </h6><br>
+                                <h6>Date of commencement of course : {{college?.Dateofcommencement}}  </h6>
+                                <h6>time: {{college?.DateofcommencementTime}}</h6>
+                            </nb-card-body>
+                        </nb-card>
+                    </div>
+                      <!-- <div>
+                              <nb-card size="medium" [nbSpinner]="loading" nbSpinnerStatus="danger" nbSpinnerSize="xlarge">
+                                  <nb-card-header>
+                                          Colleges offered : {{collegelistCount}}
+                                          <button nbButton size="xsmall" style="margin-left:50px;" (click)="clearsearch()" *ngIf="Dropdown == 2">Clear search</button>
+                                          <nb-search style="float: right;" type="rotate-layout"></nb-search>
+                                  </nb-card-header>
+                                  <nb-list>
+                                      <nb-list-item *ngFor="let college of colleges">
+                                          <div (click)="redirectCourse(college.course_id,college.specialization);"><h6>{{college?.collegename}} </h6></div>
+                                      </nb-list-item>
+                                      
+                                  </nb-list>
+                              </nb-card>
+                      </div> -->
+                  </div>
+                  <div class="col-lg-8" *ngFor= "let college of collegelist">
+                      <!-- <div *ngIf = "college.description != '' ">
+                          <nb-card status="success">
+                              <nb-card-header><b>Course Description  :</b></nb-card-header>
+                              <nb-card-body>
+                                      <h6>{{college?.description}}</h6><br>
+                              </nb-card-body>
+                          </nb-card>
+                      </div> -->
+                      <div *ngIf = "college.overview != '' ">
+                          <nb-card status="success">
+                              <nb-card-header><b>Course Overview  :</b></nb-card-header>
+                              <nb-card-body>
+                                      <h6> {{college.overview}}</h6><br>
+                              </nb-card-body>
+                          </nb-card>
+                      </div>
+                      <div *ngIf = "process != '' ">
+                          <nb-card status="success">
+                              <nb-card-header><b>Admission Procedure  :</b></nb-card-header>
+                              <nb-card-body *ngFor= "let process of process">
+                                      <h6>Step {{process}}</h6>
+                              </nb-card-body>
+                          </nb-card>
+                      </div>
+                      <div *ngIf = "course_curriculum != '' ">
+                              <nb-card status="success">
+                                  <nb-card-header><b>Course curriculum  :</b></nb-card-header>
+                                  <nb-card-body>
+                                          <nb-accordion>
+                                              <nb-accordion-item *ngFor= "let curriculum of course_curriculum">
+                                                  <nb-accordion-item-header>{{curriculum.semester}}</nb-accordion-item-header>
+                                                  <nb-accordion-item-body *ngFor= "let subject of curriculum.subjects">
+                                                          <div><b>{{subject}}</b></div>
+                                                  </nb-accordion-item-body>
+                                              </nb-accordion-item>
+                                          </nb-accordion>
+                                  </nb-card-body>
+                              </nb-card>
+                    </div>
+                    <div *ngIf="video != '' ">
+                            <nb-card  status="active">
+                                <nb-card-header>
+                                    Videos
+                                </nb-card-header>
+                                <nb-card-body >
+                                    <div class="row">
+                                        <div class="offset-lg-2"></div>
+                                        <div class="col-lg-10">
+                                            <ngb-carousel  >
+                                                <ng-template ngbSlide *ngFor="let img of video">
+                                                    <youtube-player 
+                                                    [videoId]="img.videos" >
+                                                    </youtube-player>
+                                                    </ng-template>
+                                                </ngb-carousel>
+                                        </div>
+                                    </div>
+                                </nb-card-body>
+                            </nb-card>
+                      </div>
+                    </div>
+              </div>
+         </div>
+      </div>
+    

@@ -1,0 +1,77 @@
+<div class="row">
+  <div class="col-md-6">
+    <nb-card>
+      <nb-card-header>Preferences</nb-card-header>
+      <nb-card-body>
+        <input type="text" nbInput placeholder="Preference 1" [(ngModel)]="pref1" class="col-md-12" [disabled]="true"
+          style="border: 2px solid #c9ccd0;">
+        <input type="text" nbInput placeholder="Preference 2" [(ngModel)]="pref2" class="col-md-12" [disabled]="true"
+          style="border: 2px solid #c9ccd0;">
+        <input type="text" nbInput placeholder="Preference 3" [(ngModel)]="pref3" class="col-md-12" [disabled]="true"
+          style="border: 2px solid #c9ccd0;">
+        <input type="text" nbInput placeholder="Preference 4" [(ngModel)]="pref4" class="col-md-12" [disabled]="true"
+          style="border: 2px solid #c9ccd0;">
+        <input type="text" nbInput placeholder="Preference 5" [(ngModel)]="pref5" class="col-md-12" [disabled]="true"
+          style="border: 2px solid #c9ccd0;">
+        <input type="text" nbInput placeholder="Preference 6" [(ngModel)]="pref6" class="col-md-12" [disabled]="true"
+          style="border: 2px solid #c9ccd0;">
+        <input type="text" nbInput placeholder="Preference 7" [(ngModel)]="pref7" class="col-md-12" [disabled]="true"
+          style="border: 2px solid #c9ccd0;">
+        <input type="text" nbInput placeholder="Preference 8" [(ngModel)]="pref8" class="col-md-12" [disabled]="true"
+          style="border: 2px solid #c9ccd0;">
+        <input type="text" nbInput placeholder="Preference 9" [(ngModel)]="pref9" class="col-md-12" [disabled]="true"
+          style="border: 2px solid #c9ccd0;">
+        <input type="text" nbInput placeholder="Preference 10" [(ngModel)]="pref10" class="col-md-12" [disabled]="true"
+          style="border: 2px solid #c9ccd0;">
+      </nb-card-body>
+    </nb-card>
+  </div>
+  <div class="col-md-6">
+    <nb-card>
+      <nb-card-header>Colleges with same course
+        <button nbButton size="xsmall" style="margin-left:250px;" (click)="clearsearch()" *ngIf="Dropdown == 2">Clear
+          search</button>
+      </nb-card-header>
+      <nb-card-body>
+        <nb-search type="rotate-layout" tag="rotate-layout"></nb-search>
+      </nb-card-body>
+    </nb-card>
+    <nb-card size='medium' [nbSpinner]="loading" nbSpinnerStatus="danger" nbSpinnerSize="xlarge">
+      <nb-card-header>Choose colleges from here</nb-card-header>
+      <nb-card-body>
+        <div *ngIf="college_name?.length == 0">
+          No Result Found
+        </div>
+        <ul type="none">
+          <nb-list>
+            <nb-list-item *ngFor="let college of college_name">
+              <input type="checkbox" [checked]="college.name == defaultName" ng-model="check" name="{{college.name}}" id="{{college.name}}"
+                value="{{college.name}}" (click)="OptionsSelected($event)" />
+              {{college.name}}
+            </nb-list-item>
+          </nb-list>
+        </ul>
+      </nb-card-body>
+    </nb-card>
+  </div>
+  <div class="col-md-12">
+    <nb-card>
+      <nb-card-body>
+        <div class="row">
+          <div class="col-md-4">
+
+          </div>
+          <div class="col-md-4">
+            <input align="center" style="font-weight: 600;color: red;width:100%;outline:none;border:none;text-align: center;margin-bottom: 7px;padding: 0%"
+              [(ngModel)]="errortext" name="error" />
+          </div>
+          <div class="col-md-4">
+
+          </div>
+        </div>
+        <button nbButton style="margin:auto;display:block" (click)="check_preferences()" status="primary" [nbSpinner]="loadingbutton"
+          nbSpinnerStatus="primary">Add To Cart</button>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>

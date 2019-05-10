@@ -1,0 +1,76 @@
+<nb-actions size="large">
+    <nb-action icon="ion-arrow-left-c"  (click)="backClicked()"></nb-action>
+</nb-actions>
+<div class="row">
+    <div class="col-md-12">
+        <nb-card>
+            <nb-card-header>
+                <div class="row">
+                    <div class="col-md-12">
+                        #{{ticketData?.uid}}&nbsp;&nbsp;&nbsp;&nbsp;{{ticketData?.subject}}
+                    </div>
+                </div>
+                <div class="row">
+                        <div class="col-md-1">
+                           <div style="font-weight:bold;font-size:15px;">Status: </div>
+                        </div>
+                        <div class="col-md-2">
+                            <mat-form-field>
+                                <mat-select [(ngModel)]="ticketStatus" name="status"  (selectionChange)="changeStatus($event)" [disabled]="statusFlag">
+                                    <mat-option *ngFor="let stat of status" [value]="stat.value"> 
+                                        <button nbButton status="danger" style="width:100%;" *ngIf="stat.value == 0">{{stat.name}}</button>
+                                        <button nbButton status="success" style="width:100%;" *ngIf="stat.value == 1">{{stat.name}}</button>
+                                        <button nbButton status="info" style="width:100%;" *ngIf="stat.value == 2">{{stat.name}}</button>
+                                        <button nbButton status="primary" style="width:100%;" *ngIf="stat.value == 3">{{stat.name}}</button>
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+            </nb-card-header>
+                <nb-card-body>
+                   <nb-card accent="success">
+                        <nb-card-header>
+                            <span style="font-size:14px;color:red;">{{ticketData?.owner}}</span>
+                            <br/>
+                            {{ticketData?.issue}}
+                            <!-- <button nbButton outline status="info" (click)="writeComment()" style="float:right;">Comment</button> -->
+                        </nb-card-header>
+                        <nb-list>
+                            <nb-list-item *ngFor="let comment of comments">
+                                <div class="row">
+                                    <div class="col-md-12" style="color:red;">
+                                        {{comment.owner}}
+                                    </div>
+                                    <div class="col-md-12" style="font-size:10px;">
+                                        {{comment.date}}
+                                     </div>
+                                     <br/><br/>
+                                    <div class="col-md-12">
+                                        {{comment.comment}}
+                                    </div>
+                                </div>   
+                            </nb-list-item>
+                            <nb-list-item>
+                                <div class="row">
+                                    <div class="col-md-12" style="color:red;">
+                                        {{user.name}}&lt;{{user.email}}&gt;
+                                    </div>
+                                    <div class="col-md-12" style="font-size:10px;">
+                                       {{today}}
+                                     </div>
+                                     <br/><br/>
+                                    <div class="col-md-12">
+                                        <textarea  nbInput [(ngModel)]="comment" shape="semi-round" fullWidth fieldSize="large" placeholder="Comment"></textarea>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <button nbButton outline status="danger" size="xsmall" shape="semi-round" style="margin-top:50px;" (click)="writeComment(user?.role,ticketData?.owner)">Comment</button>
+                                    </div>
+                                </div>   
+                            </nb-list-item>
+                        </nb-list>
+                    </nb-card>
+                </nb-card-body> 
+        </nb-card>
+    </div>
+</div>

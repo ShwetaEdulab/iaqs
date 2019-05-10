@@ -1,0 +1,63 @@
+<div class="header-container"
+     [class.left]="position === 'normal'"
+     [class.right]="position === 'inverse'">
+  <div class="logo-containter">
+    <a (click)="toggleSidebar()" href="#" class="navigation"><i class="nb-menu"></i></a>
+    <div class="logo" (click)="goToHome()">
+      <img src="https://garware.admissiondesk.org/uiserver/upload/college/logo/1/HyqgpAfCz.jpg" style="height: 60px;"><span>Garware Institute of Career Education and Development</span>
+    </div>
+  </div>
+ <!-- <span></span> <ngx-theme-switcher></ngx-theme-switcher> -->
+</div>
+
+<div class="header-container">
+  <nb-actions
+    size="medium"
+    [class.right]="position === 'normal'"
+    [class.left]="position === 'inverse'">
+    <!-- <nb-action icon="ion-ios-cart" class="toggle-layout" (click)="toggleSettings()"></nb-action> -->
+    <nb-action *ngIf="user?.role == 'student'">
+      <nb-user [nbContextMenu]="userMenu" [name]="user?.name" [picture]="user?.picture"></nb-user>
+    </nb-action>
+    <nb-action *ngIf="user?.role == 'institute'">
+      <nb-user [nbContextMenu]="instituteMenu" [name]="user?.name" [picture]="user?.picture"></nb-user>
+    </nb-action>
+    <nb-action *ngIf="user?.role == 'admin'">
+      <nb-user [nbContextMenu]="adminMenu" [name]="user?.name" [picture]="user?.picture"></nb-user>
+    </nb-action>
+  </nb-actions>
+  <nb-actions *ngIf="user?.role == 'student'"
+    size="medium"
+    [class.right]="position === 'normal'"
+    [class.left]="position === 'inverse'">
+      <nb-action icon="ion-ios-cart" class="toggle-layout" (click)="toggleSettings()"></nb-action>
+    </nb-actions>
+    <div ngbDropdown>
+      <nb-action *ngIf="user?.role == 'student'" (click)="notify(user?.role)" class="control-item dropdown-toggle" id="msg-dd1" ngbDropdownToggle>
+        <mat-icon matBadge="{{notification_no}}" matBadgeColor="warn">notification_important</mat-icon>
+      </nb-action>
+      <nb-action *ngIf="user?.role == 'admin'" (click)="notify(user?.role)" class="control-item dropdown-toggle" id="msg-dd1" ngbDropdownToggle>
+        <mat-icon matBadge="{{notification_no}}" matBadgeColor="warn">notification_important</mat-icon>
+      </nb-action>
+  
+        <div ngbDropdownMenu class="top-dropdown-menu dropdown-menu" style="border: 2px solid #40dc7e;" aria-labelledby="msg-dd1">
+          <i class="dropdown-arr" ></i>
+    
+          <div class="header clearfix">
+            <b style="color:red; font-size: 100%;">Notifications</b>
+            <a style="color:red;" *ngIf="deleteShow == true" (click)="deleteNotification(null,user?.role)">Clear All Notifications</a>
+            <a  style="color:red;" *ngIf="deleteShow == false">No Notification</a>
+          </div>
+          <div class="msg-list">
+            <div *ngFor="let msg of notification" class="clearfix">
+              <div class="img-area"><img src="{{serverUrl}}/front_assets/img/eligibility-icon.png"></div>
+              <div class="msg-area">
+                <span><a (click)="deleteNotification(msg?.id,user?.role)"  style="color:red; font-size: 200%;">×</a></span>
+                <div><b>{{msg.notification_data}}</b></div>
+                <span><b>{{msg.created_at}}</b></span>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>

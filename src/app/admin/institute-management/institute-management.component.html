@@ -1,0 +1,162 @@
+<nb-card>
+	<nb-card-body>
+		<div class="titleWrap">
+			<label>Institute Management</label>
+		</div>	
+		<p-tabView (onChange)="getInstituteManagement($event)">
+        <p-tabPanel header="Registration Request">
+          <h2>Registration Request</h2>
+          <div class="row">
+            <div class="col-md-12 ">
+              <mat-form-field class="example-full-width">
+                <input matInput  type="text" [value]="filterText"
+                [placeholder]="filterPlaceholder" [formControl]="filterInput" />
+              </mat-form-field>
+            </div>
+          </div>
+          <table class="table table-striped w-auto">
+            <thead>
+              <h5><b>count: </b></h5>{{institute?.length}}
+              <tr>
+                <th>Date of application</th>
+                <th>Institute name</th>
+                <th>Email address</th>
+                <th>Microsite</th>
+                <th>Type</th>
+                <th>Contact number</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="info" *ngFor="let data of institute | filter:{name : filterText,email : filterText,microsite : filterText,type : filterText,phone:filterText } | paginate: { itemsPerPage: 10, currentPage: p } ;let i=index; ">
+                <td>{{data?.date}}</td>
+                <td>{{data?.name}}</td>
+                <td>{{data?.email}}</td>	
+                <td>{{data?.microsite}}</td>	
+                <td>{{data?.type}}</td>	
+                <td>{{data?.phone}}</td>	
+                <td>
+                  <i class="fa ion-person" id='view{{data.id}}' status="danger" nbPopover="View More" nbPopoverMode="hover" (click)="viewMore(data?.id);"></i>
+                  <i class="fa ion-checkmark" id='acceptbutton{{data.id}}' nbPopover="Accept" nbPopoverMode="hover" (click)="acceptApplication();"></i>
+                  <i class="fa ion-close-round" id='rejectbutton{{data.id}}' nbPopover = "Reject"  nbPopoverMode="hover" (click)="rejectApplication();"></i>
+                </td>	
+              </tr>
+            </tbody>				
+          </table>
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </p-tabPanel>
+        <p-tabPanel header="Institute">
+            <h2>Institute Details</h2>
+            <div class="row">
+              <div class="col-md-12 ">
+                <mat-form-field class="example-full-width">
+                  <input matInput  type="text" [value]="filterText"
+                  [placeholder]="filterPlaceholder" [formControl]="filterInput" />
+                </mat-form-field>
+              </div>
+            </div>
+            <table class="table table-striped w-auto">
+              <thead>
+                <h5><b>count: </b></h5>{{instituteData?.length}}
+                <tr>
+                  <th>Registration Date</th>
+                  <th>Institute name</th>
+                  <th>Email address</th>
+                  <th>Contact Number</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="info" *ngFor="let data of instituteData | filter:{name : filterText,email : filterText,subscription : filterText,phone : filterText,active : filterText } | paginate: { itemsPerPage: 10, currentPage: p } ;let i=index; ">
+                  <td>{{data?.date}}</td>
+                  <td>{{data?.name}}</td>
+                  <td>{{data?.email}}</td>
+                  <td>{{data?.phone}}</td>	
+                  <td>
+                    <i class="fa ion-person" id='view{{data.id}}' status="danger" nbPopover="View More" nbPopoverMode="hover" (click)="viewMore(data?.id);"></i>
+                  </td>	
+                  <td>
+                      <button nbButton outline size="small" status="danger" *ngIf="data.active == 'active'" (click)="college_status('inactive',data.id);">inactive</button>
+                      <button nbButton outline size="small" status="success" *ngIf="data.active == 'inactive'" (click)="college_status('active',data.id);">active</button>
+                  </td>
+                </tr>
+              </tbody>				
+            </table>
+            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </p-tabPanel>
+        <p-tabPanel header="Authorised Person Details">
+          <h2>Authorised Person Details</h2>
+          <div class="row">
+            <div class="col-md-12 ">
+              <mat-form-field class="example-full-width">
+                <input matInput  type="text" [value]="filterText"
+                [placeholder]="filterPlaceholder" [formControl]="filterInput" />
+              </mat-form-field>
+            </div>
+          </div>
+          <table class="table table-striped w-auto">
+            <thead>
+              <h5><b>College count: </b></h5>{{authDetails?.length}}
+              <tr>
+                <th>College Name</th>
+                <th>Authorised Person Name</th>
+                <th>Authorised Person Email Address</th>
+                <th>Authorised Person Landline Number</th>
+                <th>Authorised Person Mobile Number</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="info" *ngFor="let data of authDetails | filter:{college_name : filterText } | paginate: { itemsPerPage: 10, currentPage: p } ;let i=index; ">
+                <td>{{data?.college_name}}</td>
+                <td>{{data?.auth_name}}</td>
+                <td>{{data?.auth_email}}</td>
+                <td>{{data?.auth_landline}}</td>
+                <td>{{data?.auth_mobile}}</td>		
+              </tr>
+            </tbody>				
+          </table>
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </p-tabPanel>
+        <p-tabPanel header="Course Details">
+          <h2>Course Active-Inactive</h2>
+          <div class="row">
+              <div class="col-md-12 ">
+                <mat-form-field class="example-full-width">
+                  <mat-select placeholder="Select College" [(ngModel)]="selectedValue" (ngModelChange)="getCourse(selectedValue)">
+                    <mat-option *ngFor="let data of colleges"  [value]="data.name" >{{data.name}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+          </div>
+          <table class="table table-striped w-auto">
+            <thead>
+              <h5><b>Course count: </b></h5>{{courses?.length}}
+              <tr>
+                <th>Sr.no</th>
+                <th>Course Name</th>
+                <th>Specialization</th>
+                <th>Intake Seats</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr class="info" *ngFor="let course of courses | paginate: { itemsPerPage: 10, currentPage: p } ;let i=index; ">
+                <th scope="row">{{ i + 1}}</th>
+                <td>{{course?.name}}</td>
+                <td>{{course?.specialization}}</td>
+                <td>{{course?.fix_seats}}</td>
+                <td>{{course?.status}}</td>
+                <td>
+                  <button nbButton outline size="small" status="danger" *ngIf="course.status == 'active'" (click)="course_status('inactive',course.id);">inactive</button>
+                  <button nbButton outline size="small" status="success" *ngIf="course.status == 'inactive'" (click)="course_status('active',course.id);">active</button>
+                </td>				
+              </tr>
+            </tbody>				
+          </table>
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </p-tabPanel>
+    </p-tabView>
+	</nb-card-body>
+</nb-card>
+  

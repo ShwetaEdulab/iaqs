@@ -1,0 +1,194 @@
+<nb-alert status="danger" closable (close)="onClose()" *ngIf="alertflag == 1">
+  {{message}}
+</nb-alert>
+<div class="row" [nbSpinner]="loading" nbSpinnerStatus="danger" nbSpinnerSize="xlarge">
+  <div class="col-md-12">
+    <nb-card status="success">
+      <nb-card-header>Complete all steps to complete your admission process for Course {{OnlinePersonaldetails?.specialization}} !!!</nb-card-header>
+      <nb-card-body>
+        <nb-stepper (click)="checktabs(stepper.selectedIndex,tabcheck1,tabcheck2,tabcheck3,tabcheck4)" orientation="vertical" disableStepNavigation #stepper>
+          <nb-step [stepControl]="OnlineEntranceForm" [completed]="tabcheck1"  label="Online Entrance Exam Details" class="step-container">
+            <form [formGroup]="OnlineEntranceForm" class="step-container" style="width: 635px;">
+                <nb-card status="success">
+                  <nb-card-header>Online Entrance Exam Details</nb-card-header>
+                  <nb-card-body>
+                    <input type="hidden" ngModel="{{OnlinePersonaldetails?.pi_test_date}}" formControlName="PersonalExamCtrl">
+                    <div class="row paddingForDetails">
+                      <div class="col-md-4 enrollDetailsCol1">
+                          Date of exam
+                      </div>
+                      <div class="col-md-1 enrollDetailsCol1">
+                        :
+                      </div>
+                      <div class="col-md-5 enrollDetailsCol2">
+                          <input type="text" nbInput class="form-control" ngModel="{{OnlinePersonaldetails?.online_test_date}}"
+                          formControlName="testDateCtrl">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xl-4 enrollDetailsCol1">
+                        Time
+                      </div>
+                      <div class="col-md-1 enrollDetailsCol1">
+                        :
+                      </div>
+                      <div class="col-xl-5 enrollDetailsCol2">
+                          <input type="text" nbInput class="form-control" ngModel="{{OnlinePersonaldetails?.online_test_time}}"
+                          formControlName="testTimeCtrl">
+                      </div>
+                      </div>
+                  </nb-card-body>
+                  <button nbButton nbStepperNext>next</button>
+                </nb-card>
+            </form>
+          </nb-step>
+          <nb-step [stepControl]="PersonalInterviewForm" [completed]="tabcheck2"  label="Personal Interview Details" class="step-container">
+            <form [formGroup]="PersonalInterviewForm" class="step-container" style="width: 635px;">
+                <nb-card status="success">
+                  <nb-card-header>Personal Interview Details</nb-card-header>
+                  <nb-card-body>
+                    <input type="hidden" ngModel="{{Marksdetails?.total_marks}}" formControlName="MarksExamCtrl">
+                    <div class="row paddingForDetails">
+                      <div class="col-md-4 enrollDetailsCol1">
+                          Date of exam
+                      </div>
+                      <div class="col-md-1 enrollDetailsCol1">
+                        :
+                      </div>
+                      <div class="col-md-5 enrollDetailsCol2">
+                          <input type="text" nbInput class="form-control" ngModel="{{OnlinePersonaldetails?.pi_test_date}}"
+                          formControlName="interviewDateCtrl">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xl-4 enrollDetailsCol1">
+                        Time
+                      </div>
+                      <div class="col-md-1 enrollDetailsCol1">
+                        :
+                      </div>
+                      <div class="col-xl-5 enrollDetailsCol2">
+                          <input type="text" nbInput class="form-control" ngModel="{{OnlinePersonaldetails?.pi_test_time}}"
+                          formControlName="interviewTimeCtrl">
+                      </div>
+                      </div>
+                  </nb-card-body>
+                  <button nbButton nbStepperNext>next</button>
+                </nb-card>
+            </form>
+          </nb-step>
+          <nb-step [stepControl]="MarksForm" [completed]="tabcheck3"  label="Marks Details" class="step-container">
+            <form [formGroup]="MarksForm" class="step-container" style="width: 635px;">
+              <input type="hidden" ngModel="{{application_status_value}}" formControlName="examStatusInMarkCtrl">
+                <nb-card status="success">
+                  <nb-card-header>Online Entrance and Personal Interview Marks Details</nb-card-header>
+                  <nb-card-body>
+                    <div class="row paddingForDetails">
+                      <div class="col-md-4 enrollDetailsCol1">
+                          Marks
+                      </div>
+                      <div class="col-md-1 enrollDetailsCol1">
+                        :
+                      </div>
+                      <div class="col-md-5 enrollDetailsCol2">
+                          <input type="text" nbInput class="form-control" ngModel="{{Marksdetails?.total_marks}}"
+                          formControlName="totalMarksCtrl">
+                      </div>
+                    </div>
+                    <div class="row justify-content-between">
+                        <div class="col-xl-12" style="text-align:center">
+                            {{Marksdetails?.application_status}}
+                        </div>
+                        <div class="col-xl-12" *ngIf="Marksdetails?.application_status=='Fail'">
+                          <button  nbButton class="col-md-4 col-sm-4 col-xs-4 offset-md-4" style="margin-top:10px;" (click)="examresult(Marksdetails?.application_status)"
+                            hero status="info">{{Marksdetails?.application_status}}</button>
+                          <button  nbButton class="col-md-4 col-sm-4 col-xs-4 offset-md-4" style="margin-top:10px;" (click)="reapply(applicationId,courseID)"
+                            hero status="info">To Reapply for the Same Course Click Here</button>
+                        </div>
+                    </div>
+                  </nb-card-body>
+                  <button *ngIf="Marksdetails?.application_status == 'Pass'" nbButton nbStepperNext>next</button>
+                </nb-card>
+            </form>
+          </nb-step>
+          <nb-step [stepControl]="CoursePayForm" [completed]="tabcheck4"  label="Pay Course Fee" class="step-container">
+            <form [formGroup]="CoursePayForm" class="step-container" style="width: 635px;">
+              <input type="hidden" ngModel="{{accept_value}}" formControlName="examStatusCtrl">
+                <nb-card [style.width.px]="700" [style.height.px]="600" status="success">
+                  <nb-card-header>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <h3 style="color:#ffffff">SECOND PAYMENT for Course {{course_name}}</h3>
+                      </div>
+                    </div>
+                  </nb-card-header>
+                  <nb-card-body>
+                    <div class="row" style="margin-bottom:7px">
+                      <div class="col-md-3">Name</div>
+                      <div class="col-md-9"> 
+                        <input type="text" formControlName="stuNameCtrl"  nbInput fullWidth placeholder="Name" ngModel="{{user_data?.name}}" [readonly]="true">
+                      </div>
+                    </div>
+                    <div class="row" style="margin-bottom:7px">
+                      <div class="col-md-3">Address</div>
+                      <div class="col-md-9"> 
+                        <input type="text" formControlName="stuAddCtrl" nbInput fullWidth placeholder="Address" ngModel="{{user_data?.address1}}" [readonly]="true">
+                      </div>
+                    </div>
+                    <div class="row" style="margin-bottom:7px">
+                      <div class="col-md-3">City</div>
+                      <div class="col-md-9"> 
+                        <input type="text" formControlName="stuCityCtrl" nbInput fullWidth  placeholder="City" ngModel="{{user_data?.city}}" [readonly]="true">
+                      </div>
+                    </div>
+                    <div class="row" style="margin-bottom:7px">
+                      <div class="col-md-3">State</div>
+                      <div class="col-md-9"> 
+                        <input type="text" formControlName="stuStateCtrl" nbInput fullWidth placeholder="State" ngModel="{{user_data?.state}}" [readonly]="true">
+                      </div>
+                    </div>
+                    <div class="row" style="margin-bottom:7px">
+                      <div class="col-md-3">Zipcode</div>
+                      <div class="col-md-9"> 
+                        <input type="text" formControlName="stuZipCtrl" nbInput fullWidth placeholder="Zipcode" ngModel="{{user_data?.postal_code}}" [readonly]="true">
+                      </div>
+                    </div>
+                    <div class="row" style="margin-bottom:7px">
+                      <div class="col-md-3">Telephone</div>
+                      <div class="col-md-9"> 
+                        <input type="text" formControlName="stuTelCtrl" nbInput fullWidth placeholder="Telephone" ngModel="{{user_data?.mobile}}" [readonly]="true">
+                      </div>
+                    </div>
+                    <div class="row" style="margin-bottom:7px">
+                      <div class="col-md-3">Email</div>
+                      <div class="col-md-9"> 
+                        <input type="text" formControlName="stuEmailCtrl" nbInput fullWidth placeholder="Email" ngModel="{{user_data?.email}}" [readonly]="true">
+                      </div>
+                    </div>
+                    <div class="row" style="margin-bottom:7px">
+                      <div class="col-md-3">Amount</div>
+                      <div class="col-md-9"> 
+                        <input type="text" formControlName="stuAmountCtrl" nbInput fullWidth placeholder="Amount" ngModel="{{amount}}" [readonly]="true">
+                      </div>
+                    </div>
+                  </nb-card-body>
+                  <nb-card-footer>
+                    <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                      <button *ngIf="upload_location == false && amountpay == false" nbButton hero status="primary" (click)="paysecondpayment()">Proceed For Payment</button>
+                      <button *ngIf="upload_location == true && amountpay == false" nbButton hero status="primary" (click)="uploadsecondpaymentreceipt()">Upload Challan</button>
+                      <button *ngIf="amountpay == true" nbButton hero status="primary">Amount Paid Successfully</button>
+                    </div>
+                    <div class="col-md-3"></div>
+                    </div>
+                  </nb-card-footer>
+                </nb-card>
+            </form>
+          </nb-step>
+        </nb-stepper>
+      </nb-card-body>
+    </nb-card> 
+  </div>
+</div>
+<p-confirmDialog [style]="{width: '425px'}"></p-confirmDialog>

@@ -1,0 +1,263 @@
+<div class="row">
+        <div class="col-md-12">
+            <nb-card status="success">
+                <nb-card-header>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h4>{{collegelist?.college_name}}</h4>
+                        </div>
+                        <div class="col-md-2 col-sm-6 col-xs-6">
+                            <button nbButton size="medium" style="margin-top:15px" (click)="onClickMe(2)">Apply Now</button>
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-sm-6 col-xs-6">
+                                <img src="https://img.icons8.com/color/70/000000/guarantee.png" style="margin-top:5px">
+                                {{naac_rating}}
+                        </div>
+                    </div>
+                  <br>
+                  <h6>{{collegelist?.city}} {{collegelist?.state}}</h6>    
+                </nb-card-header>
+            </nb-card>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <nb-card status="success">
+                                <nb-card-body>
+                                    <img  height=":600px;" width="100%;" src="{{collegelist?.logo}}"/>
+                                    <div style="text-align: center;"><b>{{collegelist?.college_name}}</b></div>
+                                    <ul class="list-group list-group-unbordered">
+                                        <li class="list-group-item">
+                                            <nb-action  icon="ion-location" style="font-size: 30px;"></nb-action> {{collegelist?.location}}
+                                        </li>
+                                        <li class="list-group-item">
+                                                <nb-action  icon="ion-ios-telephone" style="font-size: 30px;"></nb-action>  + {{collegelist?.contact_number_code}} - {{collegelist?.contact_number}}
+                                        </li>
+                                        <li class="list-group-item">
+                                                <nb-action  icon="ion-email" style="font-size: 30px;"></nb-action>  {{collegelist?.email}}
+                                        </li>
+                                        <li class="list-group-item">
+                                            <nb-card>
+                                                <nb-card-body>
+                                                        <agm-map [latitude]="lat" [longitude]="lng">
+                                                            <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+                                                        </agm-map>
+                                                </nb-card-body>
+                                            </nb-card>
+                                        </li>
+                                    </ul>
+                                </nb-card-body>
+                            </nb-card>
+    
+                            <nb-card *ngIf="gallery != '' ">
+                                <nb-card-header><b>Gallery</b></nb-card-header>
+                                <nb-card-body >
+                                    <ngb-carousel >
+                                        <ng-template ngbSlide *ngFor="let img of gallery">
+                                            <div ><img [src]="img.image" height=":600px;" width="100%;" alt="Random first slide"></div>
+                                        </ng-template>
+                                    </ngb-carousel>
+                                </nb-card-body>
+                            </nb-card>
+    
+                            <nb-card *ngIf="placement != '' ">
+                                <nb-card-header><b>Placement :</b></nb-card-header>
+                                <nb-card-body>
+                                        <ngb-carousel  >
+                                            <ng-template ngbSlide *ngFor="let img of placement">
+                                                <div ><img [src]="img.image" alt="Random first slide"></div>
+                                            </ng-template>
+                                        </ngb-carousel>
+                                </nb-card-body>
+                            </nb-card>
+    
+                            <nb-card *ngIf="college_foreign_nationals != '' ">
+                                <nb-card-header><b>Foreign nationals :</b></nb-card-header>
+                                <nb-card-body>
+                                        <ngb-carousel  >
+                                            <ng-template ngbSlide *ngFor="let img of college_foreign_nationals">
+                                                <div style="text-align : center;" ><img [src]="img.image" height=":100px;" width="80%;" alt="Random first slide"><br><b>{{img.country_name}}</b></div>
+                                            </ng-template>
+                                        </ngb-carousel>
+                                </nb-card-body>
+                            </nb-card>
+    
+                            <nb-card *ngIf="accreditation != '' ">
+                                <nb-card-header><b>Accreditation's :</b></nb-card-header>
+                                <nb-card-body>
+                                        <ngb-carousel  >
+                                            <ng-template ngbSlide *ngFor="let img of accreditation">
+                                                <div style="text-align : center;" ><img [src]="img.image" height=":100px;" width="80%;" alt="Random first slide"><br><b>{{img.name}}</b></div>
+                                            </ng-template>
+                                        </ngb-carousel>
+                                </nb-card-body>
+                            </nb-card>
+    
+                        </div>
+                        <div class="col-lg-8">
+                                <nb-alert status="danger" closable (close)="onClose()" *ngIf="alertflag == 1">
+                                    You have already applied for this course!!!!
+                                </nb-alert>
+                               <nb-card>
+                                    <nb-card-body>
+                                        <nb-tabset>
+                                            <nb-tab tabTitle="Overview">
+                                                    <div class="row" *ngIf="Dropdownvar == 2">
+                                                        <div class="col-md-12">
+                                                            <nb-card size="medium" status="active">
+                                                            <nb-card-header>Apply Course from Here</nb-card-header>
+                                                            <nb-card-body>
+                                                                <div class="col-md-12">
+                                                                <ul type="none" class="collegedata">
+                                                                    <nb-list>
+                                                                    <nb-list-item *ngFor="let course of collegedata">
+                                                                        <div class="row">
+                                                                            <div class="col-md-9">
+                                                                                {{course.specialization}} {{course.name}}
+                                                                            </div>
+                                                                            <div class="col-md-3">
+                                                                                <button class="subDropBtn" (click)="courseredirect(course.id,course.degree)">Apply</button>  
+                                                                            </div>   
+                                                                        </div>
+                                                                    </nb-list-item>
+                                                                    </nb-list>
+                                                                </ul>
+                                                                </div>
+                                                            </nb-card-body>
+                                                            </nb-card>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                <nb-card size="large" status="active" *ngIf="Dropdownvar == 0">
+                                                    <nb-card-header>
+                                                        Courses offered : {{courselistCount}}
+                                                        <nb-search style="float: right;" type="rotate-layout"></nb-search>
+                                                    </nb-card-header>
+                                                    <nb-list>
+                                                        <nb-list-item *ngFor="let course of courselist">
+                                                                <div (click)="redirectCourse(course.id,course.specialization);"><h6>{{course?.name}} {{course?.specialization}}</h6></div>
+                                                        </nb-list-item>
+                                                    </nb-list>
+                                                </nb-card>
+    
+<nb-card  status="active">
+                                                    <nb-card-header>
+                                                        Student polulation
+                                                    </nb-card-header>
+                                                    <nb-card-body height="190px">
+                                                            <div class="row">
+                                                                    <div class="offset-md-1 offset-sm-2 offset-xs-2"></div>
+                                                                    <div class="col-md-5 col-sm-10 col-xs-10" colListPad>
+                                                                        <img class="img-responsive" src="{{collegelist?.male_img}}" height="100px" style="margin-left:5px;"/>
+                                                                        <img class="img-responsive" src="{{collegelist?.male_img}}" height="100px" style="margin-left:5px;"/>
+                                                                        <img class="img-responsive" src="{{collegelist?.male_img}}" height="100px" style="margin-left:5px;"/>
+                                                                        <img class="img-responsive" src="{{collegelist?.male_img}}" height="100px" style="margin-left:5px;"/>
+                                                                        <img class="img-responsive" src="{{collegelist?.male_img}}" height="100px" style="margin-left:5px;"/>
+                                                                        <br><br>
+                                                                        <div class="uppercase profile-stat-title"> <h4 style="color:darkgreen;">{{collegelist?.male_population}}%</h4> </div>
+                                                                        <div class="uppercase profile-stat-text"> <h4>Male</h4> </div>
+                                                                </div>
+                                                                <div class="col-md-5 col-sm-10 col-xs-10" colListPad>
+                                                                    <img class="img-responsive"  src="{{collegelist?.female_img}}" height="100px" style="margin-left:5px;"/>
+                                                                    <img class="img-responsive"  src="{{collegelist?.female_img}}" height="100px" style="margin-left:5px;"/>
+                                                                    <img class="img-responsive"  src="{{collegelist?.female_img}}" height="100px" style="margin-left:5px;"/>
+                                                                    <img class="img-responsive"  src="{{collegelist?.female_img}}" height="100px" style="margin-left:5px;"/>
+                                                                    <img class="img-responsive"  src="{{collegelist?.female_img}}" height="100px" style="margin-left:5px;"/>
+                                                                    <br><br>
+                                                                    <div class="uppercase profile-stat-title"> <h4 style="color:crimson;">{{collegelist?.female_population}}%</h4> </div>
+                                                                                <div class="uppercase profile-stat-text"> <h4>Female</h4> </div>
+                                                            </div>
+                                                            <div class="offset-md-1 offset-sm-2 offset-xs-2"></div>
+                                                            </div>
+                                                    </nb-card-body>
+                                                </nb-card>
+    
+                                                <nb-card  status="active" *ngIf="video != '' ">
+                                                    <nb-card-header>
+                                                        Videos
+                                                    </nb-card-header>
+                                                    <nb-card-body >
+                                                        <div class="row">
+                                                            <div class="offset-lg-2"></div>
+                                                            <div class="col-lg-10">
+                                                                <ngb-carousel  >
+                                                                    <ng-template ngbSlide *ngFor="let img of video">
+                                                                        <youtube-player 
+                                                                        [videoId]="img.videos" >
+                                                                        </youtube-player>
+                                                                        </ng-template>
+                                                                    </ngb-carousel>
+                                                            </div>
+                                                        </div>
+                                                    </nb-card-body>
+                                                </nb-card>
+                                            </nb-tab>
+                                            <nb-tab tabTitle="Peer's Available">
+                                                <nb-card *ngIf="available_counsellors != ' ' ">
+                                                <nb-card-body>
+                                                        <nb-list>
+                                                            <nb-list-item *ngFor="let peer of available_counsellors">
+                                                               <div class="row" *ngIf="peer.counsellor_status == 'online' ">
+                                                                   <div class="col-md-3">
+                                                                       <img class="img-responsive" style= "width: 100px; height:100px;"  src="{{collegelist?.counsellor_img}}"/>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="peersAvaName">
+                                                                                <b>{{peer.name}}</b><br>
+                                                                        </div>
+                                                                        <div class="peersAvaTime">
+                                                                                <b>Available timing:</b> IST timing {{peer.available_from}} to {{peer.available_to}}
+                                                                        </div>
+                                                                        <div>
+                                                                                <b>Country:</b>  {{peer.country_name}}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <div class="peersOnline">
+                                                                                <button class=" peersContactWrap"  (click)="onClick(peer.mobile,peer.counsellor_status)">Contact</button>
+                                                                                <div class="peersAvaStatus "><div class="peersAvaStatusDot"></div></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div> 
+                                                                <div class="row" *ngIf="peer.counsellor_status == 'offline' ">
+                                                                    <div class="col-md-3">
+                                                                        <img class="img-responsive" style= "width: 100px; height:100px;"  src="{{collegelist?.counsellor_img}}"/>
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            <div class="peersAvaName">
+                                                                                    <b>{{peer.name}}</b><br>
+                                                                            </div>
+                                                                            <div class="peersAvaTime">
+                                                                                    <b>Available timing:</b> IST timing {{peer.available_from}} to {{peer.available_to}}
+                                                                            </div>
+                                                                            <div>
+                                                                                    <b>Country:</b>  {{peer.country_name}}
+                                                                                </div>
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                                <button class="peersContactWrap" (click)="offlineClick(peer.id,peer.mobile,peer.counsellor_status,peer.available_from,peer.available_to)">Contact</button><div class="peersAvaStatus "><div class="peersAvaStatusDot"></div></div>
+                                                                        </div>
+                                                                    </div> 
+                                                                
+                                                            </nb-list-item>
+                                                            </nb-list>
+                                                </nb-card-body>
+                                                </nb-card>
+                                                <nb-card *ngIf="available_counsellors == ' ' ">
+                                                    <nb-card-body>
+                                                        <b>No peers available</b>
+                                                    </nb-card-body>
+                                                </nb-card>
+                                            </nb-tab>
+                                        </nb-tabset>
+                                    </nb-card-body>
+                                </nb-card>
+                        </div>
+                    </div> 
+        </div>
+    </div>
+    
+    

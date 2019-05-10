@@ -1,0 +1,36 @@
+<nb-card status="success">
+  <nb-card-header>
+    <div class="modal-header">               
+      <div class="popupTitle">Applications</div>
+      <!-- <button type="button" nbButton shape="semi-round" size="small" (click)="backtocourse();">Back to Course Listing</button> -->
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <p-tabView (onChange)="getApplicationDetails($event)">
+      <p-tabPanel header = "Application Requested">
+        <h5>Application Requested</h5>
+      </p-tabPanel>
+      <p-tabPanel header = "Application Accepted">
+        <!-- <div class="modal-header">
+          <div class="popupTitle"></div>
+          <button type="button" nbButton shape="semi-round" size="small" (click)="addCurriculum(null);">Add New</button>
+        </div> -->
+      </p-tabPanel>
+      <p-tabPanel header = "Application Rejected">
+        <div class="modal-header">               
+          <div class="popupTitle"><h4>Application Rejected</h4></div>
+          <!-- <button nbButton shape="semi-round" size="small" outline (click)="addFaculty();">Add New</button> -->
+        </div>
+      </p-tabPanel>
+      <p-tabPanel header = "Conditional Provisional Letter">
+        <h5>Conditional Provisional Letter</h5>
+      </p-tabPanel>
+      <p-tabPanel header = "Final Letter">
+        <h5>Final Letter</h5>
+      </p-tabPanel>
+      <p-tabPanel header = "College Attended">
+        <h5>College Attended</h5>
+      </p-tabPanel>
+    </p-tabView>
+  </nb-card-body>
+</nb-card>

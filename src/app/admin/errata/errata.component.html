@@ -1,0 +1,48 @@
+<nb-actions size="large">
+   <nb-action icon="ion-arrow-left-c"  (click)="Back()"></nb-action>
+</nb-actions>
+<nb-card>
+   <nb-card-header>Transcript Lock View</nb-card-header>
+   <nb-card-body>
+      <div class="row">
+         <div class="col-md-3" *ngFor = "let data of TranscriptData">
+            <div>
+               <nb-card status="success" size="small">
+                  <nb-card-header >{{data?.name}}</nb-card-header>
+                  <nb-card-body>
+                     <div *ngIf="data?.extension=='pdf'">
+                        <img src="{{serverUrl}}/front_assets/img/pdf1.png"  style="height:150px; width:150px;">
+                     </div>
+                     <div *ngIf="data?.extension != 'pdf'">
+                        <img class="img-responsive viewMoreImg" src="{{data?.image}}"/>
+                     </div>
+                  </nb-card-body>
+                  <nb-card-footer>
+                     <div class="row">
+                        <div class="col-md-6">
+                           <p-inputSwitch [(ngModel)]="data.transcript_lock" (onChange)="handleChange($event,data?.name,data?.id,data?.user_id,data?.category)" inputId="{{data?.name}}"></p-inputSwitch>
+                        </div>
+                        <div *ngIf="data?.extension != 'pdf'" class="col-md-6"><button size="x-small" status="info" (click)="DownloadTranscript(data?.file_path,data?.file_name);" nbButton>Download</button></div>
+                     </div>
+                  </nb-card-footer>
+               </nb-card> 
+            </div>
+         </div>
+      </div>
+      <div class="row">
+         <div class="offset-lg-3">
+            <button nbButton class="fa" outline status="success" (click)="updateErrataTranscript(category)">Save</button>
+         </div>
+         <div class="col-lg-6" *ngIf="category == 'self_financed'">
+               <button nbButton class="fa ion-email" outline status="info"  (click)="Ticket(email);"> Raise Ticket</button>
+         </div>
+      </div>
+   </nb-card-body>
+</nb-card>
+<div>
+	<p-confirmDialog #cd header="Confirmation" icon="pi pi-exclamation-triangle">
+		<p-footer>
+			<button type="button" pButton  label="OK" (click)="cd.accept()"></button>
+		</p-footer>
+	</p-confirmDialog>
+</div>

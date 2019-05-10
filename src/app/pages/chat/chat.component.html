@@ -1,0 +1,48 @@
+<nb-actions size="large">
+    <nb-action icon="ion-arrow-left-c"  (click)="backClicked()"></nb-action>
+  </nb-actions>
+<div class="row">
+  <div class="col-md-6">
+    <nb-card accent="success">
+      <nb-card-header>
+        <div class="row">
+          <div class="col-md-8">Chats</div>
+          <div class="col-md-4"><button nbButton outline="danger" size="small" style="margin-top:15px" (click)="chatList()" *ngIf="user.role == 'admin'">+</button></div>
+        </div>
+        <div class = "row">
+            <div class="col-md-12"><input nbInput shape="semi-round" type="text" [(ngModel)]="chatPartner" (keyup.enter)="searchPartner()" placeholder="Enter User's Name" id="PCtxt3" *ngIf="show == true" style="size: 50%;"></div>
+        </div>
+      </nb-card-header>
+
+      <nb-list *ngIf="show1 == true">
+          <nb-list-item (click)="viewChats(user)" *ngFor="let user of users">
+
+          <div class="row">
+            <div class="col-md-4" style="margin-left: 20px; color:red;">
+              {{user?.fullname}}   {{user?.email}}
+            </div>
+            <div class="col-md-4" style="margin-left:90px; font-size:10px;">
+                {{user?.lastOnline}}
+            </div>
+            <div class="col-md-12" style="margin-top:10px; margin-left: 20px;">
+              
+            </div>
+          </div>
+        </nb-list-item>
+      </nb-list>
+    </nb-card>
+  </div>
+  <div class="col-md-6" *ngIf="flag == 1">
+    <nb-chat [title]='user1' size="medium" status="success">
+      <nb-chat-message *ngFor="let msg of messages"
+        [message]="msg.text"
+        [sender]="msg.sender"
+        [reply]="msg.reply"
+        [date]="msg.date"
+      >
+      </nb-chat-message>
+      <nb-chat-form (send)="sendMessage($event)" [dropFiles]="true">
+      </nb-chat-form>
+    </nb-chat>
+  </div>
+</div>

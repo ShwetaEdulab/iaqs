@@ -1,0 +1,306 @@
+<nb-card>
+	<nb-card-body>
+		  <p-tabView (onChange)="getApplicationAcceptedForeignOffice($event)">
+				<p-tabPanel header="Update Personal Interview Marks">
+					<b><h3>Mark Details</h3></b><br>
+					<div class="row">
+						<div class="col-md-12 ">
+							<mat-form-field class="example-full-width">
+								<input matInput  type="text" [value]="filterText"
+								[placeholder]="filterPlaceholder" [formControl]="filterInput" />
+							</mat-form-field>
+						</div>
+					</div>
+					
+					<table class="table table-striped w-auto">
+						<thead>
+							<tr><b><h5>Total Count:{{application_data?.length}}</h5></b></tr>
+							<tr>
+								<th>Application Id</th>
+								<th>Student Name</th>
+								<th>Email Address</th>
+								<th>Selected Course</th>
+								<th>Online Entrance Marks</th>
+								<th>Personal Interview Marks</th>
+								<th>Actions</th>
+								<th>Raise Ticket</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="info" *ngFor="let application of application_data | filter:{stu_name: filterText, email: filterText, specialization: filterText, course: filterText} | paginate: { itemsPerPage: 10, currentPage: p }">
+								<td>{{application?.enrollment_no}}</td>
+								<td>{{application?.stu_name}}</td>
+								<td>{{application?.email}}</td>
+								<td>{{application?.specialization}} ({{application?.course}})</td>
+								<td>
+									<mat-form-field class="example-full-width">
+										<input matInput placeholder="Online Test Marks" id='onlineMark{{application.id}}' value="{{application?.online_marks}}" readonly>
+									</mat-form-field></td>
+								<td>
+									<mat-form-field class="example-full-width">
+										<input matInput placeholder="PI Test Marks" id='eligib_number{{application.id}}' value="{{application?.pi_marks}}">
+									</mat-form-field><br>
+									<button *ngIf="application?.pi_marks == ''" nbButton  size="xsmall" outline status="info" (click)="saveMarks(application.id,application.course_id)">Save Marks</button>
+									<button *ngIf="application?.pi_marks != ''" nbButton  size="xsmall" outline status="info" (click)="saveMarks(application.id,application.course_id)">Edit Marks</button>
+									<span id="elignumbererror{{application.id}}"></span>
+								</td>
+								<td>
+									<i class="fa ion-person" id='view_eligibility{{application.id}}' status="danger" nbPopover="View More" nbPopoverMode="hover" (click)="viewMore('eligibility',application.user_id,application.course_id,'new',application.id);"></i>
+									<i class="fa ion-android-lock" id='documentverify{{application.id}}' nbPopover="Errata" nbPopoverMode="hover" (click)="errata(application.user_id,'self_financed');"></i>
+									<div *ngIf="application.requestToReupload ==true">
+										<div>
+											<span style="color: red;">You have requested {{application.stu_name}} to re-upload transcript !</span>
+										</div>	
+									</div>
+								</td>
+								<td>
+									<i class="fa ion-email" status="info" nbPopover="Raise Ticket" nbPopoverMode="hover" (click)="Ticket(application.email);"></i>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<div *ngIf="application_data?.length==0">
+						<b><h3>No Result Found</h3></b>
+					</div>
+					<pagination-controls (pageChange)="p = $event"></pagination-controls>
+				</p-tabPanel>
+				<p-tabPanel header="Seat Allotment">
+					<b><h3>Mark Details</h3></b><br>
+					<div class="row">
+						<div class="col-md-12 ">
+							<mat-form-field class="example-full-width">
+								<input matInput  type="text" [value]="filterText"
+								[placeholder]="filterPlaceholder" [formControl]="filterInput" />
+							</mat-form-field>
+						</div>
+					</div>
+					
+					<table class="table table-striped w-auto">
+						<thead>
+							<tr><b><h5>Total Count:{{application_data?.length}}</h5></b></tr>
+							<tr>
+								<th>Application Id</th>
+								<th>Student Name</th>
+								<th>Email Address</th>
+								<th>Selected Course</th>
+								<!-- <th>Online Entrance Marks</th>
+								<th>Personal Interview Marks</th> -->
+								<th>Total Marks</th>
+								<th>Actions</th>
+								<th>Raise Ticket</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="info" *ngFor="let application of application_data | filter:{stu_name: filterText, email: filterText, specialization: filterText, course: filterText} | paginate: { itemsPerPage: 10, currentPage: p }">
+								<td>{{application?.enrollment_no}}</td>
+								<td>{{application?.stu_name}}</td>
+								<td>{{application?.email}}</td>
+								<td>{{application?.specialization}}</td>
+								<td>{{application?.total_marks}}</td>
+								<!-- <td>
+									<mat-form-field class="example-full-width">
+										<input matInput placeholder="Online Test Marks" id='onlineMark{{application.id}}' value="{{application?.online_marks}}" readonly>
+									</mat-form-field></td>
+								<td>
+									<mat-form-field class="example-full-width">
+										<input matInput placeholder="PI Test Marks" id='eligib_number{{application.id}}' value="{{application?.pi_marks}}">
+									</mat-form-field><br>
+									<button *ngIf="application?.pi_marks == ''" nbButton  size="xsmall" outline status="info" (click)="saveMarks(application.id,application.course_id)">Save Marks</button>
+									<span id="elignumbererror{{application.id}}"></span>
+								</td> -->
+								<td>
+									<i class="fa ion-person" id='view_eligibility{{application.id}}' status="danger" nbPopover="View More" nbPopoverMode="hover" (click)="viewMore('eligibility',application.user_id,application.course_id,'new',application.id);"></i>
+									<i class="fa ion-android-lock" id='documentverify{{application.id}}' nbPopover="Errata" nbPopoverMode="hover" (click)="errata(application.user_id,'self_financed');"></i>
+									<i class="fa ion-checkmark" id='acceptbutton{{application.id}}' nbPopover="Accept" nbPopoverMode="hover" (click)="acceptApplication(application.user_id,application.course_id,application.id);"></i>
+									<i class="fa ion-close-round" id='rejectbutton{{application.id}}' nbPopover = "Reject"  nbPopoverMode="hover" (click)="rejectApplication(application.user_id,application.course_id,application.id);"></i>
+									<div *ngIf="application.requestToReupload ==true">
+										<div>
+											<span style="color: red;">You have requested {{application.stu_name}} to re-upload transcript !</span>
+										</div>	
+									</div>
+								</td>
+								<td>
+									<i class="fa ion-email" status="info" nbPopover="Raise Ticket" nbPopoverMode="hover" (click)="Ticket(application.email);"></i>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<div *ngIf="application_data?.length==0">
+						<b><h3>No Result Found</h3></b>
+					</div>
+					<pagination-controls (pageChange)="p = $event"></pagination-controls>
+				</p-tabPanel>
+				<p-tabPanel header="Seat Alloted Student Details">
+					<b><h3>Seat Alloted Student</h3></b><br>
+					<div class="row">
+						<div class="col-md-12 ">
+							<mat-form-field class="example-full-width">
+								<input matInput  type="text" [value]="filterText"
+								[placeholder]="filterPlaceholder" [formControl]="filterInput" />
+							</mat-form-field>
+						</div>
+					</div>
+					
+					<table class="table table-striped w-auto">
+						<thead>
+							<tr><b><h5>Total Count:{{application_data?.length}}</h5></b></tr>
+							<tr>
+								<th>Application Id</th>
+								<th>Student Name</th>
+								<th>Email Address</th>
+								<th>Selected Course</th>
+								<th>Total Marks</th>
+								<th>Raise Ticket</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="info" *ngFor="let application of application_data | filter:{stu_name: filterText, email: filterText, specialization: filterText, course: filterText} | paginate: { itemsPerPage: 10, currentPage: p }">
+								<td>{{application?.enrollment_no}}</td>
+								<td>{{application?.stu_name}}</td>
+								<td>{{application?.email}}</td>
+								<td>{{application?.specialization}}</td>
+								<td>{{application?.total_marks}}</td>
+								<td>
+									<i class="fa ion-email" status="info" nbPopover="Raise Ticket" nbPopoverMode="hover" (click)="Ticket(application.email);"></i>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<div *ngIf="application_data?.length==0">
+						<b><h3>No Result Found</h3></b>
+					</div>
+					<pagination-controls (pageChange)="p = $event"></pagination-controls>
+				</p-tabPanel>
+				<p-tabPanel header="Failed Student Details">
+					<b><h3>Failed Student Details</h3></b><br>
+					<div class="row">
+						<div class="col-md-12 ">
+							<mat-form-field class="example-full-width">
+								<input matInput  type="text" [value]="filterText"
+								[placeholder]="filterPlaceholder" [formControl]="filterInput" />
+							</mat-form-field>
+						</div>
+					</div>
+					
+					<table class="table table-striped w-auto">
+						<thead>
+							<tr><b><h5>Total Count:{{application_data?.length}}</h5></b></tr>
+							<tr>
+								<th>Application Id</th>
+								<th>Student Name</th>
+								<th>Email Address</th>
+								<th>Selected Course</th>
+								<th>Total Marks</th>
+								<th>Raise Ticket</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="info" *ngFor="let application of application_data | filter:{stu_name: filterText, email: filterText, specialization: filterText, course: filterText} | paginate: { itemsPerPage: 10, currentPage: p }">
+								<td>{{application?.enrollment_no}}</td>
+								<td>{{application?.stu_name}}</td>
+								<td>{{application?.email}}</td>
+								<td>{{application?.specialization}}</td>
+								<td>{{application?.total_marks}}</td>
+								<td>
+									<i class="fa ion-email" status="info" nbPopover="Raise Ticket" nbPopoverMode="hover" (click)="Ticket(application.email);"></i>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<div *ngIf="application_data?.length==0">
+						<b><h3>No Result Found</h3></b>
+					</div>
+					<pagination-controls (pageChange)="p = $event"></pagination-controls>
+				</p-tabPanel>
+				<!-- <p-tabPanel header="Seat Allotment">
+					<b><h3>Seat Allotment </h3></b><br>
+					<div class="row">
+						<div class="col-md-12 ">
+							<mat-form-field class="example-full-width">
+								<input matInput  type="text" [value]="filterText"
+								[placeholder]="filterPlaceholder" [formControl]="filterInput" />
+							</mat-form-field>
+						</div>
+					</div>
+						<table style="overflow-x: auto;"  class="clearfix table w-auto">
+							<thead>
+								<tr><b><h5>Total Count:{{application_data?.length}}</h5></b></tr>
+								<tr>
+									<td class="widthCol06 cStnd">Student Name</td>
+									<td class="widthCol08 cStnd">Application No.</td>
+									<td class="widthCol08 cStnd">Category</td>
+									<td class="widthCol08 cStnd">Applied Course</td>
+									<td class="widthCol08 cStnd">Eligibility Letter</td>
+									<td class="widthCol102 cStnd">Reference Number Of Provisional Letter</td>
+									<td class="widthCol08 cStnd">Email Address</td>
+									<td class="widthCol08 cStnd">Email to</td>
+									<td class="widthCol102 cStnd">Action</td>
+									<td class="widthCol08 cStnd">College allocation</td>
+									<td class="widthCol08 cStnd">Firm Letter</td>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="info" *ngFor="let application of application_data | filter:{stu_name: filterText,enrollment_no: filterText,student_category: filterText , email: filterText, specialization: filterText, course: filterText} | paginate: { itemsPerPage: 10, currentPage: p }">
+									<td class="widthCol06 allDetails">{{application?.stu_name}}</td>
+									<td class="widthCol08 allDetails">{{application?.enrollment_no}}</td>
+									<td class="widthCol08 allDetails">{{application?.student_category}}  </td>
+									<td class="widthCol08 allDetails">{{application?.specialization}} ({{application?.course}})</td>
+									<td class="widthCol08 allDetails"><button nbButton size="xsmall" status="info"  (click)="downloadletter( application?.user_id ,'Provisional_Letter',application?.id)" >Download</button></td>
+									<td class="widthCol13 allDetails"><input style="width: 100px;"  readonly="" value="{{application?.ref_no}}" size="xsmall" hero status="info" placeholder="Reference number"/></td>
+									<td class="widthCol08 allDetails">{{application?.email}}</td>
+									<td class="widthCol08 allDetails">
+										<input type="checkbox" (click)="sendEmailTostudent($event, application?.user_id,application?.course_id,application?.id,application?.specialization)" id="student_email{{application?.id}}" value="Student email" /> Student <br>
+										<input type="checkbox" id="guardin_email{{application?.id}}" value="Guardian email" (click)="sendEmailToGuardian($event, application?.user_id,application?.course_id,application?.id,application?.specialization)" /> Guardian <br>
+										<input type="checkbox" name="Tick" id="embassy_email{{application?.id}}" value="Embassy email" (click)="sendEmailToEmbassy( application?.user_id, application?.course_id, application?.id, application?.specialization)" /> Embassy<br>
+											<mat-select placeholder="Select Country" name='country' id="country{{application?.id}}" class="form-control" ngModel="{{country}}" (ngModelChange)="changeemail($event,application?.id,embassyEmailValue.value);" style="margin-top: 5px;padding-top: 5px;padding-bottom: 5px;padding-left: 5px;visibility : hidden" required #countryValue>
+												<mat-option value="" disabled>Country</mat-option>
+												<mat-option value="{{country.name}}" *ngFor="let country of Countries">{{ country.name }}</mat-option>
+											</mat-select>
+											<mat-select placeholder="Select Embassy Emails"  name='embassyEmail' id="embassyEmail{{application?.id}}" class="form-control"  ngModel="{{embassy}}"  (ngModelChange)="getEmail($event,application?.id);" style="margin-top: 7px;padding-top: 5px;padding-left: 5px;padding-bottom: 5px;visibility : hidden" required #embassyEmailValue>
+												<mat-option value="" disabled>Email</mat-option>
+												<mat-option value="{{embassylist}}" *ngFor="let embassylist of embassyEmailList">{{ embassylist }}</mat-option>		
+											</mat-select>
+											<input type="text" name="input_email" id="input_email{{application?.id}}" style="visibility : hidden;margin-top: 7px;" #input_email/>
+											<span id="emailerror{{application?.id}}" style="color:red;"></span>
+											<br>
+											<button nbButton size="xsmall" status="info" (click)="sendEmailembassy(application?.id, application?.user_id, application?.course_id,embassyEmailValue.value,countryValue.value,input_email.value)" id="sendEmail{{application?.id}}" style=" visibility : hidden;margin-top: 7px;">Send email</button>
+											<button nbButton size="xsmall" status="info" (click)="sendEmailembassy1(application?.id, application?.user_id, application?.course_id,embassyEmailValue.value,countryValue.value,input_email.value)" id="sendEmail1{{application?.id}}" style=" visibility : hidden;margin-top: 7px;">Send email</button>
+									</td>
+									<td class="allDetails widthCol102 noPadLeft text-center">
+										<button nbButton  size="xsmall" status="info" (click)="open(application?.user_id,application?.id,application?.course_id,application?.specialization)"  id="sendto{{application.id}}" *ngIf="application.collegename =='-'">  Student Preferences</button>
+										<br>
+										<button nbButton size="xsmall" status="info" (click)="deallocateCollege(application?.id,application?.user_id,application?.collegename)" id="deallocate{{application?.id}}" style="margin-top: 5px;" *ngIf="application?.collegename != '-'">Deallocate College</button>
+										<br>
+										<button nbButton size="xsmall" status="info" (click)="viewHSCDetails(application?.user_id,application?.qualification,application?.percentage,application?.Subject_first,application?.mark_first,application?.OutOf_first,application?.grade_first,application?.Subject_Second,application?.mark_Second,application?.OutOf_Second,application?.grade_Second,application?.Subject_Third,application?.mark_Third,application?.OutOf_Third,application?.grade_Third,application?.Subject_fourth,application?.mark_fourth,application?.OutOf_fourth,application?.grade_fourth,application?.Subject_fifth,application?.mark_fifth,application?.OutOf_fifth,application?.grade_fifth,application?.Subject_Six,application?.mark_Six,application?.OutOf_Six,application?.grade_Six,application?.college_university)"  id="hsc_details_view{{application?.id}}" style="margin-top: 5px;">HSC Details</button>
+										<br>
+										<button nbButton size="xsmall" status="info" (click)="getPaymentDetails(application?.id, application?.t_paymentMode, application?.total_amount, application?.currency, application?.orderId, application?.dateOfPayment, application?.challanExist, application?.challan_location)"  id="sendEmail{{application?.id}}" style=" margin-top: 7px;">Payment Details</button>
+										<br>
+										<button nbButton size="xsmall" status="info" (click)="downloadSeatAllocationDraft( application?.user_id ,application?.enrollment_no ,application?.id)" *ngIf="application?.collegename != '-'" id="sendEmail{{application?.id}}" style=" margin-top: 7px;">Seat Allocation Draft</button>
+									</td>	
+									<td class="widthCol10 allDetails">
+											<span size="xsmall" status="info" id="sendto{{application.id}}" *ngIf="application.collegename =='-'">:Pending</span>
+											<span size="xsmall" status="info" id="sendto{{application.id}}" *ngIf="application?.collegename != '-'">{{ application?.collegename }}</span>
+									</td>
+									<td class="widthCol08 allDetails">
+										<button nbButton size="xsmall" status="info" (click)="downloadFirmLetter(application?.user_id,application?.specialization, application?.id)" id="firmletterdownload{{application?.id}}"  style=" margin-top: 7px;">Download</button>
+										<input size="xsmall" status="info" placeholder="Enter College Fees" type="text" name="input_college_fees" id="input_college_fees{{application?.id}}" style="visibility : hidden;margin-top: 7px;" #input_college_fees/>
+										<input  type="hidden" id="course_fees_id{{application?.id}}">
+										<button nbButton size="xsmall" status="info" (click)="downloadFirmLetterUpdateCollegeFees(application?.user_id,application?.specialization, application?.id,input_college_fees.value, application?.course_id)" id="generateFirmFeesUpdate{{application?.id}}"  style="visibility : hidden; margin-top: 7px;">Generate</button>
+										<br>
+										<span style="color:red;" id="coursefeeserror{{application?.id}}"></span>
+										<br>
+										<div *ngIf="application?.firmletterexist == false && application?.second_payment != false" style="color: red;margin-top: 15px;font-size: 14px;">Firm Letter is not Generated</div>
+										<div *ngIf="application?.firmletterexist == true" style="color: green;margin-top: 15px;font-size: 14px;">Firm Letter is Generated</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<pagination-controls style="align-content: center" (pageChange)="p = $event"></pagination-controls>
+				</p-tabPanel> -->
+		  </p-tabView>    
+   </nb-card-body>
+   <p-dialog [autoZIndex]="true" [(visible)]="display" [modal]="true" [responsive]="true" [style]="{width: '350px', minWidth: '200px'}">
+	  <span><h5>{{ dialog_Message }}</h5></span>
+  </p-dialog>
+   <p-confirmDialog [style]="{width: '425px'}"></p-confirmDialog> 
+</nb-card>

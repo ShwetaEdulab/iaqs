@@ -1,0 +1,129 @@
+@import '../../@theme/styles/themes';
+@import '~bootstrap/scss/mixins/breakpoints';
+@import '~@nebular/theme/styles/global/breakpoints';
+
+@include nb-install-component() {
+  .solar-card nb-card-header {
+    border: none;
+    padding-bottom: 0;
+  }
+
+  .subDropBtn{
+    background-color: #ff5959;
+    border: 1px solid #ff5959;
+    border-radius: 3px;
+    color: #fff;
+    float: right;
+    font-size: 12px;
+    margin-left: 0;
+    padding: 4px 11px;
+    cursor: pointer;
+  }
+  @include media-breakpoint-down(sm) {
+    ngx-traffic {
+      display: none;
+    }
+  }
+
+  @include media-breakpoint-down(is) {
+    /deep/ nb-card.large-card {
+      height: nb-theme(card-height-medium);
+    }
+  }
+}
+
+
+.list-group {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: c;
+  flex-direction: column;
+  /* padding-left: 0; */
+  margin-bottom: 0;
+}
+
+.list-group .list-group-item {
+  display: block;
+}
+
+.list-group-unbordered > .list-group-item {
+  border-left: 0px none;
+  border-right: 0px none;
+  border-radius: 0px 0px 0px 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.list-group-item {
+  position: relative;
+  display: block;
+  padding: .75rem 1.25rem;
+  margin-bottom: -1px;
+  background-color: #fff;
+  border: 1px solid rgba(0,0,0,.125);
+}
+
+.collegeRatingLogo, .gradeSection{
+	background: #de503c;
+	color: #fff;
+	font-size: 11px;
+	font-weight: bold;
+	padding-left: 5px;
+  padding-right: 5px;
+  padding-bottom: 10px;
+  padding-top: 5px;
+  margin-top: 5px;
+	text-align: center;
+	width: 75px;
+}
+.gradeSection{
+	background: #b22e1c !important;
+}
+
+.profile-stat-title {
+  color: #7f90a4;
+  font-size: 25px;
+  text-align: center;
+}
+
+.profile-stat-text {
+  color: #5b9bd1;
+  font-size: 11px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.uppercase {
+  text-transform: uppercase!important;
+}
+
+.peersContactWrap{
+	background: #ff5959;
+	border-radius: 4px;
+	color: #fff;
+	font-family: "Raleway-semibold";
+	font-size: 14px;
+	margin: 24px 0;
+	padding: 5px 15px;
+	text-align: center;
+	cursor: pointer;
+}
+.peersContactWrap:hover, .peersContactWrap:active, .peersContactWrap:focus{
+	color: #fff;
+}
+.peersAvaStatus{
+	padding: 34px 9px 0 13px;
+}
+.peersAvaStatusDot{
+	height: 10px;
+	width: 10px;
+	border-radius: 50%;
+	background: #ff5959;
+}
+.peersOnline > .peersContactWrap, .peersOnline > .peersAvaStatus > .peersAvaStatusDot{
+	background: #71ab30!important;
+}
+
+agm-map {
+  height: 200px;
+}

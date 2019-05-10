@@ -1,0 +1,287 @@
+<nb-actions size="large">
+  <nb-action icon="ion-arrow-left-c"  (click)="Back()"></nb-action>
+</nb-actions>
+<nb-card>
+  <nb-card-body>
+    <div class="titleWrap">
+      <label>Institute View</label>
+    </div>	
+    <nb-tabset>
+      <nb-tab tabTitle="Registration Details">
+        <div class="row" *ngIf="details != '' ">
+          <table class="col-xs-8 col-xs-offset-4" align="center" border="1" bordercolor="#c4c4c4" style="width:50%; height: 50%;">
+            <thead>
+              <tr *ngIf = "details?.logo != ''">
+                <th class="tableHead">Logo</th>
+                <td class="tableData"><img width="75" height="75" src="{{details?.logo}}"/></td>
+              </tr>
+              <tr>
+                <th class="tableHead">Name</th>
+                <td class="tableData">{{details?.name}}</td>
+              </tr>
+              <tr>
+                <th class="tableHead">Email ID</th>
+                <td class="tableData">{{details?.email}}</td>
+              </tr>
+              <tr>
+                <th class="tableHead">Alternate Email ID :</th>
+                <td class="tableData">{{details?.alternateemail}}</td>
+              </tr>
+              <tr *ngIf = "details?.microsite != null">
+                <th class="tableHead">Microsite</th>
+                <td class="tableData"><a href="{{'http://' + details?.microsite+'.admissiondesk.org'}}" target="_blank">
+                </a>{{details?.microsite + '.admissiondesk.org'}}</td>
+              </tr>
+              <tr>
+                <th class="tableHead">Address</th>
+                <td class="tableData">{{details?.address}}</td>
+              </tr>
+              <tr>
+                <th class="tableHead">District</th>
+                <td class="tableData">{{details?.district}}</td>
+              </tr>
+              <tr>
+                <th class="tableHead">City</th>
+                <td class="tableData">{{details?.city}}</td>
+              </tr>
+              <tr>
+                <th class="tableHead">State</th>
+                <td class="tableData">{{details?.state}}</td>
+              </tr>
+              <tr>
+                <th class="tableHead">Country</th>
+                <td class="tableData">{{details?.country}}</td>
+              </tr>
+              <tr>
+                <th class="tableHead">Postal Code</th>
+                <td class="tableData">{{details?.postalcode}}</td>
+              </tr>
+              <tr>
+                <th class="tableHead">Established Date</th>
+                <td class="tableData">{{details?.established}}</td>
+              </tr>
+              <tr>
+                <th class="tableHead">Type</th>
+                <td class="tableData">{{details?.type}}</td>
+              </tr>
+              <tr>
+                <th class="tableHead">Phone</th>
+                <td class="tableData">{{details?.phone}}</td>
+              </tr>
+              <tr>
+                <th class="tableHead">Campus</th>
+                <td class="tableData">{{details?.campus}}</td>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </nb-tab>
+      <nb-tab tabTitle="Institute Heads">
+        <div class="row" *ngIf="heads == ''">
+          <h3>No Record Found</h3>
+        </div>
+        <div class="row" *ngIf="heads != '' ">
+          <nb-card *ngFor="let data of heads">
+            <nb-card-header class="text-center"><b>{{data?.title}}</b></nb-card-header>
+            <nb-card-body>
+              <img width="100" height="100" src="{{data?.image}}"/><br>
+              <p><strong>Name : </strong>{{data?.name}}</p>
+              <p><strong>Educational Qualification : </strong> {{data?.qualification}}</p>
+            </nb-card-body>
+          </nb-card>
+        </div>
+        <div class="row" *ngIf="deans != '' " >
+         <nb-card *ngFor="let dean of deans">
+            <nb-card-header class="text-center">Dean's Corner</nb-card-header>
+            <nb-card-body class="row">
+              <div class="col-md-4">
+                <img width="100" height="100" src="{{data?.image}}"/><br>
+              </div>
+              <div class="col-md-8">
+                <p><strong>Name : </strong>{{dean?.name}}</p>
+                <p><strong>Educational Qualification : </strong> {{dean?.qualification}}</p>
+                <p><strong>Designation : </strong> {{dean?.designation}}</p>
+                <p><strong>Message : </strong> {{dean?.message}}</p>
+              </div>
+            </nb-card-body>
+          </nb-card>
+        </div>
+      </nb-tab>
+      <nb-tab tabTitle="College Details">
+        <div *ngIf="college_details != ''">
+          <nb-card *ngFor=" let data of college_details">
+            <nb-card-body>
+              <h5><b>Name :</b></h5><br> {{data?.name}}<br><br>
+              <h5><b>Location : </b></h5><br>{{data?.location}}<br><br>
+              <h5><b>Overview : </b></h5><br>{{data?.overview}}<br><br>
+            </nb-card-body>
+          </nb-card>
+          <div class="row">
+            <nb-card class="col-xs-6" *ngIf = "nation != ''">
+              <nb-card-header>Foreign National</nb-card-header>
+              <nb-card-body>
+                <ngb-carousel >
+                  <ng-template ngbSlide *ngFor = "let data of nation">
+                      <div><img [src]="data.image" height="100%;" width="100%;" alt="Random first slide"><br><b>{{data.name}}</b></div>
+                  </ng-template>
+                </ngb-carousel>
+              </nb-card-body>
+            </nb-card>
+            <nb-card class="col-xs-6" *ngIf = "sport != ''">
+              <nb-card-header>Sport</nb-card-header>
+              <nb-card-body>
+                <ngb-carousel >
+                  <ng-template ngbSlide *ngFor = "let data of nation">
+                      <div><img [src]="data.image" height=":600px;" width="100%;" alt="Random first slide"></div>
+                  </ng-template>
+                  {{data?.name}}
+                </ngb-carousel>
+              </nb-card-body>
+            </nb-card>
+          </div>
+          <nb-card class="row" *ngIf = "facility != ''">
+            <nb-card-header>Facility</nb-card-header>
+            <nb-card-body>
+              <ngb-carousel >
+                <ng-template ngbSlide *ngFor = "let data of facility">
+                  <div><img [src]="data.image" height=":600px;" width="100%;" alt="Random first slide"></div>
+                </ng-template>
+                {{data?.name}}
+              </ngb-carousel>
+            </nb-card-body>
+          </nb-card>
+        </div>
+      </nb-tab>
+      <nb-tab tabTitle="NAAC and Accreditation">
+        <div *ngIf="naac != '' ">
+          <h3><p><strong>NAAC : </strong> {{naac?.rating}}</p></h3><br>
+        </div>
+        <div *ngIf="accreditation != '' ">
+          <h3><p><strong>Accreditations : </strong></p></h3><br>
+          <div class="row">
+            <nb-card *ngFor="let acc of accreditation">
+              <nb-card-body>
+                <img src="{{acc?.image}}" width="100" height="100">
+              </nb-card-body>
+              <nb-card-footer>
+                {{acc?.name}}
+              </nb-card-footer>
+            </nb-card>
+          </div>
+        </div>
+      </nb-tab>
+      <nb-tab tabTitle="Affiliated to University">
+        <div class="row" *ngIf="affiliation == ''">
+          <h3>No Record Found</h3>
+        </div>
+        <div *ngIf="affiliation != '' "></div>
+        <nb-card *ngFor = "let affiliation of affiliation">
+          <nb-card-body>
+            <img src="{{affiliation?.img_path}}" width="auto" height="auto"><br>
+            <button nbButton outline size="small" status="info"  (click)="Open_link(affiliation?.badge_link);">Visit</button> 
+          </nb-card-body>
+        </nb-card>
+      </nb-tab>
+      <nb-tab tabTitle="Faculty" *ngIf="faculty == ''">
+        <div class="row" *ngIf="faculty == ''">
+          <h3>No Record Found</h3>
+        </div>
+        <div *ngIf="faculty != ''">
+          <nb-card *ngFor="let data of faculty" >
+            <nb-card-header class="text-center"></nb-card-header>
+            <nb-card-body class="row">
+              <div class="col-xs-4">
+                <img width="100" height="100" src="{{data?.profile_pic}}"/><br>
+              </div>
+              <div class="col-xs-2"></div>
+              <div class="col-xs-6">
+                <p><strong>Name : </strong>{{data?.name}}</p>
+                <p><strong>Designation : </strong> {{data?.designation}}</p>
+                <p><strong>Qualification : </strong> {{data?.qualification}}</p>
+                <p><strong>department : </strong> {{data?.department}}</p>
+              </div>
+            </nb-card-body>
+          </nb-card>
+        </div>
+       
+      </nb-tab>
+      <nb-tab tabTitle="Placement">
+        <div class="row" *ngIf="placement == ''">
+          <h3>No Record Found</h3>
+        </div>
+        <div *ngIf="placement != '' ">
+          <nb-card> 
+            <nb-card-body>
+              <ngb-carousel >
+                <ng-template ngbSlide *ngFor = "let placement of placement">
+                    <div><img [src]="placement.image" height="100%;" width="100%;" alt="Random first slide"><br></div>
+                </ng-template>
+              </ngb-carousel>
+            </nb-card-body>
+            <nb-card-footer>
+            </nb-card-footer>
+          </nb-card>
+        </div>
+      </nb-tab>
+      <nb-tab tabTitle="Gallery">
+        <div class="row" *ngIf="gallery == ''">
+          <h3>No Record Found</h3>
+        </div>
+        <nb-card *ngIf="gallery != '' ">
+            <nb-card-header><b>Gallery</b></nb-card-header>
+            <nb-card-body >
+              <ngb-carousel >
+                  <ng-template ngbSlide *ngFor="let img of gallery">
+                      <div><img [src]="img.path" height=":600px;" width="100%;" alt="Random first slide"></div>
+                  </ng-template>
+              </ngb-carousel>
+            </nb-card-body>
+        </nb-card>
+        <nb-card  *ngIf="video != '' " status="active">
+            <nb-card-header>
+                Videos
+            </nb-card-header>
+            <nb-card-body >
+                <div class="row">
+                    <div class="offset-lg-2"></div>
+                    <div class="col-lg-10">
+                      <ngb-carousel  >
+                        <ng-template ngbSlide *ngFor="let img of video">
+                          <youtube-player 
+                          [videoId]="img.videos" >
+                          </youtube-player>
+                        </ng-template>
+                      </ngb-carousel>
+                    </div>
+                </div>
+            </nb-card-body>
+        </nb-card>
+      </nb-tab>
+      <nb-tab tabTitle="Promotional Material">
+        <div class="row" *ngIf="promotional_materials == ''">
+          <h3>No Record Found</h3>
+        </div>
+        <table class="table table-striped w-auto" *ngIf="promotional_materials != '' ">
+            <thead>
+              <h5><b>Promotional Material</b></h5>
+              <tr>
+                <th>No</th>
+                <th>Title</th>
+                <th>Download</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="info" *ngFor="let data of promotional_materials ;let i=index; ">
+                <td>{{ i + 1}}</td>
+                <td>{{data?.title}}</td>
+                <td><a href="{{data.file}}" download="{{data.title}}">
+                    <button
+                    >Download</button></a>
+                </td>
+              </tr>
+            </tbody>				
+        </table>
+      </nb-tab>
+    </nb-tabset>
+  </nb-card-body>
+</nb-card>

@@ -1,0 +1,29 @@
+<nb-card [size]="'medium'">
+  <nb-card-header>Courses in your cart</nb-card-header>
+	<nb-card-body>
+    <nb-list>
+    	<nb-list-item *ngFor="let course of cartList">
+     		<div class="row">
+          <div class="col-md-4">
+            {{course.courseSpecialization}}
+          </div>
+          <div class="col-md-2 courseFee">
+              Fee : INR {{course.courseFees}}
+          </div>
+          <!-- <div class="col-md-2">
+            <button class="subDropBtn" (click)="preferencesRedirect(course.courseId)">Preferences</button>  
+          </div>  -->
+          <div class="col-md-3">
+            <button class="subDropBtn" (click)="remove(course.courseId)">Remove</button>  
+          </div>   
+          <div class="col-md-3">
+              <button class="subDropBtn" (click)="paymentProcess(course.courseId, course.courseFees)" style="float:right;">Proceed For Payment</button>
+          </div>   
+        </div>
+      </nb-list-item>
+    </nb-list>
+  </nb-card-body>
+  <!-- <nb-card-footer>Total {{totalPayment}} INR
+      <button nbButton hero status="primary" (click)="paymentProcess()" style="float:right;">Proceed For Payment</button>
+  </nb-card-footer> -->
+</nb-card>

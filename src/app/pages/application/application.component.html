@@ -1,0 +1,29 @@
+<nb-alert status="danger" closable (close)="onClose()" *ngIf="alertflag == 1">
+    Your Application is under process with the Eligibility department.
+</nb-alert>
+
+<nb-alert status="danger" closable (close)="onClose()" *ngIf="alertflag == 2">
+    Sorry, your application is rejected.
+</nb-alert>
+<nb-alert status="danger" closable (close)="onClose()" *ngIf="alertflag == 3">
+    Sorry, you can not go further until your exam date will be scheduled.
+</nb-alert>
+<div class="row">
+    <div class="col-md-6" *ngFor=" let item of applications;">
+        <div>
+            <nb-card status="success">
+                <nb-card-header>{{item.application.specialization}}</nb-card-header>
+                <nb-card-body>
+                    {{item.application.overview}}
+                </nb-card-body>
+                <button nbButton *ngIf="item.application.check_eligibility == 'true' && item.application.online_test_date != null && item.application.online_test_time != null;" (click)="loadsteps(item.application.id,item.application.course_id)">Your exam is schedule .</button>
+                <button nbButton *ngIf="item.application.check_eligibility == 'true' && item.application.online_test_date == null && item.application.online_test_time == null;" (click)="showalert3()">Your exam is not schedule .</button>
+                <button nbButton *ngIf=" item.application.check_eligibility == 'false';" (click)="showalert3()">Your exam is not schedule.</button>
+                <!-- <button nbButton *ngIf="item.application.status === 'accept';" (click)="loadsteps(item.application.id,item.application.course_id)">View More</button>
+                <button nbButton *ngIf="item.application.status === 'reject';" (click)="openReject()">Rejected</button>
+                <button nbButton *ngIf="item.application.status === 'new' && item.application.check_eligibility == 'true';" (click)="showalert()">Sent to Eligibility Department.</button>
+                <button nbButton *ngIf="item.application.status === 'new' && item.application.check_eligibility == 'false';">Waiting for approval.</button> -->
+            </nb-card>
+        </div>
+    </div>
+</div>

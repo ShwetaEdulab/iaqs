@@ -1,0 +1,227 @@
+<nb-card>
+	<nb-card-body>
+		<div class="titleWrap">
+			<label>Dashboard</label>
+		</div>
+		<p-tabView (onChange)="tab($event)">
+			<p-tabPanel header="Profile">
+				<h3>Student Profile Completeness</h3>
+				<div class="row">						
+					<div class="col-lg-3 ">
+						<mat-form-field>
+							<mat-select placeholder="select Year"[(ngModel)]="selectedYear" name="selectedYear" id="yearCtrl"  (ngModelChange)="filterYear('new',$event)" >
+								<mat-option value="2017">2017-2018</mat-option>
+								<mat-option value="2018">2018-2019</mat-option>
+								<mat-option value="2019">2019-2020</mat-option>
+							</mat-select>
+						</mat-form-field>
+					</div>
+				</div>
+				<div class="text">
+					<h4>Total Student:{{Count}}</h4>
+				</div>
+				
+        		<p-chart type="bar" [data]="data"></p-chart>
+				
+			</p-tabPanel>
+			<p-tabPanel header="Total Admissions">
+				<h3>Latest Admissions</h3>
+				<p-chart  class="titleWrap" type="pie" [data]="pie"></p-chart>
+				<div class="row">
+					<div class="col-md-12 ">
+						<mat-form-field class="example-full-width">
+							<input matInput  type="text" [value]="filterText"
+							[placeholder]="filterPlaceholder" [formControl]="filterInput" />
+							<button mat-button *ngIf="filterText" matSuffix mat-icon-button aria-label="Clear" (click)="filterText=''">
+								<mat-icon>close</mat-icon>
+							</button>
+						</mat-form-field>
+					</div>
+				</div>
+				<table class="table table-striped w-auto">
+					<thead>
+						<h5><b>Total Count:</b></h5>{{Total_data?.length}}
+						<tr>
+							<th>Application ID</th>
+							<th>Application No.</th>
+							<th>Category</th>
+							<th>Country Name</th>
+							<th>Student Name</th>
+							<th>Selected Course</th>
+							<th>Passport No.</th>
+							<th>Action</th>
+							<th>Provisional Eligibility Form</th>
+							<th>Application Form</th>
+							<th>Application Form with Preferences</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="info" *ngFor="let application of Total_data | filter:{country_name:filterText,course:filterText,specialization:filterText,passport_no:filterText,student_category:filterText,date:filterText,enrollment_no:filterText,payment_mode:filterText,stu_name: filterText} | paginate: { itemsPerPage: 10, currentPage: p }  ">
+							<td>{{application.id}}</td>
+							<td>{{application.enrollment_no}}</td>
+							<td>{{application.student_category}}</td>
+							<td>{{application.country_name}}</td>
+							<td>{{application.stu_name}}</td>
+							<td>{{application.specialization}}({{application.course}})</td>
+							<td>{{application.passport_no}}</td>
+							<td><button nbButton status="info" size="xsmall"  outline shape="semi-round" (click)="viewMore('application',application.user_id,application.course_id,'accept',application.id);">View</button></td>
+							<td><button nbButton size="xsmall" outline  status="info" (click)="showprovisionalLetterApp(application.user_id,application.course_id,application.id)">Download</button></td>
+							<td><button nbButton size="xsmall" outline  status="info" (click)="preview(application.user_id,application.course_id,application.id)">Download</button></td>
+							<td><button nbButton size="xsmall" outline  status="info" (click)="preview_data_with_Preferences(application.user_id,application.course_id,application.id)">Download</button></td>
+						</tr>
+					</tbody>				
+				</table>
+			<pagination-controls (pageChange)="p = $event"></pagination-controls>			
+			</p-tabPanel>		
+			<p-tabPanel header="Open Tickets">
+				<h3>Open Tickets</h3>
+				<div class="row">
+					<div class="col-md-12 ">
+						<mat-form-field class="example-full-width">
+							<input matInput  type="text" [value]="filterText"
+							[placeholder]="filterPlaceholder" [formControl]="filterInput" />
+							<button mat-button *ngIf="filterText" matSuffix mat-icon-button aria-label="Clear" (click)="filterText=''">
+								<mat-icon>close</mat-icon>
+							</button>
+						</mat-form-field>
+					</div>
+				</div>
+				<table class="table table-striped w-auto"  *ngIf="show == true">
+					<thead>
+						<h5><b>Total Count:</b></h5>{{ticketsData?.length}}
+						<tr>
+							<th>Ticket ID</th>
+							<th>Subject</th>
+							<th>User</th>
+							<th>Date</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="info" *ngFor="let ticket of ticketsData | filter:{user:filterText} | paginate: { itemsPerPage: 10, currentPage: p } " (click)="openTicket(ticket.id);">
+							<td>#{{ticket.id}}</td>
+							<td>{{ticket.subject}}</td>
+							<td>{{ticket.user}}</td>
+							<td>{{ticket.date}}</td>
+						</tr>
+					</tbody>	
+				</table>
+				<div class="row" *ngIf="show == false">
+					<div class="col-md-4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+					<div class="col-md-4" style="color:red;font-weight: bold;" >
+						No Open Tickets Available
+					</div>
+					<div class="col-md-4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+				</div>
+			<pagination-controls (pageChange)="p = $event" *ngIf="show == true"></pagination-controls>			
+			</p-tabPanel>
+			<p-tabPanel header="New Tickets">
+				<h3>New Tickets</h3>
+				<div class="row">
+					<div class="col-md-12 ">
+						<mat-form-field class="example-full-width">
+							<input matInput  type="text" [value]="filterText"
+							[placeholder]="filterPlaceholder" [formControl]="filterInput" />
+							<button mat-button *ngIf="filterText" matSuffix mat-icon-button aria-label="Clear" (click)="filterText=''">
+								<mat-icon>close</mat-icon>
+							</button>
+						</mat-form-field>
+					</div>
+				</div>
+				<table class="table table-striped w-auto" *ngIf="show == true">
+					<thead>
+						<h5><b>Total Count:</b></h5>{{ticketsData?.length}}
+						<tr>
+							<th>Ticket ID</th>
+							<th>Subject</th>
+							<th>User</th>
+							<th>Date</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="info" *ngFor="let ticket of ticketsData | filter:{user:filterText} | paginate: { itemsPerPage: 10, currentPage: p }" style="font-weight: bold;" (click)="openTicket(ticket.id);">
+							<td>#{{ticket.id}}</td>
+							<td>{{ticket.subject}}</td>
+							<td>{{ticket.user}}</td>
+							<td>{{ticket.date}}</td>
+						</tr>
+					</tbody>					
+				</table>
+				<div class="row" *ngIf="show == false">
+					<div class="col-md-4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+					<div class="col-md-4" style="color:red;font-weight: bold;">
+						No New Tickets Available
+					</div>
+					<div class="col-md-4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+				</div>
+			<pagination-controls (pageChange)="p = $event" *ngIf="show == true"></pagination-controls>			
+			</p-tabPanel>
+			<p-tabPanel header="Closed Tickets">
+				<h3>Closed Tickets</h3>
+				<div class="row">
+					<div class="col-md-12 ">
+						<mat-form-field class="example-full-width">
+							<input matInput  type="text" [value]="filterText"
+							[placeholder]="filterPlaceholder" [formControl]="filterInput" />
+							<button mat-button *ngIf="filterText" matSuffix mat-icon-button aria-label="Clear" (click)="filterText=''">
+								<mat-icon>close</mat-icon>
+							</button>
+						</mat-form-field>
+					</div>
+				</div>
+				<table class="table table-striped w-auto" *ngIf="show == true">
+					<thead>
+						<h5><b>Total Count:</b></h5>{{ticketsData?.length}}
+						<tr>
+							<th>Ticket ID</th>
+							<th>Subject</th>
+							<th>User</th>
+							<th>Date</th>
+						</tr>
+					</thead>
+					<tbody >
+						<tr class="info" *ngFor="let ticket of ticketsData | filter:{user:filterText} | paginate: { itemsPerPage: 10, currentPage: p }" (click)="openTicket(ticket.id);">
+							<td>#{{ticket.id}}</td>
+							<td>{{ticket.subject}}</td>
+							<td>{{ticket.user}}</td>
+							<td>{{ticket.date}}</td>
+						</tr>
+					</tbody>	
+									
+				</table>
+				<div class="row" *ngIf="show == false">
+					<div class="col-md-4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+					<div class="col-md-4" style="color:red;font-weight: bold;">
+						No Closed Tickets Available
+					</div>
+					<div class="col-md-4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+				</div>
+			<pagination-controls (pageChange)="p = $event" *ngIf="show == true"></pagination-controls>			
+			</p-tabPanel>
+			<p-tabPanel header="Email Tracker" [selected]="i == 5">
+				<div [nbSpinner]="loadingbutton" nbSpinnerStatus="primary">
+					<h3>Email Tracker</h3>
+					<mat-form-field>
+						<input matInput [matDatepicker]="picker" placeholder="Choose a month and year" [formControl]="date">
+						<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+						<mat-datepicker #picker (monthSelected)="monthSelected($event)" startView="multi-year"></mat-datepicker>
+					</mat-form-field>
+					<p-chart  class="titleWrap" type="pie" [data]="email_pie" *ngIf = 'show_emailPie == 1'></p-chart>		
+				</div>
+			</p-tabPanel>
+			<p-tabPanel header="SMS Tracker" [selected]="i == 6">
+				<div [nbSpinner]="loadingbutton" nbSpinnerStatus="primary">
+					<h3>SMS Tracker</h3>
+					<br>
+					<h5 style="color: red">Note :- Data last updated on {{ yesterday }}-{{ month }}-{{ year }}  11:59:59</h5>
+					<mat-form-field>
+						<input matInput [matDatepicker]="picker1" placeholder="Choose a month and year" [formControl]="date">
+						<mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+						<mat-datepicker #picker1 (monthSelected)="monthSelectedSMS($event)" startView="multi-year"></mat-datepicker>
+					</mat-form-field>
+					<p-chart  class="titleWrap" type="pie" [data]="sms_pie" *ngIf = 'show_smsPie == 1'></p-chart>		
+				</div>
+			</p-tabPanel>
+		</p-tabView>    
+	</nb-card-body>
+</nb-card>
+	

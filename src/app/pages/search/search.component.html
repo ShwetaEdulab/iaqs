@@ -1,0 +1,155 @@
+<div class="row">
+    <div class="col-md-12">
+        <nb-card status="success"  [nbSpinner]="loading">
+            <nb-card-header>
+                <h1>Search</h1>
+            </nb-card-header>
+            <nb-card-body>
+            <div class="row">
+                <div class="col-md-2"> </div>
+                <div class="col-md-6">
+                        <form class="example-form">
+                            <input type="text" name="search_college_course" [(ngModel)]="search_college_course" nbInput fullWidth class="input-full-width input-md input-round" shape="round" placeholder="Search By Course" style="width:90%;"/>
+                        </form>    
+                </div>
+                <!-- <div class="col-md-1">
+                        <div > 
+                            <button (click)="startSearch()" nbButton outline status="success" class="btn-success btn-outline"  >College</button>
+                        </div>
+                </div> -->
+                <div class="col-md-2">
+                    <div > 
+                        <button (click)="courseSearch()" nbButton outline status="success" class="btn-success btn-outline"  >Course</button>
+                    </div>
+                </div>
+            </div>
+            <!-- <br>
+            <br>
+            <div class="row"  *ngIf="collegeFlag==true || courseFlag==true"  >
+                <div class="col-md-4"></div>
+                <div class="col-md-8">
+                    <div class="row">
+                            <div class="col-md-2"></div> 
+                        <div class="col-md-8"> 
+                            <h1 style=" visibility: visible;"><b>OR</b></h1>
+                        </div>
+                        <div class="col-md-2"></div> 
+                    </div>
+                    <div class="row"> 
+                        <div class="col-md-2"></div> 
+                        <div class="col-md-8"> 
+                            <button  (click)="openQuickApply()" nbButton outline status="success" class="btn-success btn-outline"  >Quick Apply</button>
+                        </div>
+                        <div class="col-md-2"></div> 
+                    </div>
+                </div>
+            </div>  -->
+            <br>
+            <br>
+                
+                <div class="row">
+                        <div class="col-md-12">
+                            <nb-card size="large">
+                                    <!-- <div *ngIf="collegeFlag==false && courseFlag==false">
+                                            <h1 style="text-align: center; visibility: visible;"><b>OR</b></h1>
+                                    </div> -->
+                                    <!-- <div class="col-xs-12" *ngIf="collegeFlag==false && courseFlag==false">
+                                            <div class="col-md-12" style="padding-top: 10%;">
+                                                <nb-card status="success"  >
+                                                    <nb-card-header style="text-align: center;"><b>Quick Apply</b></nb-card-header>
+                                                    <nb-card-body>
+                                                        <nb-alert status="danger" closable (close)="onClose()" *ngIf="Dropdown == 2">
+                                                            Please Select Course and Specialization!!!
+                                                        </nb-alert>
+                                                        <form [formGroup]="searchForm">
+                                                            <div class="row">
+                                                                <mat-form-field class="col-xl-6">
+                                                                    <mat-select placeholder="Select Course" [(ngModel)]="d" name="d"   formControlName="courseCtrl"  (ngModelChange)="getspecialization($event)">
+                                                                        <mat-option *ngFor="let d of searchCourses" [value]="d.name">
+                                                                        {{d.name}}
+                                                                        </mat-option>
+                                                                    </mat-select>
+                                                                </mat-form-field>
+                                                                <mat-form-field class="col-xl-6">
+                                                                    <mat-select placeholder="Select Specialization" [(ngModel)]="spec" name="spec" formControlName="specializationCtrl">
+                                                                        <mat-option *ngFor="let spec of searchSpecialization" [value]="spec.name">
+                                                                        {{spec.name}}
+                                                                        </mat-option>
+                                                                    </mat-select>
+                                                                </mat-form-field>
+                                                            </div>
+                                                            </form>
+                                                    </nb-card-body>
+                                                    <nb-card-footer>
+                                                            <div class="row">
+                                                                    <div class="offset-lg-4"></div><button nbButton  status="info" (click)="onApply()" class="col-lg-4">Apply</button>
+                                                            </div>
+                                                    </nb-card-footer>
+                                                </nb-card>
+                                        </div>
+                                    </div> -->
+                                <nb-card-header *ngIf="collegeFlag==true">
+                                        <div *ngIf="collegeCount > 0">
+                                            {{Result_title}} search results <span style="float:right;">Total : {{collegeCount}}</span>
+                                        </div>
+                                        <div *ngIf="collegeCount == 0">
+                                                <h3 style="text-align: center;">No Result Found</h3>
+                                        </div>
+                                </nb-card-header>
+                                <nb-card-header *ngIf="courseFlag==true">
+                                    <div *ngIf="courseCount > 0">
+                                        {{Result_title}} search results <span style="float:right;">Total : {{courseCount}}</span>
+                                        <!-- <input class="form-control" type="text" [value]="filterText"
+                                        [placeholder]="filterPlaceholder" [formControl]="filterInput" /> -->
+                                    </div>
+                                    <div *ngIf="courseCount == 0">
+                                            <h3 style="text-align: center;">No Result Found</h3>
+                                    </div>
+                            </nb-card-header>
+                                <nb-list  *ngIf="collegeFlag==true" >
+                                    <nb-list-item *ngFor="let college of colleges | paginate: { itemsPerPage: 10, currentPage: p }" style="padding: 2rem">
+                                        <div class="row">
+                            
+                                            <div class="col-lg-3" colListPad>
+                                                <img class="img-responsive" style= "width: 100px;" src="{{college.logo}}"/> 
+                                            </div>
+                                            <div class="col-lg-7">
+                                                <h3> {{ college.name }} </h3> <br>Address : {{ college.location }}<br>
+                                            </div>
+                                            <div class="col-lg-2">
+                                                <a (click)="collegeList(college.id)" class="btn btn-primary">View More</a>
+                                            </div>
+                                
+                                        </div>
+                                        
+                                    </nb-list-item>
+                                </nb-list>
+                                <nb-list  *ngIf="courseFlag==true">
+                                    <nb-list-item  *ngFor="let course of courses  | filter:{college_name: filterText}" style="padding: 2rem">
+                                        <div class="row">
+                                            <div class="col-lg-3" colListPad>
+                                                <img class="img-responsive" style= "width: 100px;" src="{{course.logo}}"/> 
+                                            </div>
+                                            <div class="col-lg-7">
+                                                <h3> College : {{ course?.college_name }} </h3> <br> Address : {{ course?.location }} <br><br>Degree : {{ course?.degree }}<br><br> {{ course?.specialization }} <br>
+                                            </div>
+                                            <div class="col-lg-1">
+                                                <a status="info" (click)="redirectToPeers(course.college_id,course.id);" class="btn btn-primary" tabindex="0"> <a class="ion ion-ios-telephone" style="color:white;"></a> Peers </a>
+                                            </div>
+                                            <br>
+                                            <div class="col-lg-1">
+                                                
+                                                <a (click)="CourseList(course.id,course.specialization)" style="color:white;" class="btn btn-primary">View More</a>
+                                            </div>
+                                        </div>
+                                        
+                                    </nb-list-item>
+                                </nb-list>
+                                <pagination-controls  *ngIf="collegeFlag==true" (pageChange)="p_new = $event"></pagination-controls>
+                        </nb-card>
+                        </div>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>

@@ -1,0 +1,68 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+.example-container {
+    height: 400px;
+    overflow: auto;
+  }
+table {
+    width: 100%;
+  }
+
+button {
+  height:20px; 
+  width:20px; 
+  font-size: 75%; 
+  text-align: center;
+}
+
+.example-full-width {
+  width: 50%;
+}
+
+.fa {
+  width: 18px;
+  text-align: center;
+  font-size: 50px;
+  visibility: visible;
+}
+
+.fa {
+  
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: 20px;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.sp {
+  
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: 25px;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  
+}
+
+i:hover {
+  //background-color: red;
+  font-size: xx-large;
+  font-family: Arial, Helvetica, sans-serif;
+  color: red;
+  outline-color : aqua;
+}
+
+.ion-email{
+  font-size: 25px;
+}
+
+.titleWrap{
+	font-size:22px;
+	color:#666666;
+	margin:10px 0;
+	border-bottom: 2px solid #c1c1c1;    
+}
+
+  

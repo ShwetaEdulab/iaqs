@@ -1,0 +1,34 @@
+<div ngbDropdown>
+    <!-- <button class="btn btn-outline-primary" id="dropdownConfig" ngbDropdownToggle>Toggle</button>
+    <div ngbDropdownMenu aria-labelledby="dropdownConfig">
+      <button class="dropdown-item">Action - 1</button>
+      <button class="dropdown-item">Another Action</button>
+      <button class="dropdown-item">Something else is here</button>
+    </div> -->
+    <button class="dropdown-toggle" id="msg-dd1" ngbDropdownToggle>
+        <i class="fa fa-bell-o"></i><span>8</span>
+  
+        <div class="notification-ring"></div>
+      </button>
+
+      <div  ngbDropdownMenu class="top-dropdown-menu dropdown-menu" aria-labelledby="msg-dd1">
+        <i class="dropdown-arr"></i>
+  
+        <div class="header clearfix">
+          <strong>Notifications</strong>
+          <a href>Mark All as Read</a>
+          <a href>Settings</a>
+        </div>
+        <!-- <div class="msg-list">
+          <a *ngFor="let msg of notifications" href class="clearfix">
+            <div class="img-area"><img [ngClass]="{'photo-msg-item': !msg.image}" alt="shweta"></div>
+            <div class="msg-area">
+              <div>{{ msg.text }}</div>
+              <span>{{ msg.time }}</span>
+            </div>
+          </a>
+        </div> -->
+        <a href>See all notifications</a>
+      </div>
+  </div>
+  

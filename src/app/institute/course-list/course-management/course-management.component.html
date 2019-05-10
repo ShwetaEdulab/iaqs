@@ -1,0 +1,413 @@
+<nb-card>
+  <nb-card-header>
+    <div class="modal-header">               
+      <div class="popupTitle"><h5>Course Management System</h5></div>
+      <button type="button" nbButton shape="semi-round" size="small" (click)="backtocourse();">Back to Course Listing</button>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <p-tabView>
+      <p-tabPanel header="Course Overview">
+        <h5>Course Details</h5>
+        <form [formGroup]="courseOverviewForm">
+          <div class="row">
+            <div class="col-xl-12">
+              <label>Select Degree<span style="color:red;">*</span></label>
+              <mat-form-field>
+                <mat-select [(ngModel)]="degreeName" name="selectedDegree" formControlName="degreeNameCtrl">
+                  <mat-option *ngFor="let degreeNameValue of degreeNameValues" [value]="degreeNameValue">
+                    {{degreeNameValue}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class ="row">
+            <div class="col-xl-6">
+              <div class="form-group">
+                <label for="courseNameCtrl">Course Name<span style="color:red;">*</span></label>
+                <input  type="text" nbInput class="form-control" ngModel="{{courseOverviewValues?.name}}" id="courseName"
+                  formControlName="courseNameCtrl" [ngClass]="{'form-control-danger': courseOverviewForm.controls.courseNameCtrl.invalid && (courseOverviewForm.controls.courseNameCtrl.dirty || courseOverviewForm.controls.courseNameCtrl.touched)}"
+                  placeholder="Course Name">
+              </div>
+            </div>
+            <div class="col-xl-6">
+              <div class="form-group">
+                <label>Course Specialization<span style="color:red;">*</span></label>
+                <input type="text" nbInput class="form-control" ngModel="{{courseOverviewValues?.specialization}}" id="courseSpecialization"
+                    formControlName="courseSpecializationCtrl" [ngClass]="{'form-control-danger': courseOverviewForm.controls.courseSpecializationCtrl.invalid && (courseOverviewForm.controls.courseSpecializationCtrl.dirty || courseOverviewForm.controls.courseSpecializationCtrl.touched)}"
+                    placeholder="Course Specialization">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xl-2">Course Duration:<span style="color:red;">*</span></div>
+            <div class="col-xl-1">From Date</div>
+            <div class="col-xl-4">
+              <div class="form-group">
+                <input readonly class="form-control" [(ngModel)]="course_from"  formControlName="fromDateCtrl" nbInput
+                  placeholder="From Date" [nbDatepicker]="frompicker" [ngClass]="{'form-control-danger': courseOverviewForm.controls.fromDateCtrl.invalid && (courseOverviewForm.controls.fromDateCtrl.dirty || courseOverviewForm.controls.fromDateCtrl.touched)}">
+                  <nb-datepicker #frompicker [(date)]="date"></nb-datepicker>
+              </div>
+            </div>
+            <div class="col-xl-1">To Date</div>
+            <div class="col-xl-4">
+              <div class="form-group">
+                <input readonly class="form-control" [(ngModel)]="course_to" formControlName="toDateCtrl" nbInput
+                placeholder="To Date" [nbDatepicker]="topicker" [ngClass]="{'form-control-danger': courseOverviewForm.controls.toDateCtrl.invalid && (courseOverviewForm.controls.toDateCtrl.dirty || courseOverviewForm.controls.toDateCtrl.touched)}">
+                <nb-datepicker #topicker [(date)]="date" [min]="max"></nb-datepicker>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xl-2">Intake Details:</div>
+            <div class="col-xl-1">From Date</div>
+            <div class="col-xl-4">
+              <div class="form-group">
+                <input readonly class="form-control" [(ngModel)]="intake_from" formControlName="intakefromDateCtrl" nbInput
+                placeholder="From Date" [nbDatepicker]="intakefrompicker" [ngClass]="{'form-control-danger': courseOverviewForm.controls.intakefromDateCtrl.invalid && (courseOverviewForm.controls.intakefromDateCtrl.dirty || courseOverviewForm.controls.intakefromDateCtrl.touched)}" >
+                <nb-datepicker #intakefrompicker [(date)]="date"></nb-datepicker>
+              </div>
+            </div>
+            <div class="col-xl-1">To Date</div>
+            <div class="col-xl-4">
+              <div class="form-group">
+                <input readonly class="form-control" [(ngModel)]="intake_to" formControlName="intaketoDateCtrl" nbInput
+                placeholder="To Date" [nbDatepicker]="intaketopicker" [ngClass]="{'form-control-danger': courseOverviewForm.controls.intaketoDateCtrl.invalid && (courseOverviewForm.controls.intaketoDateCtrl.dirty || courseOverviewForm.controls.intaketoDateCtrl.touched)}">
+                <nb-datepicker #intaketopicker [(date)]="date" [min]="max"></nb-datepicker>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xl-2">Intake Seats Category Wise:</div>
+            <div class="col-xl-1">
+              <div class="form-group">
+                <label>S.C.</label><br>
+                <input type="text"  class="form-control" ngModel="{{courseOverviewValues?.SC_seats}}" formControlName="scseatsCtrl"
+                placeholder="S.C. Seats">
+              </div>
+            </div>
+            <div class="col-xl-1">
+              <div class="form-group">
+                <label>S.T.</label><br>
+                <input type="text"  class="form-control" ngModel="{{courseOverviewValues?.ST_seats}}" formControlName="stseatsCtrl"
+                placeholder="S.T. Seats">
+              </div>
+            </div>
+            <div class="col-xl-1">
+              <div class="form-group">
+                <label>D.T.(A)</label><br>
+                <input type="text"  class="form-control" ngModel="{{courseOverviewValues?.DTA_seats}}" formControlName="dtaseatsCtrl"
+                placeholder="D.T.(A) Seats">
+              </div>
+            </div>
+            <div class="col-xl-1">
+              <div class="form-group">
+                <label>N.T.(B)</label><br>
+                <input type="text"  class="form-control" formControlName="ntbseatsCtrl" ngModel="{{courseOverviewValues?.NTB_seats}}"
+                placeholder="N.T.(B) Seats">
+              </div>
+            </div>
+            <div class="col-xl-1">
+              <div class="form-group">
+                <label>N.T.(C)</label><br>
+                <input type="text"  class="form-control" formControlName="ntcseatsCtrl" ngModel="{{courseOverviewValues?.NTC_seats}}"
+                placeholder="N.T.(C) Seats">
+              </div>
+            </div>
+            <div class="col-xl-1">
+              <div class="form-group">
+                <label>N.T.(D)</label><br>
+                <input type="text"  class="form-control" formControlName="ntdseatsCtrl" ngModel="{{courseOverviewValues?.NTD_seats}}"
+                placeholder="N.T.(D) Seats">
+              </div>
+            </div>
+            <div class="col-xl-1">
+              <div class="form-group">
+                <label>O.B.C.</label><br>
+                <input type="text"  class="form-control" formControlName="obcseatsCtrl" ngModel="{{courseOverviewValues?.OBC_seats}}"
+                placeholder="O.B.C. Seats">
+              </div>
+            </div>
+            <div class="col-xl-1">
+              <div class="form-group">
+                <label>General</label><br>
+                <input type="text"  class="form-control" formControlName="generalseatsCtrl" ngModel="{{courseOverviewValues?.GENERAL_seats}}"
+                placeholder="General Seats">
+              </div>
+            </div>
+            <div class="col-xl-1">
+              <div class="form-group">
+                <label>Total Seats</label><br>
+                <input type="text"  class="form-control" ngModel="{{courseOverviewValues?.seats}}" formControlName="TotalseatsCtrl"
+                placeholder="Total Seats">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xl-12">
+              <div class="form-group">
+                <label>Fees Details (Fees as per Indian student fees X 1)</label>
+                <input type="text" class="form-control" ngModel="{{courseOverviewValues?.fees}}" formControlName="courseFeeCtrl"
+                placeholder="Total Fees For First Year (In INR)">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xl-1">
+              Bank Details: 
+            </div>
+            <div class="col-xl-1">
+              
+            </div>
+            <div class="col-xl-8">
+              <div class="form-group">
+                <label>Name of the Bank</label>
+                <input type="text" class="form-control" ngModel="{{courseOverviewValues?.bank_name}}" formControlName="bankNameCtrl"
+                placeholder="Bank Name">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xl-1">
+            </div>
+            <div class="col-xl-1">
+            </div>
+            <div class="col-xl-4">
+              <div class="form-group">
+                <label>Branch of the Bank</label>
+                <input type="text" class="form-control"  ngModel="{{courseOverviewValues?.bank_branch}}" formControlName="branchNameCtrl"
+                placeholder="Branch of the Bank">
+              </div>
+            </div>
+            <div class="col-xl-4">
+              <div class="form-group">
+                <label>Account Name</label>
+                <input type="text" class="form-control" ngModel="{{courseOverviewValues?.account_name}}" formControlName="accountNameCtrl" 
+                placeholder="Account Name">
+              </div>
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-xl-1">
+            </div>
+            <div class="col-xl-1">
+            </div>
+            <div class="col-xl-4">
+              <div class="form-group">
+                <label>Account Number</label>
+                <input type="text" class="form-control" ngModel="{{courseOverviewValues?.acc_num}}" formControlName="accNoCtrl" 
+                placeholder="Account Number">
+              </div>
+            </div>
+            <div class="col-xl-4">
+              <div class="form-group">
+                <label>IFSC Code</label>
+                <input type="text" class="form-control" ngModel="{{courseOverviewValues?.IFSC}}" formControlName="IFSCCodeCtrl"
+                placeholder="IFSC Code">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xl-12">
+              <div class="form-group">
+                <label>Course Overview</label>
+                <textarea class="form-control" ngModel="{{courseOverviewValues?.course_overview}}" placeholder="Course Overview" formControlName="courseOverviewCtrl"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xl-12">
+              <div class="form-group">
+                <label>Course Description</label>
+                <textarea class="form-control" ngModel="{{courseOverviewValues?.course_description}}" placeholder="Course Description" formControlName="courseDescriptionCtrl"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xl-12">
+              <div class="form-group">
+                <label>Admission Procedure</label>
+                <textarea class="form-control" ngModel="{{courseOverviewValues?.admission_procedure}}" placeholder="Admission Procedure" formControlName="admissionProcedureCtrl"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-1">
+              Students Population: 
+            </div>
+            <div class="col-md-4 popStyle" style="border-right:1px solid #c1c1c1;">
+                <div class="form-group">
+                  <div class="col-md-12">
+                    <div class="col-md-3"><img class="promoImg" src="{{serverUrl}}/institute_assets/img/popFemale.png" width="40" /></div>
+                    <div class="col-md-7" style="padding-top:10px;">
+                      <div class="row priTitle populationFont" style="margin-bottom:0;">Female Population</div>
+                      <div class="row">
+                        <input type="text" class="form-control" ngModel="{{courseOverviewValues?.female}}" formControlName="femalepopulationCtrl" 
+                        [ngClass]="{'form-control-danger': courseOverviewForm.controls.femalepopulationCtrl.invalid && (courseOverviewForm.controls.femalepopulationCtrl.dirty || courseOverviewForm.controls.femalepopulationCtrl.touched)}" placeholder="Enter No">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-4 popStyle">
+              <div class="form-group">
+                <div class="col-md-12">
+                  <div class="col-md-3"><img class="promoImg" src="{{serverUrl}}/institute_assets/img/popMale.png" width="40" /></div>
+                  <div class="col-md-7" style="padding-top:10px;">
+                    <div class="row priTitle populationFont" style="margin-bottom:0;">Male Population</div>
+                    <div class="row">
+                      <input type="text" class="form-control" ngModel="{{courseOverviewValues?.male}}" formControlName="malepopulationCtrl" 
+                      [ngClass]="{'form-control-danger': courseOverviewForm.controls.malepopulationCtrl.invalid && (courseOverviewForm.controls.malepopulationCtrl.dirty || courseOverviewForm.controls.malepopulationCtrl.touched)}" placeholder="Enter No">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-1"></div>
+          </div>
+          <br><br>
+          <div class="row">  
+            <div class="col-xl-5">
+              <label> Last date for submission of completed application form :</label>
+            </div>
+            <div class="col-xl-4">
+              <div class="form-group"> 
+                <input nbInput class="form-control" formControlName="appFormDateCtrl"  placeholder="submission date" [nbDatepicker]="ngmodel" [(ngModel)]="appdate">
+                <nb-datepicker #ngmodel [(date)]="date"></nb-datepicker>
+              </div>
+            </div> 
+          </div>
+          <div class="row">  
+            <div class="col-xl-5">
+              <label>Last date of submission with late fee :</label>
+            </div>
+            <div class="col-xl-4">
+              <div class="form-group"> 
+                <input nbInput class="form-control" formControlName="LateFeeFormDateCtrl"  placeholder="submission with late fees" [nbDatepicker]="ngmodel2" [(ngModel)]="latedate">
+                <nb-datepicker #ngmodel2 [(date)]="date"></nb-datepicker>
+              </div>
+            </div> 
+          </div>
+          <div class="row">  
+            <div class="col-md-5">
+              <label>Date of commencement of course :</label>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group"> 
+                <div style="width:200px">
+                  <input nbInput class="form-control" formControlName="Date_of_commencementctrl"  placeholder="date of commencement" [nbDatepicker]="ngmodel1" [(ngModel)]="commencementdate">
+                  <nb-datepicker #ngmodel1 [(date)]="date" ></nb-datepicker>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group"> 
+                <div style="width:200px">
+                  <p-calendar class="form-control" [readonlyInput]="true" id="inputPITime" formControlName="Date_of_commencement_timectrl" [(ngModel)]="commencementtime" [timeOnly]="true"></p-calendar><br><br>
+                  <!-- <input [ngxTimepicker]="picker1" id="inputPITime" formControlName="Date_of_commencement_timectrl" [(ngModel)]="commencementtime" nbInput 
+                  placeholder="Select Time " name="onlineTime"><br>
+                  <ngx-material-timepicker #picker1></ngx-material-timepicker><br> -->
+                </div>
+              
+              </div>
+
+            </div> 
+          </div>
+
+          <div class="row">
+            <div class="col-xl-12" style="text-align: center;">
+              <button nbButton size="xsmall" status="info" (click)="saveCourseOverview()">Save</button>
+            </div>
+          </div>
+        </form>
+        <div class="row" *ngIf="saveData == true">
+          <div class="col-xl-12" style="text-align: center; color: red">
+            Course Details save successfully
+          </div>
+        </div>
+      </p-tabPanel>
+      <p-tabPanel header="Course Curriculum" [disabled]="courseCheck">
+        <div class="modal-header">
+          <div class="popupTitle"></div>
+          <button type="button" nbButton shape="semi-round" size="small" (click)="addCurriculum(null);">Add New</button>
+        </div>
+        <div class="row courseBottomBorder noneBorderBotm">
+          <div class="col-xl-12 academicColBorder borderBotm">
+            <div class="row courseUserHeader rowBorder">
+              <div class="col-xl-12 padTopBottom seatsHeader">
+                <h4>Course Curriculum for {{courseOverviewValues?.specialization}} {{courseOverviewValues?.name}}</h4>
+              </div><span class="col-xl-12 error" id="deleteCurriculumErr"></span>
+              <div class="col-xl-2">
+                <h5>No</h5>
+              </div>
+              <div class="col-xl-3">
+                <h5>Semester</h5>
+              </div>
+              <div class="col-xl-3">
+                <h5>Subjects</h5>
+              </div>
+              <div class="col-xl-4">
+                <h5>Action</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="curriculumValues.academics.length > 0">
+          <div *ngFor="let academic of curriculumValues.academics;index as i;" class="row userDetailsRow">
+              <div class="col-xl-2">{{i+1}}</div>
+              <div class="col-xl-3"><span class="curriculumSemName">{{academic.semester}}</span></div>
+              <div class="col-xl-3">
+                <ul *ngFor="let subject of academic.subjects">
+                  <li>{{subject}}</li>
+                </ul>
+              </div>
+              <div class="col-xl-4">
+                <button class="courseEditBtn" type="button" nbButton (click) = "addCurriculum(academic.id)">Edit</button>
+                <button class="courseDeleteBtn degreeManDelBtn" nbButton (click) = "deleteCurriculum(academic.id)" type="button">Delete</button>
+              </div>
+            </div>
+        </div>
+        <div *ngIf="curriculumValues.academics.length == 0">
+          <div class="row userDetailsRow">
+            <div class="col-xl-12">
+                No curriculum found
+            </div>
+          </div>
+        </div>
+      </p-tabPanel>
+      <p-tabPanel header="Faculty" [disabled]="courseCheck">
+        <div class="modal-header">               
+          <div class="popupTitle"><h4>List of faculties</h4></div>
+          <button nbButton shape="semi-round" size="small" outline (click)="addFaculty();">Add New</button>
+        </div>
+        <div class="row" *ngIf="facultyValues.length > 0">
+         
+            <div *ngFor="let facultyValue of facultyValues" class="col-xl-4 postFacultyMargin">
+              <div class="postFacultyBordr">
+                <div class="row">
+                  <div class="col-xl-6"><img class="center" src="{{facultyValue.profile_pic}}" /></div>
+                  <div class="col-xl-6">
+                    <div class="col-xl-10">
+                      <div class="priUpWrap nonBorder leftText">
+                        <div class="priSubName">{{facultyValue.name}}</div>
+                        <div class="priSubDetail">{{facultyValue.designation}}</div>
+                        <div class="priSubDetail">{{facultyValue.department}}</div>
+                        <div class="priSubDetail">{{facultyValue.qualification}}</div>
+                      </div>
+                    </div>
+                    <div class="col-xl-2"><a class="deleteFaculty" (click)="deleteFaculty(facultyValue.id)"><img class="deleteImg" src="{{serverUrl}}/institute_assets/img/delete.png" width="22" /></a></div>
+                  </div>
+                </div>
+              </div>
+           
+          </div>
+          <div *ngIf="facultyValues.length == 0">
+            <div class="col-xl-12 center">No faculties found</div>
+          </div>
+        </div>
+      </p-tabPanel>
+    </p-tabView>
+  </nb-card-body>
+</nb-card>

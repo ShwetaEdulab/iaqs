@@ -1,0 +1,72 @@
+<nb-card>
+	<nb-card-body>
+		<div class="titleWrap">
+			<label>Student Management</label>
+		</div>	
+		<div class="row tablessWrap">
+			<div class="col-lg-6 studentStatusCount">Total number of <font color="#71ab30"><b>active</b></font> students: <b>{{active?.active}}</b></div>
+			<div class="col-lg-6 studentStatusCount">Total number of <font color="#dc072a"><b>inactive</b></font> students: <b>{{active?.inactive}}</b></div>			
+		</div>
+		<div class="row">
+			<div class="col-lg-6 ">
+				<mat-form-field class="example-full-width">
+					<input matInput  type="text" [value]="filterText"
+					[placeholder]="filterPlaceholder" [formControl]="filterInput" />
+					<button mat-button *ngIf="filterText" matSuffix mat-icon-button aria-label="Clear" (click)="filterText=''">
+					<mat-icon>close</mat-icon>
+					</button>
+				</mat-form-field>
+			</div>
+			<div class="col-lg-3 ">
+				<mat-form-field>
+					<mat-select placeholder="select Year"[(ngModel)]="selectedYear" name="selectedYear" id="yearCtrl"  (ngModelChange)="filterYear($event)" >
+						<mat-option value="2017">2017-2018</mat-option>
+						<mat-option value="2018">2018-2019</mat-option>
+						<mat-option value="2019">2019-2020</mat-option>
+					</mat-select>
+				</mat-form-field>
+			</div>
+			
+		</div>
+		<table class="table table-striped w-auto">
+				<thead>
+					<h5><b>Filtered student count: </b></h5>{{studentdata?.length}}
+					<tr>
+						<th>Sr.no</th>
+						<th>Full Name</th>
+						<th>Email Address</th>
+						<!-- <th>City</th>
+						<th>State</th> -->
+						<!-- <th>Country Birth</th>
+						<th>Country Id</th> -->
+						<th>Interested Courses</th>
+						<th>Course Applied</th>
+						<th>Registered Date</th>
+						<th>Action</th>
+						<th>Profile Completeness</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="info" *ngFor="let student of studentdata | filter:{name:filterText,email:filterText,courses:filterText,city:filterText,state:filterText,country: filterText,stu_name : filterText,country_name:filterText} : false | paginate: { itemsPerPage: 10, currentPage: p } ;let i=index; ">
+						<th scope="row">{{ i + 1}}</th>
+						<td>{{student?.name}}</td>
+						<td>{{student?.email}}</td>
+						<!-- <td>{{student?.city}}</td>
+						<td>{{student?.state}}</td> -->
+						<!-- <td>{{student?.country}}</td>
+						<td>{{student?.country_id}}</td> -->
+						<td>{{student?.interested_courses}}</td>
+						<td>{{student.courses ? student.courses : 'Not applied'}}</td>
+						<td>{{student.registerDate}}</td>
+						<td>
+							<i class="fa ion-person" status="info" nbPopover="View More" nbPopoverMode="hover" (click)="viewMore('studentmgmt',student.id);"></i><br>
+							<i class="fa ion-email" status="info" nbPopover="Raise Ticket" nbPopoverMode="hover" (click)="Ticket(student.email);"></i>										
+						</td>	
+						<td><nb-progress-bar [value]="student.profile_completeness" outline status="info" [displayValue]="true"></nb-progress-bar></td>				
+					</tr>
+				</tbody>				
+			</table>
+			<pagination-controls (pageChange)="p = $event"></pagination-controls>
+  </nb-card-body>
+</nb-card>
+  

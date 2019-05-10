@@ -1,0 +1,143 @@
+<nb-actions size="large">
+   <nb-action icon="ion-arrow-left-c"  (click)="Back()"></nb-action>
+</nb-actions>
+<nb-card size="large">
+   <nb-card-body> 
+      <nb-stepper orientation="horizontal">
+         <nb-step label="Personal" [completed]="true">
+            <h3>Personal Information</h3>
+               <nb-card>
+                  <table class="" border="1" bordercolor="#c4c4c4" style="width:100%">
+                     <thead >
+                        <tr>
+                           <th class="tableHead">Full Name</th>
+                           <td class="tableData">{{studentData?.personal_info.name}}</td>
+                        </tr>
+                        <tr>
+                           <th class="tableHead">Email ID</th>
+                           <td class="tableData">{{studentData?.personal_info.email}}</td>
+                        </tr>
+                        <tr>
+                           <th class="tableHead">Mobile No</th>
+                           <td class="tableData">+{{studentData?.personal_info.countryCode}}-{{studentData?.personal_info.mobile}}</td>
+                        </tr>
+                        <tr>
+                           <th class="tableHead">Date of Birth</th>
+                           <td class="tableData">{{studentData?.personal_info.dob}}</td>
+                        </tr>
+                        <tr>
+                           <th class="tableHead">Gender</th>
+                           <td class="tableData">{{studentData?.personal_info.gender}}</td>
+                        </tr>
+                        <tr>
+                           <th class="tableHead">City</th>
+                           <td class="tableData">{{studentData?.personal_info.city}}</td>
+                        </tr>
+                        <tr>
+                           <th class="tableHead">State</th>
+                           <td class="tableData">{{studentData?.personal_info.state}}</td>
+                        </tr>
+                        <tr>
+                           <th class="tableHead">Country</th>
+                           <td class="tableData">{{studentData?.personal_info.country}}</td>
+                        </tr>
+                     </thead>
+                  </table>
+               </nb-card>
+         </nb-step>
+         <nb-step label="Nationality" [completed]="true">
+            <h3>Nationality Information</h3>
+            <nb-card>
+               <table class="" border="1" bordercolor="#c4c4c4" style="width:100%">
+                  <thead >
+                     <tr>
+                        <th class="tableHead">Address Line 1</th>
+                        <td class="tableData">{{studentData?.nationality_info.address1}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">Address Line 2</th>
+                        <td class="tableData">{{studentData?.nationality_info.address2}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">Country of Birth</th>
+                        <td class="tableData">{{studentData?.nationality_info.countryOfBirth}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">Citizenship</th>
+                        <td class="tableData">{{studentData?.nationality_info.citizenship}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">State</th>
+                        <td class="tableData">{{studentData?.nationality_info.state}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">City</th>
+                        <td class="tableData">{{studentData?.nationality_info.city}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">State</th>
+                        <td class="tableData">{{studentData?.nationality_info.state}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">Postal Code</th>
+                        <td class="tableData">{{studentData?.nationality_info.postalCode}}</td>
+                     </tr>
+                  </thead>
+               </table><br>
+            </nb-card>
+            <nb-card>
+               <h3>Passport Details</h3>
+               <table class="" border="1" bordercolor="#c4c4c4" style="width:100%">
+                  <thead >
+                     <tr>
+                        <th class="tableHead">Passport No</th>
+                        <td class="tableData">{{studentData?.nationality_info.passportNo}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">Date of issuance</th>
+                        <td class="tableData">{{studentData?.nationality_info.dateOfIssuance}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">Country of Issuance</th>
+                        <td class="tableData">{{studentData?.nationality_info.countryOfIssuance}}</td>
+                     </tr>
+                     <tr>
+                        <th class="tableHead">Expiry date</th>
+                        <td class="tableData">{{studentData?.nationality_info.passportExpDate}}</td>
+                     </tr>
+                  </thead>
+               </table>
+            </nb-card>
+         </nb-step>
+         <nb-step label="User Transcript" [completed]="true">
+            <h3>Re-Uploaded Documents By {{studentData?.personal_info.name}} </h3><br>
+            <div class="row">
+               <div class="col-md-3" *ngFor = "let data of userTranscripts">
+                  <div>
+                     <nb-card status="success" size="small">
+                        <nb-card-header >{{data?.name}}</nb-card-header>
+                        <nb-card-body>
+                           <div *ngIf="data?.extension=='pdf'">
+                              <img src="{{serverUrl}}/uiserver/front_assets/img/pdf1.png"  style="height:150px; width:150px;" (click)="download_transcripts(data?.file_path,data?.file_name);">
+                           </div>
+                           <div *ngIf="data?.extension != 'pdf'">
+                              <img class="img-responsive viewMoreImg" src="{{data?.image}}"/>
+                           </div>
+                        </nb-card-body>
+                        <nb-card-footer>
+                              <b><h4>{{data?.date}}</h4></b><br>
+                           <div class="row">
+                              <div *ngIf="data?.extension != 'pdf'"><i class="material-icons col-md-3" nbPopover="Download" nbPopoverMode="hover" (click)="download_transcripts(data?.file_path,data?.file_name);">get_app</i></div><br>
+                              <!-- <i class="fa ion-person col-md-3"  status="danger" nbPopover="View More" nbPopoverMode="hover"></i> -->
+                              <p-inputSwitch class="col-md-3" nbPopover="Request To Re-upload" nbPopoverMode="hover" [(ngModel)]="data.transcript_lock" (onChange)="requestToUpload($event,data?.name,data?.id,data?.user_id,data?.category)" inputId="{{data?.name}}"></p-inputSwitch>
+                              <i class="material-icons col-md-3" nbPopover="Transcript Ok" nbPopoverMode="hover" (click)="transcriptSetDefault(data?.id,studentData?.personal_info.email,data?.category)">thumb_up_alt</i>
+                           </div>
+                        </nb-card-footer>
+                     </nb-card> 
+                  </div>
+               </div>
+            </div>
+         </nb-step>
+      </nb-stepper>
+   </nb-card-body> 
+</nb-card>

@@ -1,0 +1,68 @@
+<div id="editPage" class="col-md-12">
+  <nb-card status="success">
+    <nb-card-header>Peer's Available</nb-card-header>
+    <nb-card-body>
+    <!-- <nb-card accent="success" status="info" >
+        <nb-card-header>Contact Peer's</nb-card-header>
+        <nb-card-body>
+          <div class="col-md-12" style="text-align: center;">
+            <img src="../../../assets/images/success.png" style="height:250px; width:250px;">
+            <div class="col-md-12" style="text-align: center; margin-top: 30px;">
+              <button class="col-md-2" nbButton hero status="primary" (click)="Edit()">Edit</button>
+            </div>
+          </div>
+        </nb-card-body>
+      </nb-card> -->
+      <nb-card *ngIf="available_counsellors != ' ' ">
+          <nb-card-body>
+                  <nb-list>
+                      <nb-list-item *ngFor="let peer of available_counsellors">
+                         <div class="row" *ngIf="peer.counsellor_status == 'online' ">
+                             <div class="col-md-3">
+                                 <img class="img-responsive" style= "width: 100px; height:100px;"  src="{{collegelist?.counsellor_img}}"/>
+                              </div>
+                              <div class="col-md-6">
+                                  <div class="peersAvaName">
+                                          <b>{{peer.name}}</b><br>
+                                  </div>
+                                  <div class="peersAvaTime">
+                                          <b>Available timing:</b> IST timing {{peer.available_from}} to {{peer.available_to}}
+                                  </div>
+                                  <div>
+                                          <b>Country:</b>  {{peer.country_name}}
+                                  </div>
+                              </div>
+                              <div class="col-md-3">
+                                  <div class="peersOnline">
+                                          <button class=" peersContactWrap"  (click)="onClick(peer.mobile,peer.counsellor_status)">Contact</button>
+                                          <div class="peersAvaStatus "><div class="peersAvaStatusDot"></div></div>
+                                  </div>
+                              </div>
+                          </div> 
+                          <div class="row" *ngIf="peer.counsellor_status == 'offline' ">
+                              <div class="col-md-3">
+                                  <img class="img-responsive" style= "width: 100px; height:100px;"  src="{{collegelist?.counsellor_img}}"/>
+                                  </div>
+                                  <div class="col-md-6">
+                                      <div class="peersAvaName">
+                                              <b>{{peer.name}}</b><br>
+                                      </div>
+                                      <div class="peersAvaTime">
+                                              <b>Available timing:</b> IST timing {{peer.available_from}} to {{peer.available_to}}
+                                      </div>
+                                      <div>
+                                              <b>Country:</b>  {{peer.country_name}}
+                                          </div>
+                                  </div>
+                                  <div class="col-md-3">
+                                          <button class="peersContactWrap" (click)="offlineClick(peer.id,peer.mobile,peer.counsellor_status,peer.available_from,peer.available_to)">Contact</button><div class="peersAvaStatus "><div class="peersAvaStatusDot"></div></div>
+                                  </div>
+                              </div> 
+                          
+                      </nb-list-item>
+                      </nb-list>
+          </nb-card-body>
+          </nb-card>
+    </nb-card-body>
+  </nb-card>
+</div>

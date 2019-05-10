@@ -1,0 +1,45 @@
+.titleWrap{
+	font-size:22px;
+	color:#666666;
+	margin:10px 0;
+	border-bottom: 2px solid #c1c1c1;    
+}
+
+:host nb-tab {
+	padding: 2.25rem;
+}
+
+.tableHead {
+	width: 30%;
+	padding: 8px;
+}
+
+.tableData {
+	width: 60%;
+	padding: 8px;
+}
+
+.row {
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+.text-center{
+	text-align: center;
+	text-align: -moz-center;
+	text-align: -webkit-center;
+}
+
+.qualifi p, .vice-qualifi p {
+	margin: 0;
+}
+.qualifi p:first-child {
+	padding: 0 0 15px 0;
+}
+
+.vice-qualifi p:first-child{
+	padding: 0 0 15px 0;
+}
+.qualifi {
+	padding: 15px 0;
+}

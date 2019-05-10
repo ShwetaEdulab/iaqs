@@ -1,0 +1,82 @@
+<nb-actions size="large">
+    <nb-action icon="ion-arrow-left-c"  (click)="backClicked()"></nb-action>
+</nb-actions>
+<div class="row">
+    <div class="col-md-6">
+        <nb-card [nbSpinner]="loading" nbSpinnerStatus="danger" nbSpinnerSize="xlarge">
+            <nb-card-header>Preferences 
+                    <button nbButton hero status="primary" (click)="getMoreColleges()" style="float:right;" *ngIf="total_pref< 10 && college_name?.length > 5 && flag1 == 0">Add More Colleges</button>
+                   
+            </nb-card-header>
+            <nb-card-body>
+                <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+                    <div class="example-box" *ngFor="let pref_list of preferences_colleges,let i = index" cdkDrag>
+                            {{i+1}} {{pref_list}} 
+                        <button class="subDropBtn col-md-2" (click)="change_pref(i)" *ngIf="college_name?.length > 5 && flag1 == 0">Change</button>      
+                    </div>
+                </div>
+            </nb-card-body>
+        </nb-card>
+        <nb-card [nbSpinner]="loading" nbSpinnerStatus="danger" nbSpinnerSize="xlarge" *ngIf="editFlag == 1">
+            <nb-card-header>Edited Preferences</nb-card-header>
+            <nb-card-body>
+                <input type="text" nbInput placeholder="Preference 1" ngModel="{{edit_preference?.pref1}}" class="col-md-8" [disabled]="true" style="border: 2px solid #c9ccd0;">
+                <input type="text" nbInput placeholder="Preference 2" ngModel="{{edit_preference?.pref2}}" class="col-md-8" [disabled]="true" style="border: 2px solid #c9ccd0;">
+                <input type="text" nbInput placeholder="Preference 3" ngModel="{{edit_preference?.pref3}}" class="col-md-8" [disabled]="true" style="border: 2px solid #c9ccd0;">
+                <input type="text" nbInput placeholder="Preference 4" ngModel="{{edit_preference?.pref4}}" class="col-md-8" [disabled]="true" style="border: 2px solid #c9ccd0;">
+                <input type="text" nbInput placeholder="Preference 5" ngModel="{{edit_preference?.pref5}}" class="col-md-8" [disabled]="true" style="border: 2px solid #c9ccd0;">
+            </nb-card-body> 
+        </nb-card>
+    </div>
+    <div class="col-md-6" *ngIf="moreColleges == 1">
+        <nb-alert status="danger" closable (close)="onClose()" *ngIf="alertFlag == 1">
+            You have already selected 10 preferences!!!!
+        </nb-alert>
+        <nb-card size='medium' [nbSpinner]="loading" nbSpinnerStatus="danger" nbSpinnerSize="xlarge">
+            <nb-card-header>Choose colleges from here</nb-card-header>
+            <nb-card-body>
+                <ul type="none">
+                    <nb-list>
+                        <nb-list-item *ngFor="let college of college_name">
+                            <input type="checkbox" ng-model="check" name="{{college.name}}" id="{{college.name}}" value="{{college.name}}" (click)="OptionsSelected($event)" /> 
+                            {{college.name}}
+                        </nb-list-item>
+                    </nb-list>
+                </ul>
+            </nb-card-body>
+        </nb-card>
+    </div>
+    <div class="col-md-6" *ngIf="changeColleges_pref == 1">
+        <nb-card size='medium' [nbSpinner]="loading" nbSpinnerStatus="danger" nbSpinnerSize="xlarge">
+            <nb-card-header>Choose colleges from here</nb-card-header>
+            <nb-card-body>
+                <ul type="none">
+                    <nb-list>
+                        <nb-list-item *ngFor="let college of college_name">
+                            <input type="radio" ng-model="check" name="{{college.name}}" id="{{college.name}}" value="{{college.name}}" (click)="setName(college.name)" /> 
+                            {{college.name}}
+                        </nb-list-item>
+                    </nb-list>
+                </ul>
+            </nb-card-body>
+        </nb-card>
+    </div>
+    <div class="col-md-12">
+        <nb-card *ngIf="flag1 == 1">
+            <nb-card-body>
+                <div class="row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
+                        <input  align="center" style="font-weight: 600;color: red;width:100%;outline:none;border:none;text-align: center;margin-bottom: 7px;padding: 0%" [(ngModel)]="errortext" name="error"/>
+                    </div>
+                    <div class="col-md-4"></div>
+                </div>
+                <button nbButton style="margin:auto;display:block" (click)="add_preferences()" status="primary" [nbSpinner]="loadingbutton" nbSpinnerStatus="primary">{{buttonName}}</button>    
+            </nb-card-body>
+        </nb-card> 
+    </div>
+  </div>
+  <div>
+    <p-confirmDialog [style]="{width: '425px'}"></p-confirmDialog>    
+  </div>
+  

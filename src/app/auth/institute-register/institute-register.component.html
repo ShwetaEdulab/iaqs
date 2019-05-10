@@ -1,0 +1,62 @@
+<h1 id="title" class="title">Register</h1>
+<nb-card status="success" width="100%">
+	<nb-card-body>
+		<form [formGroup]="InstituteRegisterForm" >
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="form-group">
+						<label for="inputInstituteName">Institute Name <span style="color:red;">*</span>
+						</label>
+						<input type="text" class="form-control" name="instituteName" id="inputInstituteName" formControlName="instituteNameCtrl" [ngClass]="{'form-control-danger': InstituteRegisterForm.controls.instituteNameCtrl.invalid && (InstituteRegisterForm.controls.instituteNameCtrl.dirty || InstituteRegisterForm.controls.instituteNameCtrl.touched)}" placeholder="Institute Name">
+					</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+					<div class="form-group">
+						<label for="inputEmailAdd">Email address <span style="color:red;">*</span>
+						</label>
+						<input type="text" class="form-control" name="instituteEmail" id="inputEmailAdd" formControlName="emailAddCtrl" [ngClass]="{'form-control-danger': InstituteRegisterForm.controls.emailAddCtrl.invalid && (InstituteRegisterForm.controls.emailAddCtrl.dirty || InstituteRegisterForm.controls.emailAddCtrl.touched)}" placeholder="Email Address">
+					</div>
+				</div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+					<div class="form-group">
+						<label for="inputAlternateEmail">Alternate email address <span style="color:red;">*</span>
+						</label>
+						<input type="text" class="form-control" name="instituteAlterEmail" id="inputAlternateEmail" formControlName="alternateEmailCtrl" [ngClass]="{'form-control-danger': InstituteRegisterForm.controls.alternateEmailCtrl.invalid && (InstituteRegisterForm.controls.alternateEmailCtrl.dirty || InstituteRegisterForm.controls.alternateEmailCtrl.touched)}" placeholder="Alternate email address">
+					</div>
+				</div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6">
+					<div class="form-group">
+						<label for="inputMicroWeb">Micro website<span style="color:red;">*</span>
+						</label>
+						<input type="text" class="form-control" name="instituteMicroWeb" id="inputMicroWeb" formControlName="microWebCtrl" [ngClass]="{'form-control-danger': InstituteRegisterForm.controls.microWebCtrl.invalid && (InstituteRegisterForm.controls.microWebCtrl.dirty || InstituteRegisterForm.controls.microWebCtrl.touched)}" placeholder="Site name">
+					</div>
+        </div>
+        <div class="col-lg-6">
+          <div class="form-group">
+            <label for="lableMicroWeb">   </label>
+            <input type="text" class="form-control" id="lableMicroWeb" value=".admissiondesk.org" style="border: none;border-color: transparent;">
+          </div>
+				</div>
+      </div>
+      <div class="row">
+
+      </div>
+			<div class="row">
+				<div class="offset-lg-4"></div>
+					<button nbButton
+					shape="round"
+					size="small"
+					outline status="danger"
+					(click)="onSubmit(3000,'danger')"  class="col-lg-4">
+				Proceed 
+				</button>
+			</div>
+		</form>
+	</nb-card-body>
+</nb-card>

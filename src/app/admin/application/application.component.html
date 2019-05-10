@@ -1,0 +1,361 @@
+<nb-card [nbSpinner]="loading" nbSpinnerStatus="danger" nbSpinnerSize="xlarge">
+	<nb-card-body>
+		<div class="titleWrap">
+			<label>Application</label>
+		</div>
+		<p-tabView (onChange)="getApplicationAccepted($event)">
+			<p-tabPanel header="Application">
+				<h3>Online Entrance Test Details</h3>
+				<div class="row">
+					<div class="col-xl-4">
+						<mat-form-field class="example-full-width">
+							<input matInput  type="text" [value]="filterText"
+							[placeholder]="filterPlaceholder" [formControl]="filterInput" />
+							<button mat-button *ngIf="filterText" matSuffix mat-icon-button aria-label="Clear" (click)="filterText=''">
+								<mat-icon>close</mat-icon>
+							</button>
+						</mat-form-field>
+					</div>
+					<div class="col-xl-4">
+						<label for="inputDob">Date of Online Entrance Test<span style="color:red;">*</span></label><br>
+						<input [(ngModel)]="onlineTest" id="inputDob" nbInput
+						placeholder="Select Date of Online Test" [nbDatepicker]="picker"><br>
+						<nb-datepicker #picker [(date)]="date" [min]="max"></nb-datepicker><br>
+						<button nbButton size="xsmall" outline status="info" (click)="saveDate('ot')">Save Date</button>
+						<span *ngIf="showOne" style="color: red">{{message}}</span><br>
+					</div>
+					<div class="col-xl-4">
+						<label for="inputTime">Time of Online Entrance Test<span style="color:red;">*</span></label><br>
+						<!-- <input [ngxTimepicker]="picker1" id="inputTime" [(ngModel)]="onlineTime" nbInput 
+						placeholder="Select Time of Online Test" name="onlineTime"><br>
+						<ngx-material-timepicker #picker1></ngx-material-timepicker><br> -->
+						<p-calendar [readonlyInput]="true" id="inputTime" [(ngModel)]="onlineTime" [timeOnly]="true"></p-calendar><br><br>
+						<button nbButton size="xsmall" outline status="info" (click)="saveTime(serverDateId)">Save Time</button>
+						<span *ngIf="showTwo" style="color: red">{{message}}</span><br>
+					</div>
+				</div>
+				<table class="table table-striped w-auto">
+					<thead>
+						<h5><b>Total Count:</b></h5>{{application_data?.length}}
+						<tr>
+							<th>Application No.</th>
+							<th>Application No.For 1st Payment</th>
+							<th>Category</th>
+							<th>Student Name</th>
+							<th>Email Address</th>
+							<th>Selected Course</th>
+							<th>Action</th>
+							<th>Online Entrance Exam Date</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="info" *ngFor="let application of application_data | filter:{date:filterText,email:filterText,course:filterText,specialization:filterText,student_category:filterText,enrollment_no: filterText,stu_name : filterText,country_name:filterText,user_id:filterText} : false | paginate: { itemsPerPage: 10, currentPage: p } ">
+							<th scope="row">{{application?.enrollment_no}}</th>
+							<td>{{application?.user_id}}</td>
+							<td>{{application?.student_category}}</td>
+							<td>{{application?.stu_name}}</td>
+							<td>{{application?.email}}</td>
+							<td>{{application?.specialization}} ({{application?.course}})</td>
+							<td><i class="fa ion-person" status="danger" nbPopover="View More" nbPopoverMode="hover" (click)="viewMore('application',application.user_id,application.course_id,'new',application.id);"></i>
+								<i class="fa ion-android-lock" id='documentverify{{application.id}}' nbPopover="Errata" nbPopoverMode="hover" (click)="errata(application.user_id,'self_financed');"></i>
+								<section class="example-section">
+									<mat-slide-toggle
+										id='sendToEligibilitytick{{application.id}}'
+										class="example-margin"
+										[color]="color"
+										(change)="sendToEligibility($event,application.id,application.course_id,application.user_id,application.check_eligibility,application?.enrollment_no)"
+										[checked]="application.check_eligibility"
+										[disabled]="disabled">
+										Send Email about Online Test 
+									</mat-slide-toggle>
+								</section>
+								<i class="fa ion-email" status="info" nbPopover="Raise Ticket" nbPopoverMode="hover" (click)="Ticket(application.email);"></i>
+							</td>
+							<td>{{application?.online_test_date}}</td>				
+						</tr>
+					</tbody>				
+				</table>
+			<pagination-controls (pageChange)="p = $event"></pagination-controls>			
+			</p-tabPanel>
+	
+			<!-- <p-tabPanel header="Application Accepted">
+				<h3>Applications Accepted</h3>
+				<div class="row">
+					<div class="col-lg-12 ">
+						<mat-form-field class="example-full-width">
+							<input matInput  type="text" [value]="filterText"
+							[placeholder]="filterPlaceholder" [formControl]="filterInput" />
+							<button mat-button *ngIf="filterText" matSuffix mat-icon-button aria-label="Clear" (click)="filterText=''">
+								<mat-icon>close</mat-icon>
+							</button>
+						</mat-form-field>
+					</div>
+				</div>
+				<table class="table table-striped w-auto">
+					<thead>
+						<h5><b>Total Count:</b></h5>{{application_data?.length}}
+						<tr>
+							<th>Date</th>
+							<th>Application No.</th>
+							<th>Category</th>
+							<th>Student Name</th>
+							<th>Selected Course</th>
+							<th>Passport No.</th>
+							<th>Action</th>
+							<th>Provisional Eligibility Form</th>
+							<th>Application Form</th>
+							<th>Application Form with Preferences</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="info" *ngFor="let application of application_data| filter:{country_name:filterText,course:filterText,specialization:filterText,passport_no:filterText,student_category:filterText,date:filterText,enrollment_no:filterText,payment_mode:filterText,stu_name: filterText} | paginate: { itemsPerPage: 10, currentPage: p } ">
+							<td>{{application.date}}</td>
+							<td>{{application.enrollment_no}}</td>
+							<td>{{application.student_category}}</td>
+							<td>{{application.stu_name}}</td>
+							<td>{{application.specialization}}({{application.course}})</td>
+							<td>{{application.passport_no}}</td>
+							<td><button nbButton status="info" size="xsmall"  outline shape="semi-round" (click)="viewMore('application',application.user_id,application.course_id,'accept',application.id);">View</button></td>
+							<td><button nbButton size="xsmall" outline  status="info" (click)="showprovisionalLetterApp(application.user_id,application.course_id,application.id)">Download</button></td>
+							<td><button nbButton size="xsmall" outline  status="info" (click)="preview(application.user_id,application.course_id,application.id)">Download</button></td>
+							<td><button nbButton size="xsmall" outline  status="info" (click)="preview_data_with_Preferences(application.user_id,application.course_id,application.id)">Download</button></td>
+						</tr>
+					</tbody>
+				</table>
+				<pagination-controls (pageChange)="p = $event"></pagination-controls>
+			</p-tabPanel>
+	
+			<p-tabPanel header="Application Rejected">
+				<h3>Applications Rejected</h3>
+				<div class="row">
+					<div class="col-md-12 ">
+						<mat-form-field class="example-full-width">
+							<input matInput  type="text" [value]="filterText"
+							[placeholder]="filterPlaceholder" [formControl]="filterInput" />
+							<button mat-button *ngIf="filterText" matSuffix mat-icon-button aria-label="Clear" (click)="filterText=''">
+								<mat-icon>close</mat-icon>
+							</button>
+						</mat-form-field>
+					</div>
+				</div>
+				<table class="table table-striped w-auto">
+					<thead>
+						<h5><b>Total Count:</b></h5>{{application_data?.length}}
+						<tr>
+							<th>Date</th>
+							<th>Application No.</th>
+							<th>Category</th>
+							<th>Student Name</th>
+							<th>Selected Course</th>
+							<th>Passport No.</th>
+							<th>Action</th>						
+							<th>Application Form</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="info" *ngFor="let application of application_data | paginate: { itemsPerPage: 10, currentPage: p }">
+							<th scope="row">{{application?.date}}</th>
+							<td>{{application?.enrollment_no}}</td>
+							<td>{{application?.student_category}}</td>
+							<td>{{application?.stu_name}}</td>
+							<td>{{application?.specialization}} ({{application?.course}})</td>
+							<td>{{application.passport_no}}</td>
+							<td><button nbButton status="info" size="xsmall"  outline shape="semi-round" (click)="viewMore('application',application.user_id,application.course_id,'reject',application.id);">View</button></td>					
+							<td><button nbButton size="xsmall" outline  status="info" (click)="preview(application.user_id,application.course_id,application.id)">Download</button></td>
+						</tr>
+					</tbody>				
+				</table>
+				<pagination-controls (pageChange)="p = $event"></pagination-controls>
+			</p-tabPanel> -->
+	
+			<!-- <p-tabPanel header="ICCR Application">
+				<h3>ICCR Applications</h3>
+				<div class="row">
+					<div class="col-md-12 ">
+						<mat-form-field class="example-full-width">
+							<input matInput  type="text" [value]="filterText"
+							[placeholder]="filterPlaceholder" [formControl]="filterInput" />
+							<button mat-button *ngIf="filterText" matSuffix mat-icon-button aria-label="Clear" (click)="filterText=''">
+								<mat-icon>close</mat-icon>
+							</button>
+						</mat-form-field>
+					</div>
+				</div>
+				<table class="table table-striped w-auto">
+					<thead>
+						<h5><b>Total Count:</b></h5>{{iccr_data?.length}}
+						<tr>
+							<th>Date</th>
+							<th>Application No.</th>
+							<th>Reference No.</th> 
+							<th>Category</th>
+							<th>Country Name</th>
+							<th>Student Name</th>
+							<th>Selected Course</th>
+							<th>Passport No.</th>
+							<th>Action</th>	
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="info" *ngFor="let iccr of iccr_data | paginate: { itemsPerPage: 10, currentPage: p }">
+							<td >{{iccr?.date}}</td>
+							<td>{{iccr?.enrollment_no}}</td>
+							<td>{{iccr?.iccr_ref_no}}</td>
+							<td>{{iccr?.student_category}}</td>
+							<td>{{iccr?.country_name}}</td>
+							<td>{{iccr?.stu_name}}</td>
+							<td>{{iccr?.specialization}}({{iccr?.course}})</td>
+							<td>{{iccr?.passport_no}}</td>
+							<td><i class="fa ion-person" status="info" nbPopover="View More" nbPopoverMode="hover" (click)="viewMore('iccr',iccr.user_id,iccr.course_id,'new',iccr.id);"></i></td>
+						</tr>
+					</tbody>				
+				</table>
+				<pagination-controls (pageChange)="p = $event"></pagination-controls>			
+			</p-tabPanel>
+	
+			<p-tabPanel header="ICCR Applications Accepted">
+				<h3>ICCR Applications Accepted</h3>
+				<div class="row">
+					<div class="col-md-12 ">
+						<mat-form-field class="example-full-width">
+							<input matInput  type="text" [value]="filterText"
+							[placeholder]="filterPlaceholder" [formControl]="filterInput" />
+							<button mat-button *ngIf="filterText" matSuffix mat-icon-button aria-label="Clear" (click)="filterText=''">
+								<mat-icon>close</mat-icon>
+							</button>
+						</mat-form-field>
+					</div>
+				</div>
+				<table class="table table-striped w-auto">
+					<thead>
+						<h5><b>Total Count:</b></h5>{{iccr_data?.length}}
+						<tr>
+							<th>Date</th>
+							<th>Application No.</th>
+							<th>Reference No.</th> 
+							<th>Category</th>
+							<th>Country Name</th>
+							<th>Student Name</th>
+							<th>Selected Course</th>
+							<th>Action</th>
+							<th>ICCR Eligibility Letter</th>
+							<th>ICCR Application Letter</th>	
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="info" *ngFor="let iccr of iccr_data | paginate: { itemsPerPage: 10, currentPage: p }">
+							<td >{{iccr?.date}}</td>
+							<td>{{iccr?.enrollment_no}}</td>
+							<td>{{iccr?.iccr_ref_no}}</td>
+							<td>{{iccr?.student_category}}</td>
+							<td>{{iccr?.country_name}}</td>
+							<td>{{iccr?.stu_name}}</td>
+							<td>{{iccr?.specialization}}({{iccr?.course}})</td>
+							<td><button nbButton outline status="info" size="xsmall"  (click)="viewMore('iccr',iccr.user_id,iccr.course_id,'new',iccr.id);" shape="semi-round">View</button></td>
+							<td><button nbButton outline size="xsmall"  status="info">Download</button></td>
+							<td><button nbButton outline size="xsmall"  status="info">Download</button></td>
+						</tr>
+					</tbody>				
+				</table>
+				<pagination-controls (pageChange)="p = $event"></pagination-controls>			
+			</p-tabPanel>
+	
+			<p-tabPanel header="ICCR Applications Rejected">
+				<h3>ICCR Applications Rejected</h3>
+				<div class="row">
+					<div class="col-md-12 ">
+						<mat-form-field class="example-full-width">
+							<input matInput  type="text" [value]="filterText"
+							[placeholder]="filterPlaceholder" [formControl]="filterInput" />
+							<button mat-button *ngIf="filterText" matSuffix mat-icon-button aria-label="Clear" (click)="filterText=''">
+								<mat-icon>close</mat-icon>
+							</button>
+						</mat-form-field>
+					</div>
+				</div>
+				<table class="table table-striped w-auto">
+					<thead>
+						<h5><b>Total Count:</b></h5>{{iccr_data?.length}}
+						<tr>
+							<th>Date</th>
+							<th>Application No.</th>
+							<th>Reference No.</th> 
+							<th>Category</th>
+							<th>Country Name</th>
+							<th>Student Name</th>
+							<th>Selected Course</th>
+							<th>Action</th>
+							<th>ICCR Non Eligibility Letter</th>
+							<th>ICCR Application Letter</th>	
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="info" *ngFor="let iccr of iccr_data | paginate: { itemsPerPage: 10, currentPage: p }">
+							<td >{{iccr?.date}}</td>
+							<td>{{iccr?.enrollment_no}}</td>
+							<td>{{iccr?.iccr_ref_no}}</td>
+							<td>{{iccr?.student_category}}</td>
+							<td>{{iccr?.country_name}}</td>
+							<td>{{iccr?.stu_name}}</td>
+							<td>{{iccr?.specialization}}({{iccr?.course}})</td>
+							<td><button nbButton outline status="info" size="xsmall"  (click)="viewMore('iccr',iccr.user_id,iccr.course_id,'new',iccr.id);" shape="semi-round">View</button></td>
+							<td><button nbButton outline size="xsmall"  status="info">Download</button></td>
+							<td><button nbButton outline size="xsmall"  status="info">Download</button></td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr class="info " *ngIf="iccr_data?.length === 0">
+								<div class="noRecords">No records found !</div>						
+						</tr>						
+					</tfoot>				
+				</table>
+				<pagination-controls (pageChange)="p = $event"></pagination-controls>			
+			</p-tabPanel> -->
+	
+			<p-tabPanel header="Unticked">
+				<h3>Unticked</h3>
+				<div class="row">
+					<div class="col-md-12 ">
+						<mat-form-field class="example-full-width">
+							<input matInput  type="text" [value]="filterText"
+							[placeholder]="filterPlaceholder" [formControl]="filterInput" />
+							<button mat-button *ngIf="filterText" matSuffix mat-icon-button aria-label="Clear" (click)="filterText=''">
+								<mat-icon>close</mat-icon>
+							</button>
+						</mat-form-field>
+					</div>
+				</div>
+				<table class="table table-striped w-auto">
+					<thead>
+						<h5><b>Total Count:</b></h5>{{unticked_data?.length}}
+						<tr>
+							<th>Date</th>
+							<th>Application No.</th>
+							<th>Application No.For 1st Payment</th>
+							<th>Student Name</th>
+							<th>Email Address</th>
+							<th>Selected Course</th>
+							<th>Selected Intake</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="info" *ngFor="let data of unticked_data  | filter:{enrollment_no: filterText,stu_name : filterText,country_name:filterText,user_id:filterText} : false | paginate: { itemsPerPage: 10, currentPage: p }">
+							<th scope="row">{{data?.date}}</th>
+							<td>{{data?.enrollment_no}}</td>
+							<td>{{data?.user_id}}</td>
+							<td>{{data?.stu_name}}</td>
+							<td>{{data?.email}}</td>
+							<td>{{data?.specialization}} ({{data?.course}})</td>
+							<td>{{data.intake_date + '/' + data.intake_month + '/' + data.intake_year + ' To ' + data.intake_to_date + '/' + data.intake_to_month + '/' + data.intake_to_year}}</td>
+							<td><i class="fa ion-person" status="danger" nbPopover="View More" nbPopoverMode="hover" (click)="viewMore('application',data.user_id,data.course_id,'new',data.id);"></i></td>					
+						</tr>
+					</tbody>				
+				</table>
+				<pagination-controls (pageChange)="p = $event"></pagination-controls>			
+			</p-tabPanel>
+		</p-tabView>    
+	</nb-card-body>
+</nb-card>
+<p-confirmDialog [style]="{width: '425px'}"></p-confirmDialog> 
+	

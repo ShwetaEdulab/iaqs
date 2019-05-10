@@ -1,0 +1,150 @@
+<div *ngIf="user?.role == 'student'">
+  <nb-card status="success" *ngIf = "cartCheck == true || ucaFlag == true">
+    <nb-card-header>Track Your Application Progress</nb-card-header>
+    <nb-card-body>
+      <div lass="col-md-12" *ngIf="length > 1 && status">
+        <mat-form-field class="col-xl-6"> 
+          <mat-select placeholder="Select Specialization" [(ngModel)]="spec" name="spec" (ngModelChange)="setStepper($event)"  >
+            <mat-option *ngFor="let spec of applicationData" [value]="spec.id" (click)="setCourse_id(spec.course_id)">
+              {{spec.courseSpec}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div lass="col-md-12" style="margin-top:50px;">
+        <nb-stepper   #stepper (click)="selectStep()" >
+          <nb-step   [label]="labelOne" >
+            <ng-template #labelOne >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Pay Application Fees</ng-template>
+          </nb-step>
+          <nb-step [label]="labelTwo"  >
+            <ng-template #labelTwo>Applied Course</ng-template>
+          </nb-step>
+          <nb-step [label]="labelThree"  >  
+            <ng-template #labelThree>Details of Online Entrance Test</ng-template>
+          </nb-step>
+          <nb-step [label]="labelFour" >
+            <ng-template #labelFour>Details of Personal Interview</ng-template>
+          </nb-step>
+          <nb-step [label]="labelFive">
+            <ng-template #labelFive>Result of the exam</ng-template>
+          </nb-step>
+          <nb-step [label]="labelSix"  >
+            <ng-template #labelSix>Pay Course Fees
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</ng-template>
+          </nb-step>
+        </nb-stepper>
+      </div>
+      <div lass="col-md-12">
+        <nb-alert status="danger" closable (close)="onClose()" *ngIf="alertFlag == 1">
+          {{message}}
+        </nb-alert>
+      </div>
+    </nb-card-body>
+  </nb-card>
+
+  <div class="row">
+  <div class="col-xxxl-8 col-xxl-8 col-lg-7 col-md-8">
+  <nb-card status="success">
+  <nb-card-header><h4>Hi {{user.name}},</h4></nb-card-header>
+  <nb-card-body>
+      <h2>Welcome to the Garware Institute!</h2> <br />This is the Garware Institute Dashboard, the place to monitor your applications, including deadlines, requirements, and progress. The menu across the top will take you to different parts of the system to complete each section of your application.
+      <br /><br />
+      <b>Let's get started:</b>
+      <br />
+      <br />
+      <ul>
+        <li>Answer application questions on the Garware Institute tab</li>
+        <li>Add colleges on the College Search tab</li>
+        <li>Get help using the Help Center on the right side bar</li>
+        <li>Once you have added colleges, you will see them displayed here on he Dashboard and be able to review requirements specific to each of them on the My Colleges tab.</li></ul>
+  </nb-card-body>
+  <nb-card-footer><h4>Now that you've created your Garware Institute account, share the good news with your friends and family!</h4></nb-card-footer>
+
+  </nb-card>
+  </div>
+  <div class="col-xxxl-4 col-xxl-4 col-lg-5 col-md-4">
+  <div class="row">
+        <div class="col-xxxl-12 col-xxl-12 col-lg-12 col-md-12">
+      <ngx-solar ></ngx-solar>            
+  </div>  
+  </div>
+
+  <div class="row">
+  <div class="col-md-12">
+      <!-- <nb-card status="success" size="xsmall">
+          <nb-card-header><h5>Find the nearest college with the postal code</h5></nb-card-header>
+          <nb-card-body>
+            <div class="row">
+              <div class="col-xl-12">
+                  <div class="form-group">
+                  <input type="text" [(ngModel)]="pincode" (keyup.enter)="searchCollege()" placeholder="Enter postal code (eg : 400001) " id="PCtxt3" class="form-control">
+                  <span *ngIf="alert===1" style="color:red;">Please Enter Pincode!</span>
+                  </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="offset-xl-4"></div>
+              <div class="col-xl-4">
+              <button nbButton class="col-xl-12" (click)="searchCollege()">Search</button>
+            </div>
+          </div>
+          </nb-card-body>      
+        </nb-card> -->
+  </div>
+  </div>
+
+  </div>
+  </div>
+</div>
+
+<div *ngIf="user?.role == 'institute'">
+  <nb-card status="success">
+    <nb-card-header>
+      Dashboard
+    </nb-card-header>
+    <nb-card-body>
+      <div class="row">
+        <div class="container-fluid">
+          <div class="row detailsWrap">
+            <div class="col-xl-4 forAdmission">
+              <label class="courselabel">Course admission details</label>
+            </div>
+            <div class="row">
+                <div class="col-md-12 ">
+                  <mat-form-field class="example-full-width">
+                    <input matInput  type="text" [value]="filterText"
+                    [placeholder]="filterPlaceholder" [formControl]="filterInput" />
+                    <button mat-button *ngIf="filterText" matSuffix mat-icon-button aria-label="Clear" (click)="filterText=''">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                  </mat-form-field>
+                </div>
+            </div>
+            <table class="table table-striped w-auto">
+                <thead>
+                  <tr>
+                    <th class="courname">Course name</th>
+                    <th class="overview">Course description</th>
+                    <th class="adyear">Total admission (Year wise)</th>
+                    <th class="adyear">Total admission (Week wise)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="info" *ngFor=" let course of coursedata | filter:{name:filterText , specialization:filterText} | paginate: { itemsPerPage: 10, currentPage: p } ">
+                    <td class="courname">{{course?.specialization}} {{course?.name}}</td>
+                    <td class="overview">{{course?.overview}}</td>
+                    <td class="adyear">{{course?.application_year}} Admissions</td>
+                    <td class="adyear">{{course?.application_week}} Admissions</td>
+                  </tr>
+                </tbody>
+            </table>
+            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+          </div>
+        </div>
+      </div>
+    </nb-card-body>
+  </nb-card>
+</div>
