@@ -26,7 +26,7 @@ import { SupportapiService } from '../../shared/supportapi.service';
             <div class="col-lg-1"></div>
             <div class="col-lg-11">
                 <nb-checkbox status="success" value="true">
-                The Garware Institute may communicate with me by mail, email, phone or text message about my account and other information relevant to the admission application process (you can change this response later within your account settings).
+                The IAQS may communicate with me by mail, email, phone or text message about my account and other information relevant to the admission application process (you can change this response later within your account settings).
                 </nb-checkbox>
             </div>
         </div><br>
@@ -53,7 +53,7 @@ import { SupportapiService } from '../../shared/supportapi.service';
             <div class="col-lg-1"></div>
             <div class="col-lg-11">
                 <nb-checkbox status="success">
-                    The Garware Institute website uses small files stored on your computer, known as cookies, that help us remember your settings and ensure the website works properly. By continuing, I am agreeing to The Garware Institute's use of cookies.
+                    The IAQS website uses small files stored on your computer, known as cookies, that help us remember your settings and ensure the website works properly. By continuing, I am agreeing to The IAQS Institute's use of cookies.
                 </nb-checkbox>
             </div>
 		</div> 		

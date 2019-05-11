@@ -30,7 +30,7 @@ import { Socket } from 'ngx-socket-io';
                    [end]="sidebar.id === 'end'">
         <nb-sidebar-header *ngIf="currentTheme !== 'corporate'">
           <a href="#" class="btn btn-hero-success main-btn">
-            <i class="ion ion-university"></i> <span>Garware<br>Institute</span>
+            <i class="ion ion-university"></i> <span>IAQS</span>
           </a>
         </nb-sidebar-header>
         <ng-content select="nb-menu"></ng-content>
