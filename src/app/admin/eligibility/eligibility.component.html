@@ -37,7 +37,8 @@
 							<h5><b>Total Count:</b></h5>{{application_data?.length}}
 							<tr>
 								<th>Application No.</th>
-								<th>Application No.For 1st Payment</th>
+								<!-- <th>Application No.For 1st Payment</th> -->
+								<th>Personal Interview Fee</th>
 								<th>Category</th>
 								<!-- <th>Country Name</th> -->
 								<th>Student Name</th>
@@ -51,7 +52,9 @@
 						<tbody>
 							<tr class="info" *ngFor="let application of application_data | filter:{date:filterText,email:filterText,course:filterText,specialization:filterText,student_category:filterText,enrollment_no: filterText,stu_name : filterText,country_name:filterText,user_id:filterText} : false | paginate: { itemsPerPage: 10, currentPage: p } ">
 								<th scope="row">{{application?.enrollment_no}}</th>
-								<td>{{application?.user_id}}</td>
+								<!-- <td>{{application?.user_id}}</td> -->
+								<td *ngIf="application?.oder_status == 0">Not Paid</td>
+								<td *ngIf="application?.oder_status == 1">Paid</td>
 								<td>{{application?.student_category}}</td>
 								<!-- <td>{{application?.country_name}}</td> -->
 								<td>{{application?.stu_name}}</td>

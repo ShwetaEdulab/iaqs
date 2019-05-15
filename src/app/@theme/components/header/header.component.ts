@@ -137,7 +137,7 @@ export class HeaderComponent implements OnInit {
           }
         });
         this.socket.on('connect', function () {
-         console.log('connected to garwareadmin.admissiondesk.org'); 
+         console.log('connected to iaqsadmin.admissiondesk.org'); 
         });
 
         this.socket.emit('confirmation');

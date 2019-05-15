@@ -7,6 +7,7 @@ import { NbDateService , NbDialogService, NbStepperComponent } from '@nebular/th
 import { NbAuthService, } from '@nebular/auth';
 import { UserService } from '../../../@core/data/users.service';
 import { saveAs } from 'file-saver';
+import { OnlineTestPaymentdialog } from './dialog/onlinetestpaymentdialog';
 import { Secondpaymentdialog } from './dialog/Secondpaymentdialog';
 import { Thirdpaymentdialog } from './dialog/Thirdpaymentdialog';
 import { uploadreceiptdialog } from './dialog/uploadreceiptdialog';
@@ -55,6 +56,8 @@ export class ApplicationStepsComponent implements OnInit {
   user_id: any;
   specialization;
   accept_value: any;
+  personalFee: any;
+  pi_test_date: any;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -145,6 +148,8 @@ export class ApplicationStepsComponent implements OnInit {
     .subscribe(
       (data: any) => {
         this.OnlinePersonaldetails = data['data'];
+        this.personalFee = data['data']['second_payment'];
+        this.pi_test_date = data['data']['pi_test_date'];
         this.specialization = data['data']['specialization'];
         if(this.OnlinePersonaldetails.application_status=="accept"){
           this.application_status_value = this.OnlinePersonaldetails.application_status;
@@ -182,7 +187,8 @@ export class ApplicationStepsComponent implements OnInit {
       .subscribe(
         (data: any) => {  
           this.user_data =  data['data']['user'];
-          this.amount = data['data']['fees'];
+          //this.amount = data['data']['fees'];
+          this.amount = '1,80,000';
           this.course_name = data['data']['specialization'];
           this.upload_location = data['data']['upload_challan_location'];
           this.amountpay = data['data']['amountpay'];
@@ -215,7 +221,6 @@ export class ApplicationStepsComponent implements OnInit {
       }
     })
   }
-  
 
   examresult(result){
     if(result=='Pass'){
@@ -401,4 +406,24 @@ export class ApplicationStepsComponent implements OnInit {
       }
     })
    }
+
+
+  proceedforpayment(){
+    this.dialogService.open(OnlineTestPaymentdialog, {
+      closeOnBackdropClick : false,
+      context: {
+        title: 'This is a title passed to the dialog component',
+        applicationID : this.applicationId,
+        courseID : this.courseID,
+        amount : '20000',
+        order_id : '2'
+      },
+    }).onClose
+    .subscribe(
+      (data: any) => {
+        this.pi_test_date = "";
+        this.personalFee = true;
+        err => console.error(err)
+      })
+  }
 }

@@ -324,6 +324,14 @@ getProfileCompleteness(){
 
   //Payment gateway routes
 
+  addtoUserCourseApplication(couser_id){
+    try{
+      return this.httpClient.post(`${this.baseUrl}/api/payment/addtoUserCourseApplication`,{"courseId":couser_id,});     
+    }catch(error) {
+      this.handleError("firstpaymentrequest : "+error);
+    }
+  }
+
   firstpaymentrequest(appId,couser_id,eligibilityFee){
     try{
       return this.httpClient.post(`${this.baseUrl}/api/payment/firstpaymentrequest`,{"appid":appId,"courseId":couser_id,"eligibilityFee":eligibilityFee});     
@@ -337,6 +345,15 @@ getProfileCompleteness(){
       return this.httpClient.post(`${this.baseUrl}/api/payment/secondpaymentrequest`,{"appid":appId,"courseId":couser_id});     
     }catch(error) {
       this.handleError("secondpaymentrequest : "+error);
+    }
+
+  }
+
+  paymentrequest(appId,couser_id,orderId,amount){
+    try{
+      return this.httpClient.post(`${this.baseUrl}/api/payment/paymentrequest`,{"appid":appId,"courseId":couser_id,"orderid":orderId,"amount":amount});     
+    }catch(error) {
+      this.handleError("paymentrequest : "+error);
     }
 
   }

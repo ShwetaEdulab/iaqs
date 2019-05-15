@@ -12,13 +12,13 @@
     <div class="col-md-6" *ngFor=" let item of applications;">
         <div>
             <nb-card status="success">
-                <nb-card-header>{{item.application.specialization}}</nb-card-header>
+                <nb-card-header>{{item.application?.specialization}}</nb-card-header>
                 <nb-card-body>
-                    {{item.application.overview}}
+                    {{item.application?.overview}}
                 </nb-card-body>
-                <button nbButton *ngIf="item.application.check_eligibility == 'true' && item.application.online_test_date != null && item.application.online_test_time != null;" (click)="loadsteps(item.application.id,item.application.course_id)">Your exam is schedule .</button>
-                <button nbButton *ngIf="item.application.check_eligibility == 'true' && item.application.online_test_date == null && item.application.online_test_time == null;" (click)="showalert3()">Your exam is not schedule .</button>
-                <button nbButton *ngIf=" item.application.check_eligibility == 'false';" (click)="showalert3()">Your exam is not schedule.</button>
+                <button nbButton *ngIf="item.application?.check_eligibility == 'true' && item.application?.online_test_date != null && item.application?.online_test_time != null;" (click)="loadsteps(item.application?.id,item.application?.course_id,item.application?.onlineTestPayment)">Your exam is schedule .</button>
+                <button nbButton *ngIf="item.application?.check_eligibility == 'true' && item.application?.online_test_date == null && item.application?.online_test_time == null;" (click)="showalert3()">Your exam is not schedule .</button>
+                <button nbButton *ngIf=" item.application?.check_eligibility == 'false';" (click)="showalert3()">Your exam is not schedule.</button>
                 <!-- <button nbButton *ngIf="item.application.status === 'accept';" (click)="loadsteps(item.application.id,item.application.course_id)">View More</button>
                 <button nbButton *ngIf="item.application.status === 'reject';" (click)="openReject()">Rejected</button>
                 <button nbButton *ngIf="item.application.status === 'new' && item.application.check_eligibility == 'true';" (click)="showalert()">Sent to Eligibility Department.</button>

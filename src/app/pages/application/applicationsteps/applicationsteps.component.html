@@ -37,6 +37,15 @@
                           formControlName="testTimeCtrl">
                       </div>
                       </div>
+                      <div class="row">
+                        <div class="col-xl-12" *ngIf="personalFee == false">
+                            <button nbButton class="col-md-4 col-sm-4 col-xs-4 offset-md-4" style="margin-top:10px;" (click)="proceedforpayment()"
+                                hero status="info">Proceed For Payment</button>
+                        </div>
+                        <div class="col-xl-12" *ngIf="personalFee == true && pi_test_date==''">
+                          Wait Until the admin schedule your personal interview.
+                        </div>
+                      </div>
                   </nb-card-body>
                   <button nbButton nbStepperNext>next</button>
                 </nb-card>

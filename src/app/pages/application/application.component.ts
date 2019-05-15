@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { UserService } from '../../@core/data/users.service';
 import { ApiService } from '../../shared/api.service';
 import { HeaderComponent } from '../../@theme/components/header/header.component';
+import { NbDateService , NbDialogService, NbStepperComponent } from '@nebular/theme';
+import { OnlineTestPaymentdialog } from '../../pages/application/applicationsteps/dialog/onlinetestpaymentdialog';
 
 @Component({
   selector: 'application',
@@ -18,12 +20,14 @@ export class ApplicationComponent  {
   applicationID;
   courseID;
   alertflag = 0;
+  paymentDetails: any;
 
   constructor(
     private router : Router,
     private apiservice : ApiService,
     private userService: UserService,
     private comp: HeaderComponent,
+    private dialogService: NbDialogService,
   ) {
 
   }
@@ -43,7 +47,7 @@ export class ApplicationComponent  {
           if(this.status == '400'){
           }else if(this.status == '200'){
           this.applications =  data['data']['userApplications'];
-          //console.log("this.applicationsthis.applications========>"+JSON.stringify(this.applications));
+          this.paymentDetails = data['data']['onlineTestPayment'];
           this.applicationID = this.applications[0]['application']['id'];
           this.courseID = this.applications[0]['application']['course_id'];
           }
@@ -54,8 +58,26 @@ export class ApplicationComponent  {
       });
   }
 
-  loadsteps(applicationID,courseID){
-    this.router.navigate(['/pages/application/process'],{queryParams:{appId:applicationID,courseID:courseID}})
+  loadsteps(applicationID,courseID,paymentDetails){
+    if(paymentDetails==false){
+      this.dialogService.open(OnlineTestPaymentdialog, {
+        closeOnBackdropClick : false,
+        context: {
+          title: 'This is a title passed to the dialog component',
+          applicationID : applicationID,
+          courseID : courseID,
+          amount : '1000',
+          order_id : '1'
+        },
+      }).onClose
+      .subscribe(
+        (data: any) => {
+          this.ngOnInit();
+          err => console.error(err)
+      })
+    }else{
+      this.router.navigate(['/pages/application/process'],{queryParams:{appId:applicationID,courseID:courseID}})
+    }
   }
 
   showalert(){

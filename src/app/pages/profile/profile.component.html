@@ -1534,6 +1534,12 @@
               <div class="col-xl-12">
               <button nbButton nbStepperPrevious class="col-md-4 col-sm-4 col-xs-4 offset-md-4" style="margin-top:10px;">previous</button>
             </div>
+            <nb-alert status="danger" closable (close)="onClose()" *ngIf="alertflagCourse == 1">
+              You have already applied for this course!!!!
+            </nb-alert>
+            <nb-alert status="danger" closable (close)="onClose()" *ngIf="alertflagCourse == 2">
+              Seats are not available in  {{college?.collegename}} for {{college?.specialization}}.Kindly apply to another colleges!!!!!!
+            </nb-alert>
           </form>
         </nb-step>
         <button nbButton nbStepperPrevious>prev</button>

@@ -171,28 +171,64 @@ export class CourseComponent {
 
   }
 
+  // addCart(course_id,degree) {
+  //   this.api.find_intake(this.courseid).subscribe(data => {
+  //     var profileCompleteness = data['data'];
+  //     if(data['status'] == 200){
+  //       if(profileCompleteness == 100){
+  //         this.api.getDegree(this.courseid).subscribe(data =>{
+  //           if(data['status'] ==200){
+  //             //this.router.navigate(['pages/selectcollege'],{queryParams:{courseId:course_id}});
+  //             this.api.addtoCart(this.courseid).subscribe(
+  //               data => {
+  //                 this.user_id=data['data']['user_id'];
+  //                 this.socket.getCartvalue(this.user_id);
+  //                 this.router.navigateByUrl('/pages/cart');
+  //               },
+  //               error => {
+  //                 console.log("Error", error);
+  //               }
+  //             ); 
+  //           }else{
+  //             this.router.navigate(['pages/profile'],{queryParams:{courseId:course_id,degree:degree}});
+  //           }
+  //         })
+  //       }else{
+  //         this.router.navigate(['pages/profile'],{queryParams:{courseId:course_id,degree:degree}});
+  //       }
+  //     }else if(data['status'] ==300){
+  //       this.alertflag = 1;
+  //     }else if(data['status'] ==400){
+  //       this.alertflag = 2;
+  //     }else if(data['status'] == 301){
+  //       this.alertflag = 3;
+  //     }
+  //     error => {
+  //         console.error("Error in cart :", error);
+  //     }
+  //   });
+  //   }
+
   addCart(course_id,degree) {
     this.api.find_intake(this.courseid).subscribe(data => {
       var profileCompleteness = data['data'];
       if(data['status'] == 200){
         if(profileCompleteness == 100){
-          this.api.getDegree(this.courseid).subscribe(data =>{
-            if(data['status'] ==200){
-              //this.router.navigate(['pages/selectcollege'],{queryParams:{courseId:course_id}});
-              this.api.addtoCart(this.courseid).subscribe(
-                data => {
-                  this.user_id=data['data']['user_id'];
-                  this.socket.getCartvalue(this.user_id);
-                  this.router.navigateByUrl('/pages/cart');
-                },
-                error => {
-                  console.log("Error", error);
-                }
+          this.api.checkTabs(degree,course_id).subscribe((data: any) => {
+            if(data.data.tab1 && data.data.tab2 && data.data.tab3 && data.data.tab4 && data.data.tab5 ){
+              var firstpayment = this.api.addtoUserCourseApplication(course_id);
+              firstpayment.subscribe(
+                  data => {
+                    this.router.navigate(['/pages/application'])
+                  },
+                  error => {
+                      console.log("Error", error);
+                  }
               ); 
             }else{
               this.router.navigate(['pages/profile'],{queryParams:{courseId:course_id,degree:degree}});
             }
-          })
+          });
         }else{
           this.router.navigate(['pages/profile'],{queryParams:{courseId:course_id,degree:degree}});
         }
