@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'secondcancel',
+  selector: 'firstcancel',
   //styleUrls: ['./application.component.scss'],
   template: `
   <div class="row">
@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
           <h1>PAYMENT CANCELLED</h1>
         </nb-card-header>
         <nb-card-body>
+          <h4>Please Try again, Your Course is added in Cart.<br> <a [routerLink]="['/pages/cart']">Click here</a>, To Go in Cart</h4><br>
           <a href="" ng-click="redirect()">Click here</a>
            To Go Back
         </nb-card-body>
@@ -20,7 +21,7 @@ import { Router } from '@angular/router';
     </div>
   </div>`,
 })
-export class SecondCancelComponent  {
+export class FirstCancelComponent  {
   
   constructor(private router: Router) {
 

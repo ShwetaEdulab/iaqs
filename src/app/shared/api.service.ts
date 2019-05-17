@@ -340,27 +340,34 @@ getProfileCompleteness(){
     }
   }
 
-  secondpaymentrequest(appId,couser_id){
+  secondpaymentrequest(appId,couser_id,payment_amount){
     try{
-      return this.httpClient.post(`${this.baseUrl}/api/payment/secondpaymentrequest`,{"appid":appId,"courseId":couser_id});     
+      return this.httpClient.post(`${this.baseUrl}/api/payment/secondpaymentrequest`,{"courseId":couser_id,"appId":appId,"payment_amount":payment_amount});     
     }catch(error) {
       this.handleError("secondpaymentrequest : "+error);
     }
-
   }
 
-  paymentrequest(appId,couser_id,orderId,amount){
+  paymentrequest(appId,couser_id,amount){
     try{
-      return this.httpClient.post(`${this.baseUrl}/api/payment/paymentrequest`,{"appid":appId,"courseId":couser_id,"orderid":orderId,"amount":amount});     
+      return this.httpClient.post(`${this.baseUrl}/api/payment/paymentrequest`,{"appid":appId,"courseId":couser_id,"amount":amount});     
     }catch(error) {
       this.handleError("paymentrequest : "+error);
     }
 
   }
 
+  PaymentDetails(order_id){
+    try{
+      return this.httpClient.post(`${this.baseUrl}/api/payment/PaymentDetails`,{"order_id":order_id});
+    }catch(error) {
+      this.handleError("PaymentDetails : "+error);
+    }
+  }
+
   thirdpaymentrequest(appId,couser_id,amount){
     try{
-      return this.httpClient.post(`${this.baseUrl}/api/payment/thirdpaymentrequest`,{"appid":appId,"courseId":couser_id,"amount":amount});     
+      return this.httpClient.post(`${this.baseUrl}/api/payment/thirdpaymentrequest`,{"appId":appId,"courseId":couser_id,"amount":amount});     
     }catch(error) {
       this.handleError("thirdpaymentrequest : "+error);
     }

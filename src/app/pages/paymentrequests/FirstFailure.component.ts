@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'secondfailure',
+  selector: 'firstfailure',
   //styleUrls: ['./application.component.scss'],
   template: `
   <div class="row">
@@ -13,6 +13,8 @@ import { Router, ActivatedRoute } from '@angular/router';
           <h1>PAYMENT FAILED</h1>
         </nb-card-header>
         <nb-card-body>
+          <h4>Please Try again, Your Course is added in Cart.<br> <a [routerLink]="['/pages/cart']">Click here</a>, To Go in Cart</h4><br>
+          <br>
           <h4><b>Order Status :- {{ order_status }}</b></h4>
           <br>
           <h4> {{ message }} </h4>
@@ -24,7 +26,7 @@ import { Router, ActivatedRoute } from '@angular/router';
     </div>
   </div>`,
 })
-export class SecondFailureComponent  {
+export class FirstFailureComponent  {
   order_status: string;
   message: string;
   

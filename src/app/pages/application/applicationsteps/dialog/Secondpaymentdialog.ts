@@ -12,11 +12,14 @@ template: `
   <nb-card-header>
     <div class="row">
       <div class="col-md-12">
-        <h3 style="color:#ffffff">SECOND PAYMENT for Course {{course_name}}</h3>
+        <h3 style="color:#ffffff">Payment for Online Test ( Course {{course_name}} )</h3>
       </div>
     </div>
   </nb-card-header>
   <nb-card-body>
+    <div class="row" style="margin-bottom:7px">
+        First You need to pay the fees :
+    </div>
     <div class="row" style="margin-bottom:7px">
       <div class="col-md-3">Name</div>
       <div class="col-md-9"> 
@@ -60,7 +63,7 @@ template: `
       </div>
     </div>
     <div class="row" style="margin-bottom:7px">
-      <div class="col-md-3">Amount</div>
+      <div class="col-md-3">Amount ( In INR )</div>
       <div class="col-md-9"> 
         <input type="text" nbInput fullWidth placeholder="Amount" ngModel="{{amount}}" [readonly]="true">
       </div>
@@ -70,21 +73,31 @@ template: `
     <div class="row">
     <div class="col-md-3"></div>
     <div class="col-md-6">
-      <button nbButton hero status="primary" (click)="dismiss()">Close</button><button nbButton hero status="primary" (click)="secondpayment()">Proceed For Payment</button>
+      <button nbButton hero status="primary" (click)="dismiss()">Close</button><button nbButton hero status="primary" (click)="onlinetestpayment()">Proceed For Payment</button>
     </div>
     <div class="col-md-3"></div>
     </div>
   </nb-card-footer>
 </nb-card>
+<div>
+<form id="nonseamless" method="post" name="redirect" action="{{secureUrl}}"> <input type="hidden" id="encRequest" name="encRequest" value="{{encRequest}}"><input type="hidden" name="access_code" id="access_code" value="{{accessCode}}"></form>
+</div>
 `,
 })
 export class Secondpaymentdialog {
 @Input() title: string;
+@Input() applicationID: string;
+@Input() courseID: string;
+@Input() amount: string;
+@Input() order_id: string;
 user_data;
-amount;
-applicationId;
-courseID;
+//amount;
+//applicationId;
+//courseID;
 course_name;
+  accessCode: any;
+  secureUrl: any;
+  encRequest: any;
 constructor(protected ref: NbDialogRef<Secondpaymentdialog>,
   protected api : ApiService,
   private authService: NbAuthService,
@@ -96,29 +109,40 @@ constructor(protected ref: NbDialogRef<Secondpaymentdialog>,
   this.ref.close();
   }
   ngOnInit() {
-    this.api.getenrollmentdetails('second_payment',this.route.snapshot.queryParamMap.get('appId'))
+    this.api.getenrollmentdetails('second_payment',this.applicationID)
       .subscribe(
         (data: any) => {  
           this.user_data =  data['data']['user'];
-          this.amount = data['data']['fees'];
+          //this.amount = "1000";
+          //this.amount = data['data']['fees'];
           this.course_name = data['data']['specialization'];
           err => console.log(err)
       });
   }
 
-  async secondpayment(){
-    this.applicationId = this.route.snapshot.queryParamMap.get('appId');
-    this.courseID = this.route.snapshot.queryParamMap.get('courseID');
-    // var secondpayment = await this.api.secondpaymentrequest(this.applicationId,this.courseID);
-    // secondpayment.subscribe(
-    //     data => {
-    //       //console.log('response url==>'+data['data']);
-    //       //window.location.assign(data['data']);
-    //       this.ref.close();
-    //     },
-    //     error => {
-    //         console.log("Error", error);
-    //     }
-    // ); 
+  async onlinetestpayment(){
+    //this.applicationId = this.route.snapshot.queryParamMap.get('appId');
+   // this.courseID = this.route.snapshot.queryParamMap.get('courseID');
+    var secondpayment = await this.api.secondpaymentrequest(this.applicationID,this.courseID,this.amount);
+    secondpayment.subscribe(
+      data => {
+        this.accessCode = data['data']['accessCode'];
+        console.log('this.accessCode=============>'+this.accessCode);
+        this.secureUrl = data['data']['secureUrl'];
+        console.log('this.secureUrl=============>'+this.secureUrl);
+        this.encRequest = data['data']['encRequest'];
+        console.log('this.encRequest=============>'+this.encRequest);
+        setTimeout(function(){ 
+         //console.log("Hello");
+         this.loading = false;
+          var myForm = <HTMLFormElement>document.getElementById('nonseamless');
+          //console.log('myForm=============>'+myForm);
+          myForm.submit();
+        }, 1000);
+      },
+      error => {
+          console.log("Error", error);
+      }
+    ); 
   }
 }

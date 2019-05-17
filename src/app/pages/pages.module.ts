@@ -18,12 +18,16 @@ import { SelectCollegeModule } from "./selectcollege/selectcollege.module";
 import { CourseModule } from "./course/course.module";
 import { ApplicationStepsModule } from "./application/applicationsteps/applicationsteps.module";
 import { PreferencesModule } from './cart/preference/preferences.module';
+import { SecondSuccessModule } from "./paymentrequests/SecondSuccess.module";
 import { SecondCancelModule } from "./paymentrequests/SecondCancel.module";
 import { ThirdCancelModule } from "./paymentrequests/ThirdCancel.module";
 import { SecondFailureModule } from "./paymentrequests/SecondFailure.module";
 import { ThirdFailureModule } from "./paymentrequests/ThirdFailure.module";
+import { ThirdSuccessModule } from "./paymentrequests/ThirdSuccess.module";
 import { searchCourseModule } from "./course/searchCourse/searchCourse.module";
 import { FirstSuccessModule } from "./paymentrequests/FirstSuccess.module";
+import { FirstCancelModule } from "./paymentrequests/FirstCancel.module";
+import { FirstFailureModule } from "./paymentrequests/FirstFailure.module";
 import { HelpModule } from "./help/help.module";
 import { Data } from "../shared/data";
 import { PeerModule } from "./peers/peers.module";
@@ -72,13 +76,17 @@ const PAGES_COMPONENTS = [
     InstituteApplicationModule,
     CollegeManagementModule,
     CourseListModule,
+    SecondSuccessModule,
     SecondCancelModule,
     SecondFailureModule,
+    ThirdSuccessModule,
     ThirdCancelModule,
     ThirdFailureModule,
     PreferencesModule,
     searchCourseModule,
     FirstSuccessModule,
+    FirstCancelModule,
+    FirstFailureModule,
     CourseManagementModule,
     HelpModule,
     PeerModule,

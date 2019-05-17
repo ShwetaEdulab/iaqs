@@ -3,16 +3,15 @@ import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Data } from "../../shared/data";
 import { ApiService } from '../../shared/api.service';
-import { config } from '../../../../config';
 
 @Component({
-  selector: 'firstsuccess',
+  selector: 'thirdsuccess',
   template: `
   <div class="row">
     <div class="col-xxxl-8 col-xxl-8 col-lg-7 col-md-8">
       <nb-card status="success">
         <nb-card-header>
-          <h1>PAYMENT SUCCESSFUL</h1>
+          <h1>THIRD PAYMENT SUCCESSFUL</h1>
         </nb-card-header>
         <nb-card-body>
           <div class="row">
@@ -57,14 +56,14 @@ import { config } from '../../../../config';
             </h4>
           </div>
           <div class="row">
-            <button nbButton status="primary" (click)="pdfChallan(application_id)">Download Online Payment Receipt</button>
+            <button nbButton status="primary" (click)="pdfChallan()">Download Online Payment Receipt</button>
           </div>
         </nb-card-body>
       </nb-card>
     </div>
   </div>`,
 })
-export class FirstSuccessComponent  {
+export class ThirdSuccessComponent  {
   constructor(private router: Router,
     private route: ActivatedRoute,
     private data: Data,
@@ -90,10 +89,10 @@ export class FirstSuccessComponent  {
         this.user_id = data['data']['user_id'];
         this.enrollment_no = data['data']['enrollment_no'];
 
-        var generatereceipt =  this.api.OnlinePaymentChallan('1',this.transaction_id,this.payment_amount,this.payment_status,this.application_id,this.payment_date_time,this.enrollment_no,this.user_id);
+        var generatereceipt =  this.api.OnlinePaymentChallan('3',this.transaction_id,this.payment_amount,this.payment_status,this.application_id,this.payment_date_time,this.enrollment_no,this.user_id);
         generatereceipt.subscribe(
           data => {
-            var value = this.application_id+'_First_Online_Payment_Challan.pdf';
+            var value = this.application_id+'_Third_Online_Payment_Challan.pdf';
             this.api.downloadFiles(value)
             .subscribe(data => {
               saveAs(data, value);
@@ -112,16 +111,22 @@ export class FirstSuccessComponent  {
         ); 
       }
     )
-
-
   }
 
-  async pdfChallan(applicationId){
-    var value = applicationId+'_First_Online_Payment_Challan.pdf';
-    this.api.downloadFiles(value)
-    .subscribe(data => {
-      saveAs(data, value);
-    });
+  async pdfChallan(){
+    var generatereceipt = await this.api.OnlinePaymentChallan('3',this.transaction_id,this.payment_amount,this.payment_status,this.application_id,this.payment_date_time,this.enrollment_no,this.user_id);
+    generatereceipt.subscribe(
+      data => {
+        var value = this.application_id+'_Third_Online_Payment_Challan.pdf';
+        this.api.downloadFiles(value)
+          .subscribe(data => {
+           saveAs(data, value);
+          });
+      },
+      error => {
+          console.error("Error", error);
+      }
+    ); 
   }
   redirect(){
     this.router.navigateByUrl('/pages/application');

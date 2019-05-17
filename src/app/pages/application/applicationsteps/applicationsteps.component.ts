@@ -196,7 +196,7 @@ export class ApplicationStepsComponent implements OnInit {
       });
   }
 
-  async paysecondpayment(){
+  async paythirdpayment(){
     this.applicationId = this.route.snapshot.queryParamMap.get('appId');
     this.courseID = this.route.snapshot.queryParamMap.get('courseID');
     this.confirmationService.confirm({
@@ -206,15 +206,30 @@ export class ApplicationStepsComponent implements OnInit {
       rejectVisible:false,
       acceptLabel :'OK',
       accept: () => {
-        this.api.secondpaymentrequest(this.applicationId,this.courseID)
-        .subscribe(
-          data => {
-            this.secondpayment();
+        this.dialogService.open(Thirdpaymentdialog, {
+          closeOnBackdropClick : false,
+          context: {
+            title: 'This is a title passed to the dialog component',
+            applicationID : this.applicationId,
+            courseID : this.courseID,
+            amount : '180000',
+            order_id : '3'
           },
-          error => {
-            console.log("Error", error);
+        }).onClose
+        .subscribe(
+          (data: any) => {
+            err => console.error(err)
           }
-        ); 
+        )
+        // this.api.thirdpaymentrequest(this.applicationId,this.courseID,'1000')
+        // .subscribe(
+        //   data => {
+        //     this.secondpayment();
+        //   },
+        //   error => {
+        //     console.log("Error", error);
+        //   }
+        // ); 
       },
       reject: () => {
         //this.ngOnInit();
@@ -224,15 +239,7 @@ export class ApplicationStepsComponent implements OnInit {
 
   examresult(result){
     if(result=='Pass'){
-      this.dialogService.open(Secondpaymentdialog, {
-        context: {
-        title: 'This is a title passed to the dialog component',
-        },
-      }).onClose
-      .subscribe(
-        (data: any) => {
-          err => console.error(err)
-        })
+      
     }else if(result=='Fail'){
       this.alertflag = 1;
       this.message = "You have not cleared the examination. You could re-apply for the online entrance test and give one more shot!";
@@ -409,7 +416,7 @@ export class ApplicationStepsComponent implements OnInit {
 
 
   proceedforpayment(){
-    this.dialogService.open(OnlineTestPaymentdialog, {
+    this.dialogService.open(Secondpaymentdialog, {
       closeOnBackdropClick : false,
       context: {
         title: 'This is a title passed to the dialog component',

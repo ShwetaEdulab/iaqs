@@ -79,6 +79,9 @@ template: `
     </div>
   </nb-card-footer>
 </nb-card>
+<div>
+<form id="nonseamless" method="post" name="redirect" action="{{secureUrl}}"> <input type="hidden" id="encRequest" name="encRequest" value="{{encRequest}}"><input type="hidden" name="access_code" id="access_code" value="{{accessCode}}"></form>
+</div>
 `,
 })
 export class OnlineTestPaymentdialog {
@@ -92,6 +95,9 @@ user_data;
 //applicationId;
 //courseID;
 course_name;
+  accessCode: any;
+  secureUrl: any;
+  encRequest: any;
 constructor(protected ref: NbDialogRef<OnlineTestPaymentdialog>,
   protected api : ApiService,
   private authService: NbAuthService,
@@ -117,15 +123,26 @@ constructor(protected ref: NbDialogRef<OnlineTestPaymentdialog>,
   async onlinetestpayment(){
     //this.applicationId = this.route.snapshot.queryParamMap.get('appId');
    // this.courseID = this.route.snapshot.queryParamMap.get('courseID');
-    var secondpayment = await this.api.paymentrequest(this.applicationID,this.courseID,this.order_id,this.amount);
-    secondpayment.subscribe(
-        data => {
-          //window.location.assign(data['data']);
-          this.ref.close();
-        },
-        error => {
-            console.log("Error", error);
-        }
+    var payment = await this.api.paymentrequest(this.applicationID,this.courseID,this.amount);
+    payment.subscribe(
+      data => {
+        this.accessCode = data['data']['accessCode'];
+        console.log('this.accessCode=============>'+this.accessCode);
+        this.secureUrl = data['data']['secureUrl'];
+        console.log('this.secureUrl=============>'+this.secureUrl);
+        this.encRequest = data['data']['encRequest'];
+        console.log('this.encRequest=============>'+this.encRequest);
+        setTimeout(function(){ 
+         //console.log("Hello");
+         this.loading = false;
+          var myForm = <HTMLFormElement>document.getElementById('nonseamless');
+          //console.log('myForm=============>'+myForm);
+          myForm.submit();
+        }, 1000);
+      },
+      error => {
+          console.log("Error", error);
+      }
     ); 
   }
 }

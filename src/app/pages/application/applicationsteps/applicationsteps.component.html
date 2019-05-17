@@ -185,7 +185,7 @@
                     <div class="row">
                     <div class="col-md-3"></div>
                     <div class="col-md-6">
-                      <button *ngIf="upload_location == false && amountpay == false" nbButton hero status="primary" (click)="paysecondpayment()">Proceed For Payment</button>
+                      <button *ngIf="upload_location == false && amountpay == false" nbButton hero status="primary" (click)="paythirdpayment()">Proceed For Payment</button>
                       <button *ngIf="upload_location == true && amountpay == false" nbButton hero status="primary" (click)="uploadsecondpaymentreceipt()">Upload Challan</button>
                       <button *ngIf="amountpay == true" nbButton hero status="primary">Amount Paid Successfully</button>
                     </div>

@@ -11,16 +11,15 @@ template: `
 <nb-card [style.width.px]="700" [style.height.px]="600" status="success">
   <nb-card-header>
     <div class="row">
-      <div class="col-md-3">
-      </div>
-      <div class="col-md-6">
-        <h3 style="color:#ffffff">THIRD PAYMENT</h3>
-      </div>
-      <div class="col-md-3">
+      <div class="col-md-12">
+        <h3 style="color:#ffffff">Payment for Online Test ( Course {{course_name}} )</h3>
       </div>
     </div>
   </nb-card-header>
   <nb-card-body>
+    <div class="row" style="margin-bottom:7px">
+        First You need to pay the fees :
+    </div>
     <div class="row" style="margin-bottom:7px">
       <div class="col-md-3">Name</div>
       <div class="col-md-9"> 
@@ -52,12 +51,6 @@ template: `
       </div>
     </div>
     <div class="row" style="margin-bottom:7px">
-      <div class="col-md-3">Country</div>
-      <div class="col-md-9"> 
-        <input type="text" nbInput fullWidth placeholder="Country" ngModel="{{user_data?.country_id}}" [readonly]="true">
-      </div>
-    </div>
-    <div class="row" style="margin-bottom:7px">
       <div class="col-md-3">Telephone</div>
       <div class="col-md-9"> 
         <input type="text" nbInput fullWidth placeholder="Telephone" ngModel="{{user_data?.mobile}}" [readonly]="true">
@@ -70,9 +63,9 @@ template: `
       </div>
     </div>
     <div class="row" style="margin-bottom:7px">
-      <div class="col-md-3">Amount</div>
+      <div class="col-md-3">Amount ( In INR )</div>
       <div class="col-md-9"> 
-        <input type="text" nbInput fullWidth placeholder="Amount" ngModel="{{title}}" [readonly]="true">
+        <input type="text" nbInput fullWidth placeholder="Amount" ngModel="{{amount}}" [readonly]="true">
       </div>
     </div>
   </nb-card-body>
@@ -80,20 +73,31 @@ template: `
     <div class="row">
     <div class="col-md-3"></div>
     <div class="col-md-6">
-      <button nbButton hero status="primary" (click)="dismiss()">Close</button><button nbButton hero status="primary" (click)="thirdpayment()">Proceed For Payment</button>
+      <button nbButton hero status="primary" (click)="dismiss()">Close</button><button nbButton hero status="primary" (click)="onlinetestpayment()">Proceed For Payment</button>
     </div>
     <div class="col-md-3"></div>
     </div>
   </nb-card-footer>
 </nb-card>
+<div>
+<form id="nonseamless" method="post" name="redirect" action="{{secureUrl}}"> <input type="hidden" id="encRequest" name="encRequest" value="{{encRequest}}"><input type="hidden" name="access_code" id="access_code" value="{{accessCode}}"></form>
+</div>
 `,
 })
 export class Thirdpaymentdialog {
 @Input() title: string;
+@Input() applicationID: string;
+@Input() courseID: string;
+@Input() amount: string;
+@Input() order_id: string;
 user_data;
-amount;
-applicationId;
-courseID;
+//amount;
+//applicationId;
+//courseID;
+course_name;
+  accessCode: any;
+  secureUrl: any;
+  encRequest: any;
 constructor(protected ref: NbDialogRef<Thirdpaymentdialog>,
   protected api : ApiService,
   private authService: NbAuthService,
@@ -105,32 +109,40 @@ constructor(protected ref: NbDialogRef<Thirdpaymentdialog>,
   this.ref.close();
   }
   ngOnInit() {
-    this.api.getProfileValue('Personal')
+    this.api.getenrollmentdetails('second_payment',this.applicationID)
       .subscribe(
         (data: any) => {  
-          this.user_data =  data['data']['user_data'];
+          this.user_data =  data['data']['user'];
+          //this.amount = "1000";
+          //this.amount = data['data']['fees'];
+          this.course_name = data['data']['specialization'];
           err => console.log(err)
       });
   }
 
-  async thirdpayment(){
-    //console.log('send req to payment gateway');
-    this.applicationId = this.route.snapshot.queryParamMap.get('appId');
-    this.courseID = this.route.snapshot.queryParamMap.get('courseID');
-    this.amount = this.title;
-    //console.log('this.applicationId====>'+this.applicationId+'@@@@@@@@@this.courseID===========>'+this.courseID);
-    var thirdpayment = await this.api.thirdpaymentrequest(this.applicationId,this.courseID,this.amount)
+  async onlinetestpayment(){
+    //this.applicationId = this.route.snapshot.queryParamMap.get('appId');
+   // this.courseID = this.route.snapshot.queryParamMap.get('courseID');
+    var thirdpayment = await this.api.thirdpaymentrequest(this.applicationID,this.courseID,this.amount);
     thirdpayment.subscribe(
-        data => {
-          //console.log('response url==>'+data['data']);
-          //window.location.assign(data['data']);
-          this.ref.close();
-        },
-        error => {
-            console.log("Error", error);
-        }
+      data => {
+        this.accessCode = data['data']['accessCode'];
+        console.log('this.accessCode=============>'+this.accessCode);
+        this.secureUrl = data['data']['secureUrl'];
+        console.log('this.secureUrl=============>'+this.secureUrl);
+        this.encRequest = data['data']['encRequest'];
+        console.log('this.encRequest=============>'+this.encRequest);
+        setTimeout(function(){ 
+         //console.log("Hello");
+         this.loading = false;
+          var myForm = <HTMLFormElement>document.getElementById('nonseamless');
+          //console.log('myForm=============>'+myForm);
+          myForm.submit();
+        }, 1000);
+      },
+      error => {
+          console.log("Error", error);
+      }
     ); 
   }
-
-  
 }

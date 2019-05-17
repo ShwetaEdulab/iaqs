@@ -16,12 +16,16 @@ import { SelectCollegeComponent } from './selectcollege/selectcollege.component'
 import { CourseComponent } from './course/course.component';
 import { ApplicationStepsComponent } from './application/applicationsteps/applicationsteps.component';
 import { PreferencesComponent } from './cart/preference/preferences.component';
+import { SecondSuccessComponent } from './paymentrequests/SecondSuccess.component';
 import { SecondCancelComponent } from './paymentrequests/SecondCancel.component';
 import { SecondFailureComponent } from './paymentrequests/SecondFailure.component';
+import { ThirdSuccessComponent } from './paymentrequests/ThirdSuccess.component';
 import { ThirdCancelComponent } from './paymentrequests/ThirdCancel.component';
 import { ThirdFailureComponent } from './paymentrequests/ThirdFailure.component';
 import { searchCourseComponent } from './course/searchCourse/searchCourse.component';
 import { FirstSuccessComponent } from './paymentrequests/FirstSuccess.component';
+import { FirstCancelComponent } from './paymentrequests/FirstCancel.component';
+import { FirstFailureComponent } from './paymentrequests/FirstFailure.component';
 import { HelpComponent } from './help/help.component';
 import { ViewTicketComponent } from './help/viewTicket/viewTicket.component';
 import { PeersComponent } from './peers/peers.component';
@@ -72,9 +76,29 @@ const routes: Routes = [{
     component: FirstSuccessComponent,
   }, 
   {
+    path : 'FirstCancel',
+    component : FirstCancelComponent,
+  },
+  {
+    path: 'FirstFailure',
+    component: FirstFailureComponent,
+  },
+  {
+    path: 'SecondSuccess',
+    component: SecondSuccessComponent,
+  }, 
+  {
     path: 'SecondCancel',
     component: SecondCancelComponent,
   },
+  {
+    path: 'SecondFailure',
+    component: SecondFailureComponent,
+  },
+  {
+    path: 'ThirdSuccess',
+    component: ThirdSuccessComponent,
+  }, 
   {
     path: 'ThirdCancel',
     component: ThirdCancelComponent,
@@ -82,10 +106,6 @@ const routes: Routes = [{
   {
     path: 'ThirdFailure',
     component: ThirdFailureComponent,
-  },
-  {
-    path: 'SecondFailure',
-    component: SecondFailureComponent,
   },
   {
     path: 'downloads',
