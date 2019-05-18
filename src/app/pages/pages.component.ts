@@ -17,6 +17,7 @@ export class PagesComponent {
 
   menu = MENU_ITEMS;
   show;
+  showdownload;
   constructor(
     protected api : ApiService,
     private accessChecker: NbAccessChecker
@@ -36,6 +37,13 @@ export class PagesComponent {
       }else{
         this.show = 'false';
       }
+
+      if(data['data']['order'] == true){
+        this.showdownload = 'true';
+      }else if(data['data']['order'] == false){
+        this.showdownload = 'false';
+      }
+
       for (var a in MENU_ITEMS){
         if(MENU_ITEMS[a].title == 'My Application'){
           if(this.show == 'false'){
@@ -44,7 +52,13 @@ export class PagesComponent {
             MENU_ITEMS[a].hidden = false;
           }
         }
-        
+        if(MENU_ITEMS[a].title == 'Downloads'){
+          if(this.showdownload == 'false'){
+            MENU_ITEMS[a].hidden = true;
+          }else{
+            MENU_ITEMS[a].hidden = false;
+          }
+        }
       }
     },
     error => {
@@ -61,8 +75,6 @@ authMenuItems() {
 
 
 authMenuItem(menuItem : NbMenuItem) {
-  // console.log('menuItem.data@@==='+menuItem.data['permission'])
-  // console.log('menuItem.data@@==='+menuItem.data['resource'])
   if (menuItem.data && menuItem.data['permission'] && menuItem.data['resource']) {
     this.accessChecker.isGranted(menuItem.data['permission'], menuItem.data['resource']).subscribe(granted => {
       menuItem.hidden = !granted;

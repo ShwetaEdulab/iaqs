@@ -145,6 +145,14 @@ export class DownloadsComponent  {
       document.getElementById('Sponsorship').style.visibility = 'visible';
       this.document_name = '3rd Person Affidavit - Pune to Pune (Candidates below 18 years of age)',
       this.file = '3rd Person Affidavit - Pune to Pune (Candidates below 18 years of age) 2018-19.pdf'
+    }else  if(doc == 'BSc in AQF'){
+      document.getElementById('Sponsorship').style.visibility = 'visible';
+      this.document_name = 'BSc in AQF',
+      this.file = 'BSc in AQF.pdf'
+    }else  if(doc == 'MSc in AQF'){
+      document.getElementById('Sponsorship').style.visibility = 'visible';
+      this.document_name = 'MSc in AQF',
+      this.file = 'MSc in AQF.pdf'
     }
   }
   downloaddocument(document,file){
@@ -153,9 +161,8 @@ export class DownloadsComponent  {
       this.api.downloadDocument(location,file)
       .subscribe(data => {
       saveAs(data, file);    
-    });
-    }
-    else if(document == 'Self Affidavit'){
+      });
+    }else if(document == 'Self Affidavit'){
         var location = 'Affidavit';
         this.api.downloadDocument(location,file)
         .subscribe(data => {
@@ -173,13 +180,25 @@ export class DownloadsComponent  {
         .subscribe(data => {
         saveAs(data, file);    
       });
-  }else if(document == '3rd Person Affidavit - Pune to Pune (Candidates below 18 years of age)'){
-      var location = 'Affidavit';
+    }else if(document == '3rd Person Affidavit - Pune to Pune (Candidates below 18 years of age)'){
+        var location = 'Affidavit';
+        this.api.downloadDocument(location,file)
+        .subscribe(data => {
+        saveAs(data, file);    
+      });
+    }else if(document == 'BSc in AQF'){
+      var location = 'pdf';
       this.api.downloadDocument(location,file)
       .subscribe(data => {
       saveAs(data, file);    
-    });
-  }
+      });
+    }else if(document == 'MSc in AQF'){
+      var location = 'pdf';
+      this.api.downloadDocument(location,file)
+        .subscribe(data => {
+        saveAs(data, file);    
+      });
+    }
   }
 }
 

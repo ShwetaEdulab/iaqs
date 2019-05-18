@@ -214,12 +214,15 @@ export class AdminApplicationComponent {
             if(data['status'] === 200){
               this.loading = false;
               //this.ngOnInit();
-              this.adminApi.downloadFiles(data[`data`])
-              .subscribe(data => {
-                saveAs(data, enrollment_no+'_hallticket.pdf');
-                this.ngOnInit();  
-              });
-
+              if(e.checked == true){
+                this.adminApi.downloadFiles(data[`data`])
+                .subscribe(data => {
+                  saveAs(data, enrollment_no+'_hallticket.pdf');
+                  this.ngOnInit();  
+                });
+              }else if(e.checked == false){
+                this.ngOnInit();
+              }
             }else if(data['status'] === 400){
               this.loading = false;
               alert(data['message']);

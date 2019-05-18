@@ -322,6 +322,19 @@ getProfileCompleteness(){
     }
   }
 
+  downloadPDF(file_name):Observable<Blob>{
+    try{
+    let headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json');
+    return this.httpClient.get(`${this.baseUrl}/download_Course_Pdf?file_name=`+file_name, { headers: headers, responseType: 'blob'}).map(
+        (res) => {
+            return new Blob([res], { type: 'application/pdf' });
+        });
+    }catch(error) {
+      this.handleError("unable to get Files : "+JSON.stringify(error));
+    }
+  }
+
   //Payment gateway routes
 
   addtoUserCourseApplication(couser_id){

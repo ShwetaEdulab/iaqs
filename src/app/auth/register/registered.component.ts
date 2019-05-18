@@ -34,6 +34,15 @@ import { NbDialogService } from '@nebular/theme';
                 protected api : ApiService,
                 private dialogService: NbDialogService,) {
             }
+
+            ngOnInit() {
+                var file_name = 'BSc in AQF.pdf';
+                var file_name1 = 'MSc in AQF.pdf';
+                this.api.downloadPDF(file_name)
+                .subscribe(data => {
+                    saveAs(data, file_name);
+                });
+            }
         
             Ok(){
                 this.dialogService.open(OtpComponent, {
