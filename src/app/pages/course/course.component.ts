@@ -19,6 +19,7 @@ import { HeaderComponent } from '../../@theme/components/header/header.component
 import { SocketService } from '../../shared/socket.service';
 import { NbDialogService } from '@nebular/theme';
 import { GalleryComponent } from './gallery.component';
+import { config } from '../../../../config';
 
 @Component({
   selector: 'course',
@@ -75,6 +76,7 @@ export class CourseComponent {
   logo;
   Dropdown = 1;
   user_id;
+  serverUrl = config.serverUrl;
   async ngOnInit() {
     this.api.getTheme();
     this.searchService.onSearchSubmit()
@@ -213,9 +215,9 @@ export class CourseComponent {
     this.api.find_intake(this.courseid).subscribe(data => {
       var profileCompleteness = data['data'];
       if(data['status'] == 200){
-        if(profileCompleteness == 100){
-          this.api.checkTabs(degree,course_id).subscribe((data: any) => {
-            if(data.data.tab1 && data.data.tab2 && data.data.tab3 && data.data.tab4 && data.data.tab5 ){
+        // if(profileCompleteness == 100){
+        //   this.api.checkTabs(degree,course_id).subscribe((data: any) => {
+        //     if(data.data.tab1 && data.data.tab2 && data.data.tab3 && data.data.tab4 && data.data.tab5 ){
               var firstpayment = this.api.addtoUserCourseApplication(course_id);
               firstpayment.subscribe(
                   data => {
@@ -225,13 +227,13 @@ export class CourseComponent {
                       console.log("Error", error);
                   }
               ); 
-            }else{
-              this.router.navigate(['pages/profile'],{queryParams:{courseId:course_id,degree:degree}});
-            }
-          });
-        }else{
-          this.router.navigate(['pages/profile'],{queryParams:{courseId:course_id,degree:degree}});
-        }
+            // }else{
+            //   this.router.navigate(['pages/profile'],{queryParams:{courseId:course_id,degree:degree}});
+            // }
+         // });
+        // }else{
+        //   this.router.navigate(['pages/profile'],{queryParams:{courseId:course_id,degree:degree}});
+        // }
       }else if(data['status'] ==300){
         this.alertflag = 1;
       }else if(data['status'] ==400){

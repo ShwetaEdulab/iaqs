@@ -1208,7 +1208,7 @@
                 <div class="col-xl-4" *ngIf="profile_info?.student_category != 'OPEN'">
                   <nb-card accent="primary" status="warning" [nbSpinner]="loading11" nbSpinnerStatus="danger"
                     nbSpinnerSize="xlarge">
-                    <nb-card-header>Caste Ceritificate<span style="color:red; font-size: x-large;">*</span>
+                    <nb-card-header>Caste Ceritificate
                       <i class="fa fa-info-circle" nbPopover="Please upload your transcript in .jpeg, .jpg or .png formats only and max image size should be 2 MB."
                         nbPopoverMode="hover"></i>
                       <button type='button' *ngIf="CasteCertificate?.filename == undefined && (SampleCasteCertificate != null || SampleCasteCertificate != undefined )"
@@ -1344,101 +1344,7 @@
                         </div>
                       </nb-card-body>
                     </nb-card>
-                  </div>
-                <!-- <div class="col-xl-4">
-                  <nb-card accent="primary" status="warning" [nbSpinner]="loading15" nbSpinnerStatus="danger"
-                    nbSpinnerSize="xlarge">
-                    <nb-card-header>District Change Certificate
-                      <i class="fa fa-info-circle" nbPopover="Please upload your transcript in .jpeg, .jpg or .png formats only and max image size should be 2 MB."
-                        nbPopoverMode="hover"></i>
-                      <button type='button' *ngIf="DistrictChangeCertificate?.filename == undefined && (SampleDistrictChangeCertificate != null || SampleDistrictChangeCertificate != undefined )"
-                        nbButton hero status="primary" class="col-sm-12 col-xs-12" size="xsmall" (click)="sampleDownload(SampleDistrictChangeCertificate,profile_info?.country_birth)"
-                        style=" margin-top:10px;">Sample</button>
-                        <nb-badge text="info" status="danger" position="top right" [nbPopover]="templateRef1" nbPopoverMode="hover"></nb-badge>
-                    </nb-card-header>
-                    <nb-card-body class="form-control">
-                      <div class="row">
-                        <div *ngIf="DistrictChangeCertificate?.filename==undefined || DistrictChangeCertificate?.lock_transcript == false"
-                          class="col-xl-6 col-sm-6 col-xs-6">
-                          <p-fileUpload ngDefaultControl name="file" mode="basic" [accept]="'.pdf,.jpg,.jpeg,.png,.PNG,.JPEG,.JPG,.PDF'" auto="true" chooseLabel="Browse" url="{{serverUrl}}/api/uploadtranscript?userid={{profile_info?.id}}&transcript_name=District Change Certificate"
-                            maxFileSize="2000000" formControlName="districtChangeCertificateCtrl"
-                            (onBeforeSend)="onBeforeSend($event,'15')" 
-                            (onUpload)="onUpload($event,null,'15')"
-                            (onError)="onErrorFileUpload($event,'15')"
-                            (onSelect)="onSelect($event);">
-                          </p-fileUpload>
-                        </div>
-                        <div *ngIf="DistrictChangeCertificate?.filename!=undefined" class="row">
-                          <div (click)="imagePopup(DistrictChangeCertificate?.filename)" class="col-xl-6 col-sm-12 col-xs-12" *ngIf="DistrictChangeCertificate?.type!='pdf'">
-                            <img class="img-responsive" style="width: 100px; height:100px;" [src]=" DistrictChangeCertificate?.filename | auth" />
-                          </div>
-                          <div class="col-xl-6 col-sm-6 col-xs-6" *ngIf="DistrictChangeCertificate?.type=='pdf'">
-                            <button nbButton type='button' shape="round" size="small" (click)="downloadTranscript(DistrictChangeCertificate?.filename)"
-                              status="success">Download</button>
-                          </div>
-                          <div class="col-xl-6 col-sm-6 col-xs-6" *ngIf="preferences == false">
-                            <button nbButton type='button' size="small" (click)="deleteTranscript('District Change Certificate',profile_info?.id,DistrictChangeCertificate?.transcriptId,'15')"
-                              status="success">Delete</button>
-                          </div>
-                        </div>
-                      </div>
-                      <div *ngIf="DistrictChangeCertificate?.filename!=undefined" class="row">
-                        <div class="col-xl-12 col-sm-12 col-xs-12" *ngIf="DistrictChangeCertificate?.lock_transcript == false">
-                          <span style="color:red; font-size: 100%;">Eligibility department finds fault in this
-                            document.Please remove this document and upload correct document</span>
-                        </div>
-                      </div>
-                    </nb-card-body>
-                  </nb-card>
-                </div> -->
-                <div class="col-xl-4">
-                  <nb-card accent="primary" status="warning" [nbSpinner]="loading12" nbSpinnerStatus="danger"
-                    nbSpinnerSize="xlarge">
-                    <nb-card-header>Domicile Certificate
-                      <i class="fa fa-info-circle" nbPopover="Please upload your transcript in .jpeg, .jpg or .png formats only and max image size should be 2 MB."
-                        nbPopoverMode="hover"></i>
-                      <button type='button' *ngIf="DomicileCertificate?.filename == undefined && (SampleDomicileCertificate != null || SampleDomicileCertificate != undefined )"
-                        nbButton hero status="primary" class="col-sm-12 col-xs-12" size="xsmall" (click)="sampleDownload(SampleDomicileCertificate,profile_info?.country_birth)"
-                        style=" margin-top:10px;">Sample</button>
-                        <nb-badge text="info" status="danger" position="top right" [nbPopover]="templateRef1" nbPopoverMode="hover"></nb-badge>
-                    </nb-card-header>
-                    <nb-card-body class="form-control">
-                      <div class="row">
-                        <div *ngIf="DomicileCertificate?.filename==undefined || DomicileCertificate?.lock_transcript == false"
-                          class="col-xl-6 col-sm-6 col-xs-6">
-                          <p-fileUpload ngDefaultControl name="file" mode="basic" [accept]="'.pdf,.jpg,.jpeg,.png,.PNG,.JPEG,.JPG,.PDF'" auto="true" chooseLabel="Browse" url="{{serverUrl}}/api/uploadtranscript?userid={{profile_info?.id}}&transcript_name=Domicile Certificate"
-                            maxFileSize="2000000" formControlName="domicileCertificateCtrl"
-                            (onBeforeSend)="onBeforeSend($event,'12')" 
-                            (onUpload)="onUpload($event,null,'12')"
-                            (onError)="onErrorFileUpload($event,'12')"
-                            (onSelect)="onSelect($event);">
-                          </p-fileUpload>
-                        </div>
-                        <div *ngIf="DomicileCertificate?.filename!=undefined" class="row">
-                          <div (click)="imagePopup(DomicileCertificate?.filename)" class="col-xl-6 col-sm-12 col-xs-12" *ngIf="DomicileCertificate?.type!='pdf'">
-                            <img class="img-responsive" style="width: 100px; height:100px;" [src]=" DomicileCertificate?.filename | auth" />
-                          </div>
-                          <div class="col-xl-6 col-sm-6 col-xs-6" *ngIf="DomicileCertificate?.type=='pdf'">
-                            <button nbButton type='button' shape="round" size="small" (click)="downloadTranscript(DomicileCertificate?.filename)"
-                              status="success">Download</button>
-                          </div>
-                          <div class="col-xl-6 col-sm-6 col-xs-6" *ngIf="preferences == false">
-                            <button nbButton type='button' size="small" (click)="deleteTranscript('Domicile Certificate',profile_info?.id,DomicileCertificate?.transcriptId,'12')"
-                              status="success">Delete</button>
-                          </div>
-                        </div>
-                      </div>
-                      <div *ngIf="DomicileCertificate?.filename!=undefined" class="row">
-                        <div class="col-xl-12 col-sm-12 col-xs-12" *ngIf="DomicileCertificate?.lock_transcript == false">
-                          <span style="color:red; font-size: 100%;">Eligibility department finds fault in this
-                            document.Please remove this document and upload correct document</span>
-                        </div>
-                      </div>
-                    </nb-card-body>
-                  </nb-card>
                 </div>
-              </div>
-              <div class="row">
                 <div *ngIf="married == true" class="col-xl-4">
                     <nb-card accent="primary" status="warning" [nbSpinner]="loading14" nbSpinnerStatus="danger"
                     nbSpinnerSize="xlarge">
@@ -1485,6 +1391,98 @@
                     </nb-card-body>
                     </nb-card>
                 </div>
+                <!-- <div class="col-xl-4">
+                  <nb-card accent="primary" status="warning" [nbSpinner]="loading15" nbSpinnerStatus="danger"
+                    nbSpinnerSize="xlarge">
+                    <nb-card-header>District Change Certificate
+                      <i class="fa fa-info-circle" nbPopover="Please upload your transcript in .jpeg, .jpg or .png formats only and max image size should be 2 MB."
+                        nbPopoverMode="hover"></i>
+                      <button type='button' *ngIf="DistrictChangeCertificate?.filename == undefined && (SampleDistrictChangeCertificate != null || SampleDistrictChangeCertificate != undefined )"
+                        nbButton hero status="primary" class="col-sm-12 col-xs-12" size="xsmall" (click)="sampleDownload(SampleDistrictChangeCertificate,profile_info?.country_birth)"
+                        style=" margin-top:10px;">Sample</button>
+                        <nb-badge text="info" status="danger" position="top right" [nbPopover]="templateRef1" nbPopoverMode="hover"></nb-badge>
+                    </nb-card-header>
+                    <nb-card-body class="form-control">
+                      <div class="row">
+                        <div *ngIf="DistrictChangeCertificate?.filename==undefined || DistrictChangeCertificate?.lock_transcript == false"
+                          class="col-xl-6 col-sm-6 col-xs-6">
+                          <p-fileUpload ngDefaultControl name="file" mode="basic" [accept]="'.pdf,.jpg,.jpeg,.png,.PNG,.JPEG,.JPG,.PDF'" auto="true" chooseLabel="Browse" url="{{serverUrl}}/api/uploadtranscript?userid={{profile_info?.id}}&transcript_name=District Change Certificate"
+                            maxFileSize="2000000" formControlName="districtChangeCertificateCtrl"
+                            (onBeforeSend)="onBeforeSend($event,'15')" 
+                            (onUpload)="onUpload($event,null,'15')"
+                            (onError)="onErrorFileUpload($event,'15')"
+                            (onSelect)="onSelect($event);">
+                          </p-fileUpload>
+                        </div>
+                        <div *ngIf="DistrictChangeCertificate?.filename!=undefined" class="row">
+                          <div (click)="imagePopup(DistrictChangeCertificate?.filename)" class="col-xl-6 col-sm-12 col-xs-12" *ngIf="DistrictChangeCertificate?.type!='pdf'">
+                            <img class="img-responsive" style="width: 100px; height:100px;" [src]=" DistrictChangeCertificate?.filename | auth" />
+                          </div>
+                          <div class="col-xl-6 col-sm-6 col-xs-6" *ngIf="DistrictChangeCertificate?.type=='pdf'">
+                            <button nbButton type='button' shape="round" size="small" (click)="downloadTranscript(DistrictChangeCertificate?.filename)"
+                              status="success">Download</button>
+                          </div>
+                          <div class="col-xl-6 col-sm-6 col-xs-6" *ngIf="preferences == false">
+                            <button nbButton type='button' size="small" (click)="deleteTranscript('District Change Certificate',profile_info?.id,DistrictChangeCertificate?.transcriptId,'15')"
+                              status="success">Delete</button>
+                          </div>
+                        </div>
+                      </div>
+                      <div *ngIf="DistrictChangeCertificate?.filename!=undefined" class="row">
+                        <div class="col-xl-12 col-sm-12 col-xs-12" *ngIf="DistrictChangeCertificate?.lock_transcript == false">
+                          <span style="color:red; font-size: 100%;">Eligibility department finds fault in this
+                            document.Please remove this document and upload correct document</span>
+                        </div>
+                      </div>
+                    </nb-card-body>
+                  </nb-card>
+                </div> -->
+                <!-- <div class="col-xl-4">
+                  <nb-card accent="primary" status="warning" [nbSpinner]="loading12" nbSpinnerStatus="danger"
+                    nbSpinnerSize="xlarge">
+                    <nb-card-header>Domicile Certificate
+                      <i class="fa fa-info-circle" nbPopover="Please upload your transcript in .jpeg, .jpg or .png formats only and max image size should be 2 MB."
+                        nbPopoverMode="hover"></i>
+                      <button type='button' *ngIf="DomicileCertificate?.filename == undefined && (SampleDomicileCertificate != null || SampleDomicileCertificate != undefined )"
+                        nbButton hero status="primary" class="col-sm-12 col-xs-12" size="xsmall" (click)="sampleDownload(SampleDomicileCertificate,profile_info?.country_birth)"
+                        style=" margin-top:10px;">Sample</button>
+                        <nb-badge text="info" status="danger" position="top right" [nbPopover]="templateRef1" nbPopoverMode="hover"></nb-badge>
+                    </nb-card-header>
+                    <nb-card-body class="form-control">
+                      <div class="row">
+                        <div *ngIf="DomicileCertificate?.filename==undefined || DomicileCertificate?.lock_transcript == false"
+                          class="col-xl-6 col-sm-6 col-xs-6">
+                          <p-fileUpload ngDefaultControl name="file" mode="basic" [accept]="'.pdf,.jpg,.jpeg,.png,.PNG,.JPEG,.JPG,.PDF'" auto="true" chooseLabel="Browse" url="{{serverUrl}}/api/uploadtranscript?userid={{profile_info?.id}}&transcript_name=Domicile Certificate"
+                            maxFileSize="2000000" formControlName="domicileCertificateCtrl"
+                            (onBeforeSend)="onBeforeSend($event,'12')" 
+                            (onUpload)="onUpload($event,null,'12')"
+                            (onError)="onErrorFileUpload($event,'12')"
+                            (onSelect)="onSelect($event);">
+                          </p-fileUpload>
+                        </div>
+                        <div *ngIf="DomicileCertificate?.filename!=undefined" class="row">
+                          <div (click)="imagePopup(DomicileCertificate?.filename)" class="col-xl-6 col-sm-12 col-xs-12" *ngIf="DomicileCertificate?.type!='pdf'">
+                            <img class="img-responsive" style="width: 100px; height:100px;" [src]=" DomicileCertificate?.filename | auth" />
+                          </div>
+                          <div class="col-xl-6 col-sm-6 col-xs-6" *ngIf="DomicileCertificate?.type=='pdf'">
+                            <button nbButton type='button' shape="round" size="small" (click)="downloadTranscript(DomicileCertificate?.filename)"
+                              status="success">Download</button>
+                          </div>
+                          <div class="col-xl-6 col-sm-6 col-xs-6" *ngIf="preferences == false">
+                            <button nbButton type='button' size="small" (click)="deleteTranscript('Domicile Certificate',profile_info?.id,DomicileCertificate?.transcriptId,'12')"
+                              status="success">Delete</button>
+                          </div>
+                        </div>
+                      </div>
+                      <div *ngIf="DomicileCertificate?.filename!=undefined" class="row">
+                        <div class="col-xl-12 col-sm-12 col-xs-12" *ngIf="DomicileCertificate?.lock_transcript == false">
+                          <span style="color:red; font-size: 100%;">Eligibility department finds fault in this
+                            document.Please remove this document and upload correct document</span>
+                        </div>
+                      </div>
+                    </nb-card-body>
+                  </nb-card>
+                </div> -->
               </div>
               <hr>
               <div class="row">

@@ -189,6 +189,15 @@ getProfileCompleteness(){
 
   }
 
+  saveacturial(value){
+    try{
+      return this.httpClient.post(`${this.baseUrl}/api/myApplication/saveacturial`,{"value":value});      
+    }catch(error) {
+      this.handleError("saveacturial : "+error);
+    }
+
+  }
+
   myApplicationCheckTabs(applicationId){
     try{
           return this.httpClient.get(`${this.baseUrl}/api/myApplication/myApplicationCheckTabs?app_Id=`+applicationId);

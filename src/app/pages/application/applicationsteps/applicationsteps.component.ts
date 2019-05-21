@@ -58,6 +58,8 @@ export class ApplicationStepsComponent implements OnInit {
   accept_value: any;
   personalFee: any;
   pi_test_date: any;
+  onlineTestPayment: any;
+  examgiven: any;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -148,6 +150,9 @@ export class ApplicationStepsComponent implements OnInit {
     .subscribe(
       (data: any) => {
         this.OnlinePersonaldetails = data['data'];
+        console.log("JSON.stringify=======>"+JSON.stringify(this.OnlinePersonaldetails));
+        this.onlineTestPayment = data['data']['onlineTestPayment'];
+        this.examgiven = data['data']['examgiven'];
         this.personalFee = data['data']['second_payment'];
         this.pi_test_date = data['data']['pi_test_date'];
         this.specialization = data['data']['specialization'];
@@ -414,6 +419,24 @@ export class ApplicationStepsComponent implements OnInit {
     })
    }
 
+  onlineexamfee(){
+    this.dialogService.open(OnlineTestPaymentdialog, {
+      closeOnBackdropClick : false,
+        context: {
+          title: 'This is a title passed to the dialog component',
+          applicationID : this.applicationId,
+          courseID : this.courseID,
+          amount : '1000',
+          order_id : '1'
+        },
+      }).onClose
+      .subscribe(
+        (data: any) => {
+          //this.ngOnInit();
+          err => console.error(err)
+      })
+  }
+
 
   proceedforpayment(){
     this.dialogService.open(Secondpaymentdialog, {
@@ -429,7 +452,7 @@ export class ApplicationStepsComponent implements OnInit {
     .subscribe(
       (data: any) => {
         this.pi_test_date = "";
-        this.personalFee = true;
+        //this.personalFee = true;
         err => console.error(err)
       })
   }

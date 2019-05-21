@@ -108,7 +108,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
 
   {
-    title: 'My Application',
+    title: 'Admission Process',
     icon: 'ion-filing',
     link: '/pages/application',
     data: {

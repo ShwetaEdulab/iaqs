@@ -4,7 +4,8 @@
                 <nb-card-header>
                     <div class="row" >
                         <div class="col-md-8">
-                            <h3>{{college?.collegename}}</h3><br>
+                            <!-- <h3>{{college?.collegename}}</h3><br> -->
+                            <h3>Institute of Actuarial and Quantitative Studies</h3>
                             <h5>{{college?.city}}, {{college?.state}}</h5>
                         </div>
                         <div class="col-md-2">
@@ -34,7 +35,7 @@
                           <div *ngFor= "let college of collegelist">
                               <nb-card status="primary">
                                   <nb-card-body >
-                                      <img src={{college.logo}}  height=":500px;" width="100%;">
+                                      <img src="{{serverUrl}}/upload/college/logo/1/lOGOnew.png"  height=":500px;" width="100%;">
                                   </nb-card-body>
                               </nb-card>
                           </div>
@@ -52,12 +53,12 @@
                                                   <div class="col-md-4">
                                           <img src="https://img.icons8.com/color/100/000000/banknotes.png">
                                                 </div>
-                                          <h3 class="col-md-8" style="margin-top:30px;"><b>Fees :</b> {{college?.fees}}</h3>
+                                          <h3 class="col-md-8" style="margin-top:30px;"><b>Fees :</b> {{college?.fees}} ( Per Semester)</h3>
                                             </div>
                                   </nb-card-body>
                               </nb-card>
                           </div>
-                          <div *ngIf="gallery != '' ">
+                          <!-- <div *ngIf="gallery != '' ">
                                 <nb-card>
                                     <nb-card-header><b>Gallery</b></nb-card-header>
                                     <nb-card-body >
@@ -69,7 +70,7 @@
                                     </nb-card-body>
                                 </nb-card>
 
-                          </div>
+                          </div> -->
                           <div *ngIf="placement != '' ">
                               <div class="row">
                                       <div class="col-lg-12">

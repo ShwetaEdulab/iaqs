@@ -5,6 +5,7 @@ import { ApplicationComponent } from './application.component';
 import { NbAccordionModule,NbAlertModule } from '@nebular/theme';
 import { FormsModule } from '@angular/forms';
 import {NbStepperModule} from '@nebular/theme/components/stepper/stepper.module';
+import {FileUploadModule} from 'primeng/fileupload';
 @NgModule({
   imports: [
     ThemeModule,
@@ -12,7 +13,8 @@ import {NbStepperModule} from '@nebular/theme/components/stepper/stepper.module'
     NbAccordionModule,
     FormsModule,
     NbAlertModule,
-    NbStepperModule,  
+    NbStepperModule,
+    FileUploadModule,
   ],
   declarations: [
     ApplicationComponent,

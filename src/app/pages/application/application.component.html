@@ -14,15 +14,38 @@
             <nb-card status="success">
                 <nb-card-header>{{item.application?.specialization}}</nb-card-header>
                 <nb-card-body>
-                    {{item.application?.overview}}
+                    <div class="col-xl-12">
+                        {{item.application?.overview}}
+                    </div><br>
+                    <div class="col-xl-12">
+                        <div>Have you given or passed any acturial paper or ACET</div>
+                    </div><br>
+                    <div class="col-xl-4">
+                        <label class="radio-inline">
+                            <input id="rdb1" type="radio" [(ngModel)]="testradio" name="address_Radio" value="true" (click)="checkradio('true')" /> Yes
+                        </label>
+                    </div>
+                    <div class="col-xl-4">
+                        <label class="radio-inline">
+                            <input id="rdb2" type="radio" [(ngModel)]="testradio" name="address_Radio" value="false" (click)="checkradio('false')"/> No
+                        </label>
+                    </div><br>
+                    <div class="col-xl-12" *ngIf="showupload == true">
+                        Upload the mention document above :<br><br>
+                        <p-fileUpload class="form-control" [accept]= "'.pdf,.jpg,.jpeg,.png,.PNG,.JPEG,.JPG,.PDF'" chooseLabel="Browse"
+                            name="file" url="{{serverUrl}}/api/myApplication/upload?userid={{id}}&acturialExam=true&applicationId={{item.application?.id}}" 
+                            maxFileSize="5000000" (onBeforeSend)="onBeforeSend($event)"
+                            (onUpload)="onUpload($event)" 
+                            (onSelect)="onSelect($event);">
+                        </p-fileUpload>
+                        <span *ngIf='uploaderror == true'>Max uploaded file size should be 5 MB.</span>
+                    </div>
                 </nb-card-body>
-                <button nbButton *ngIf="item.application?.check_eligibility == 'true' && item.application?.online_test_date != null && item.application?.online_test_time != null;" (click)="loadsteps(item.application?.id,item.application?.course_id,item.application?.onlineTestPayment)">Your exam is schedule .</button>
-                <button nbButton *ngIf="item.application?.check_eligibility == 'true' && item.application?.online_test_date == null && item.application?.online_test_time == null;" (click)="showalert3()">Your exam is not schedule .</button>
-                <button nbButton *ngIf=" item.application?.check_eligibility == 'false';" (click)="showalert3()">Your exam is not schedule.</button>
-                <!-- <button nbButton *ngIf="item.application.status === 'accept';" (click)="loadsteps(item.application.id,item.application.course_id)">View More</button>
-                <button nbButton *ngIf="item.application.status === 'reject';" (click)="openReject()">Rejected</button>
-                <button nbButton *ngIf="item.application.status === 'new' && item.application.check_eligibility == 'true';" (click)="showalert()">Sent to Eligibility Department.</button>
-                <button nbButton *ngIf="item.application.status === 'new' && item.application.check_eligibility == 'false';">Waiting for approval.</button> -->
+                <div *ngIf="showbutton == true" style="text-align:center;">
+                    <button nbButton *ngIf="item.application?.check_eligibility == 'true' && item.application?.online_test_date != null && item.application?.online_test_time != null;" (click)="loadsteps(item.application?.id,item.application?.course_id)">Your exam is scheduled .</button>
+                    <button nbButton *ngIf="item.application?.check_eligibility == 'true' && item.application?.online_test_date == null && item.application?.online_test_time == null;" (click)="showalert3()">Your exam is not scheduled .</button>
+                    <button nbButton *ngIf=" item.application?.check_eligibility == 'false';" (click)="showalert3()">Your exam is not scheduled.</button>
+                </div>
             </nb-card>
         </div>
     </div>

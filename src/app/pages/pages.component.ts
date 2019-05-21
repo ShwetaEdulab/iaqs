@@ -30,6 +30,7 @@ export class PagesComponent {
   var checkapplications =  this.api.checkapplications();
   checkapplications.subscribe(
     (data: any) => {
+      console.log("data['status']=====>"+data['status']);
       if(data['status']== 200){
         this.show = 'true';
       }else if(data['status']== 400){
@@ -45,7 +46,7 @@ export class PagesComponent {
       }
 
       for (var a in MENU_ITEMS){
-        if(MENU_ITEMS[a].title == 'My Application'){
+        if(MENU_ITEMS[a].title == 'Admission Process'){
           if(this.show == 'false'){
             MENU_ITEMS[a].hidden = true;
           }else{

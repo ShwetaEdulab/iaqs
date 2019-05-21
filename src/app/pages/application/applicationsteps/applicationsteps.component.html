@@ -9,7 +9,7 @@
         <nb-stepper (click)="checktabs(stepper.selectedIndex,tabcheck1,tabcheck2,tabcheck3,tabcheck4)" orientation="vertical" disableStepNavigation #stepper>
           <nb-step [stepControl]="OnlineEntranceForm" [completed]="tabcheck1"  label="Online Entrance Exam Details" class="step-container">
             <form [formGroup]="OnlineEntranceForm" class="step-container" style="width: 635px;">
-                <nb-card status="success">
+                <nb-card status="success" *ngIf="examgiven == false">
                   <nb-card-header>Online Entrance Exam Details</nb-card-header>
                   <nb-card-body>
                     <input type="hidden" ngModel="{{OnlinePersonaldetails?.pi_test_date}}" formControlName="PersonalExamCtrl">
@@ -38,16 +38,40 @@
                       </div>
                       </div>
                       <div class="row">
-                        <div class="col-xl-12" *ngIf="personalFee == false">
+                          <div class="col-xl-12" *ngIf="onlineTestPayment == false">
+                              <button nbButton class="col-md-4 col-sm-4 col-xs-4 offset-md-4" style="margin-top:10px;" (click)="onlineexamfee()"
+                                  hero status="info">Pay Online Entrance Exam Fee</button>
+                          </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-xl-12" *ngIf="personalFee == false && onlineTestPayment == true">
                             <button nbButton class="col-md-4 col-sm-4 col-xs-4 offset-md-4" style="margin-top:10px;" (click)="proceedforpayment()"
                                 hero status="info">Proceed For Payment</button>
-                        </div>
-                        <div class="col-xl-12" *ngIf="personalFee == true && pi_test_date==''">
+                        </div><br>
+                        <div class="col-xl-12" *ngIf="personalFee == true && pi_test_date==''" style="text-align:center">
                           Wait Until the admin schedule your personal interview.
                         </div>
                       </div>
                   </nb-card-body>
                   <button nbButton nbStepperNext>next</button>
+                </nb-card>
+                <nb-card status="success" *ngIf="examgiven == true">
+                    <nb-card-header>Online Entrance Exam Details</nb-card-header>
+                    <nb-card-body>
+                        <div class="row">
+                          <div class="col-xl-12" *ngIf="personalFee == false" style="text-align:center;">
+                            If you want to reserved the seat, pay the specified amount. ( This Fee is refundable.)
+                          </div><br>
+                        <div class="col-xl-12" *ngIf="personalFee == false">
+                            <button nbButton class="col-md-4 col-sm-4 col-xs-4 offset-md-4" style="margin-top:10px;" (click)="proceedforpayment()"
+                                hero status="info">Proceed For Payment</button>
+                        </div><br><br>
+                        <div class="col-xl-12" *ngIf="pi_test_date==''" style="text-align:center">
+                          Wait Until the admin schedule your personal interview.
+                        </div>
+                      </div>
+                    </nb-card-body>
+                    <button nbButton nbStepperNext>next</button>
                 </nb-card>
             </form>
           </nb-step>
