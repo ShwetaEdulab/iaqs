@@ -33,6 +33,7 @@ export class ApplicationStepsComponent implements OnInit {
   courseID;
   country_birth;
   OnlineEntranceForm : FormGroup;
+  reservedSeatForm : FormGroup;
   PersonalInterviewForm : FormGroup;
   MarksForm : FormGroup;
   CoursePayForm : FormGroup;
@@ -43,6 +44,7 @@ export class ApplicationStepsComponent implements OnInit {
   tabcheck2;
   tabcheck3;
   tabcheck4;
+  tabcheck5;
   Marksdetails: any;
   loading = false;
   alertflag = 0;
@@ -60,6 +62,10 @@ export class ApplicationStepsComponent implements OnInit {
   pi_test_date: any;
   onlineTestPayment: any;
   examgiven: any;
+  acturial_document_verify: any;
+  onlinectrlval: any;
+  profilecomplete: any;
+  total_marks: any;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -104,21 +110,26 @@ export class ApplicationStepsComponent implements OnInit {
 			this.tabcheck2 = data.data.tab2;
       this.tabcheck3 = data.data.tab3;
       this.tabcheck4 = data.data.tab4;
+      this.tabcheck5 = data.data.tab5;
       if(data.data.tab1 == false){
 				setTimeout(()=>{
-					this.checktabs(0,this.tabcheck1,this.tabcheck2,this.tabcheck3,this.tabcheck4);
+					this.checktabs(0,this.tabcheck1,this.tabcheck2,this.tabcheck3,this.tabcheck4,this.tabcheck5);
 				  },1500);
 			}else if(data.data.tab2 == false){
 				setTimeout(()=>{
-					this.checktabs(1,this.tabcheck1,this.tabcheck2,this.tabcheck3,this.tabcheck4);
+					this.checktabs(1,this.tabcheck1,this.tabcheck2,this.tabcheck3,this.tabcheck4,this.tabcheck5);
 				  },1500);
 			}else if(data.data.tab3 == false){
 				setTimeout(()=>{
-					this.checktabs(2,this.tabcheck1,this.tabcheck2,this.tabcheck3,this.tabcheck4);
+					this.checktabs(2,this.tabcheck1,this.tabcheck2,this.tabcheck3,this.tabcheck4,this.tabcheck5);
 				  },1500);
       }else if(data.data.tab4 == false){
         setTimeout(()=>{
-					this.checktabs(3,this.tabcheck1,this.tabcheck2,this.tabcheck3,this.tabcheck4);
+					this.checktabs(3,this.tabcheck1,this.tabcheck2,this.tabcheck3,this.tabcheck4,this.tabcheck5);
+				  },1500);
+      }else if(data.data.tab5 == false){
+        setTimeout(()=>{
+					this.checktabs(4,this.tabcheck1,this.tabcheck2,this.tabcheck3,this.tabcheck4,this.tabcheck5);
 				  },1500);
       }
     });
@@ -128,6 +139,10 @@ export class ApplicationStepsComponent implements OnInit {
     this.OnlineEntranceForm = this.formBuilder.group({
       testDateCtrl : ['', Validators.required],
       testTimeCtrl : ['', Validators.required],
+      onlinepaymentCtrl : ['', Validators.required],
+      
+    });
+    this.reservedSeatForm = this.formBuilder.group({
       PersonalExamCtrl : ['', Validators.required],
     });
     this.PersonalInterviewForm = this.formBuilder.group({
@@ -135,27 +150,45 @@ export class ApplicationStepsComponent implements OnInit {
       interviewTimeCtrl : ['', Validators.required],
       MarksExamCtrl : ['', Validators.required],
     });
-    this.CoursePayForm = this.formBuilder.group({
-      examStatusCtrl : ['', Validators.required],
-      stuNameCtrl : ['', Validators.required],
-      stuAddCtrl: ['', Validators.required],
-      stuCityCtrl: ['', Validators.required],
-      stuStateCtrl: ['', Validators.required],
-      stuZipCtrl: ['', Validators.required],
-      stuTelCtrl: ['', Validators.required],
-      stuEmailCtrl: ['', Validators.required],
-      stuAmountCtrl: ['', Validators.required],
-    });
+    // this.CoursePayForm = this.formBuilder.group({
+    //   examStatusCtrl : ['', Validators.required],
+    //   stuNameCtrl : ['', Validators.required],
+    //   stuAddCtrl: ['', Validators.required],
+    //   stuCityCtrl: ['', Validators.required],
+    //   stuStateCtrl: ['', Validators.required],
+    //   stuZipCtrl: ['', Validators.required],
+    //   stuTelCtrl: ['', Validators.required],
+    //   stuEmailCtrl: ['', Validators.required],
+    //   stuAmountCtrl: ['', Validators.required],
+    // });
     this.api.getenrollmentdetails('onlinedetail',this.route.snapshot.queryParamMap.get('appId'))
     .subscribe(
       (data: any) => {
         this.OnlinePersonaldetails = data['data'];
-        console.log("JSON.stringify=======>"+JSON.stringify(this.OnlinePersonaldetails));
+        if(data['data']['onlineTestPayment'] == true){
+          this.onlinectrlval = data['data']['onlineTestPayment']
+        }else{
+          this.onlinectrlval = null;
+        }
+        if(this.OnlinePersonaldetails.UserData.profile_completeness == '100'){
+          this.profilecomplete = this.OnlinePersonaldetails.UserData.profile_completeness;
+        }else{
+          this.profilecomplete = '';
+        }
         this.onlineTestPayment = data['data']['onlineTestPayment'];
         this.examgiven = data['data']['examgiven'];
+        this.acturial_document_verify = data['data']['acturial_document_verify'];
         this.personalFee = data['data']['second_payment'];
         this.pi_test_date = data['data']['pi_test_date'];
         this.specialization = data['data']['specialization'];
+        if(this.examgiven == true && this.acturial_document_verify == 'true'){
+          this.OnlineEntranceForm.controls['testDateCtrl'].setValidators([]); 
+          this.OnlineEntranceForm.controls['testDateCtrl'].updateValueAndValidity(); 
+          this.OnlineEntranceForm.controls['testTimeCtrl'].setValidators([]); 
+          this.OnlineEntranceForm.controls['testTimeCtrl'].updateValueAndValidity();
+          this.OnlineEntranceForm.controls['onlinepaymentCtrl'].setValidators([]); 
+          this.OnlineEntranceForm.controls['onlinepaymentCtrl'].updateValueAndValidity();
+        }
         if(this.OnlinePersonaldetails.application_status=="accept"){
           this.application_status_value = this.OnlinePersonaldetails.application_status;
           this.accept_value = this.OnlinePersonaldetails.application_status;
@@ -175,11 +208,17 @@ export class ApplicationStepsComponent implements OnInit {
     this.MarksForm = this.formBuilder.group({
       totalMarksCtrl : ['', Validators.required],
       examStatusInMarkCtrl: ['', Validators.required],
+      profileCtrl: ['', Validators.required],
     });
     this.api.getenrollmentdetails('marksdetail',this.route.snapshot.queryParamMap.get('appId'))
     .subscribe(
       (data: any) => {
         this.Marksdetails = data['data'];
+        if(this.Marksdetails.total_marks=='' || this.Marksdetails.total_marks==null || this.Marksdetails.total_marks==undefined){
+          //this.total_marks = null;
+        }else{
+          this.total_marks = this.Marksdetails.total_marks;
+        }
       },
       error => {
         console.error("Error", error);
@@ -261,29 +300,35 @@ export class ApplicationStepsComponent implements OnInit {
     this.alertflag = 0;		
   }
 
-  public checktabs(tab_index,tab1,tab2,tab3,tab4){
-    if(this.OnlinePersonaldetails.online_test_date!='' && this.OnlinePersonaldetails.online_test_time!=''){
+  public checktabs(tab_index,tab1,tab2,tab3,tab4,tab5){
+    if(tab1){
 			this.tabcheck1 = true;
 		}else{
 			this.tabcheck1 = false;
-		}
+    }
 
-		if(this.OnlinePersonaldetails.pi_test_date!='' && this.OnlinePersonaldetails.pi_test_time!=''){
+    if(tab2){
 			this.tabcheck2 = true;
 		}else{
 			this.tabcheck2 = false;
-    }
-    
-		if(this.Marksdetails.total_marks!=''){
+		}
+
+		if(this.OnlinePersonaldetails.pi_test_date!='' && this.OnlinePersonaldetails.pi_test_time!='' && this.Marksdetails.total_marks!=''){
 			this.tabcheck3 = true;
 		}else{
 			this.tabcheck3 = false;
     }
-
-    if(tab4){
-      this.tabcheck4 = true;
+    
+		if(this.Marksdetails.total_marks!=''){
+			this.tabcheck4 = true;
 		}else{
 			this.tabcheck4 = false;
+    }
+
+    if(tab5){
+      this.tabcheck5 = true;
+		}else{
+			this.tabcheck5 = false;
     }
     
      if(tab_index == 0){
@@ -297,43 +342,73 @@ export class ApplicationStepsComponent implements OnInit {
          }
        }	
      }else if(tab_index == 1){
-       if(tab_index<2){
+        if(tab_index<2){
           if(tab1 == false){
             this.stepper.selectedIndex = 0;
           }else if(tab2 == false){
+            this.stepper.selectedIndex = 1;
+          }else{
+            this.stepper.selectedIndex = tab_index;
+          }
+        }else{
+          if(tab1 == false){
             this.stepper.selectedIndex = 0;
+          } else {
+            this.stepper.selectedIndex = tab_index;
+          }
+        }	
+      }else if(tab_index == 2){
+       if(tab_index<3){
+          if(tab1 == false){
+            this.stepper.selectedIndex = 0;
+          }else if(tab2 == false){
+            this.stepper.selectedIndex = 1;
+          }else if(tab3 == false){
+            this.stepper.selectedIndex = 2;
+          }else {
+            this.stepper.selectedIndex = tab_index;
           }
        }else{
-         if(tab2 == false){
+          if(tab1 == false){
            this.stepper.selectedIndex = 0;
-         }else if(tab3 == false){
+          }else if(tab2 == false){
            this.stepper.selectedIndex = 1;
-         }
+         }else if(tab3 == false){
+           this.stepper.selectedIndex = 2;
+         }else {
+          this.stepper.selectedIndex = tab_index;
+        }
        }	
-     }else if(tab_index == 2){
-       if(tab_index<3){
+     }else if(tab_index == 3){
+       if(tab_index<4){
          if(tab1 == false){
            this.stepper.selectedIndex = 0;
          }else if(tab2 == false){
-           this.stepper.selectedIndex = 0;
+           this.stepper.selectedIndex = 1;
          }else if(tab3 == false) {
-           this.stepper.selectedIndex = 1;
-         }
+           this.stepper.selectedIndex = 2;
+         }else {
+          this.stepper.selectedIndex = tab_index;
+        }
        }else{
-         if(tab2 == false){
-           this.stepper.selectedIndex = 0;
-         }else if(tab3 == false){
+        if(tab1 == false){
+          this.stepper.selectedIndex = 0;
+        }if(tab2 == false){
            this.stepper.selectedIndex = 1;
-         }
+         }else if(tab3 == false){
+           this.stepper.selectedIndex = 2;
+         }else {
+          this.stepper.selectedIndex = tab_index;
+        }
        }	
-     }else if(tab_index == 3){
-      if(tab_index<4){
+     }else if(tab_index == 4){
+      if(tab_index<5){
         if(tab1 == false){
           this.stepper.selectedIndex = 0;
         }else if(tab2 == false){
-          this.stepper.selectedIndex = 0;
-        }else if(tab3 == false) {
           this.stepper.selectedIndex = 1;
+        }else if(tab3 == false) {
+          this.stepper.selectedIndex = 2;
         }else if(tab4 == false && (this.application_status_value=='reject' || this.application_status_value=='new' || this.application_status_value=='' || this.application_status_value==null)){
           this.stepper.selectedIndex = 2;
         }else if(tab4 == false && this.application_status_value=='accept'){
@@ -455,5 +530,21 @@ export class ApplicationStepsComponent implements OnInit {
         //this.personalFee = true;
         err => console.error(err)
       })
+  }
+
+  redirectProfile(applicationID,courseID){
+    this.api.getDegree(this.courseID).subscribe(data =>{
+      this.router.navigate(['pages/profile'],{queryParams:{courseId:courseID,applicationID:applicationID,degree:data['data']}})
+    })
+  }
+
+  next(){
+    const invalid = [];
+    const controls = this.PersonalInterviewForm.controls;
+    for (const name in controls) {
+        if (controls[name].invalid) {
+            invalid.push(name);
+        }
+    }
   }
 }
