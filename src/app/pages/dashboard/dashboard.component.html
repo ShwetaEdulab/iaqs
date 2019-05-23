@@ -13,27 +13,26 @@
       </div>
       <div lass="col-md-12" style="margin-top:50px;">
         <nb-stepper   #stepper (click)="selectStep()" >
-          <nb-step   [label]="labelOne" >
+          <!-- <nb-step   [label]="labelOne" >
             <ng-template #labelOne >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 Pay Application Fees</ng-template>
-          </nb-step>
-          <nb-step [label]="labelTwo"  >
+          </nb-step> -->
+          <!-- <nb-step [label]="labelTwo"  >
             <ng-template #labelTwo>Applied Course</ng-template>
+          </nb-step> -->
+          <nb-step [label]="labelOne" >  
+            <ng-template #labelOne>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;;&nbsp;&nbsp;Quantitative Aptitude Test (QAT)</ng-template>
           </nb-step>
-          <nb-step [label]="labelThree"  >  
-            <ng-template #labelThree>Details of Online Entrance Test</ng-template>
+          <nb-step [label]="labelTwo" >
+            <ng-template #labelTwo>Personal Interview</ng-template>
           </nb-step>
-          <nb-step [label]="labelFour" >
-            <ng-template #labelFour>Details of Personal Interview</ng-template>
+          <nb-step [label]="labelThree">
+            <ng-template #labelThree>Upload Documents</ng-template>
           </nb-step>
-          <nb-step [label]="labelFive">
-            <ng-template #labelFive>Result of the exam</ng-template>
-          </nb-step>
-          <nb-step [label]="labelSix"  >
-            <ng-template #labelSix>Pay Course Fees
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</ng-template>
+          <nb-step [label]="labelFour"  >
+            <ng-template #labelFour>Admission</ng-template>
           </nb-step>
         </nb-stepper>
       </div>

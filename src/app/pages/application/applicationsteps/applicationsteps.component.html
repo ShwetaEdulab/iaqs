@@ -100,7 +100,7 @@
                 <nb-card status="success" *ngIf="examgiven == true">
                     <nb-card-header>Quantitative Aptitude Test Details</nb-card-header>
                     <nb-card-body>
-                        <div class="row" *ngIf="acturial_document_verify == 'fasle'">
+                        <div class="row" *ngIf="acturial_document_verify == 'false' || acturial_document_verify == ''">
                           <div class="col-xl-12" style="text-align:center;">
                             <h5>You have already uploaded the marksheet. Please wait until admin verifies the document.</h5>
                           </div>

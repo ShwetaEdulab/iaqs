@@ -12,6 +12,15 @@ export const MENU_ITEMS: NbMenuItem[] = [
     },
   },
   {
+    title: 'QAT',
+    icon: 'ion-filing',
+    link: '/pages/application',
+    data: {
+      permission: 'view',
+      resource: 'application'
+    },
+  }, 
+  {
     title: 'Profile',
     icon: 'nb-compose',
     link: '/pages/profile',
@@ -61,7 +70,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     },
   },
   {
-    title: 'Online Entrance Exam',
+    title: 'Quantitative Aptitude Test Details',
     icon: 'ion-filing',
     link: '/pages/adminApplication',
     data: {
@@ -71,7 +80,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
 
   {
-    title: 'Personal Interview Exam',
+    title: 'Personal Interview',
     icon: 'ion-clipboard',
     link: '/pages/adminEligibility',
     data: {
@@ -105,17 +114,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       permission: 'view',
       resource: 'adminReport'
     },
-  },
-
-  {
-    title: 'QAT',
-    icon: 'ion-filing',
-    link: '/pages/application',
-    data: {
-      permission: 'view',
-      resource: 'application'
-    },
-  },   
+  },  
   {
     title: 'UTILITIES',
     group: true,

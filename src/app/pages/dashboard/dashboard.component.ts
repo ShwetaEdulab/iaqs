@@ -201,23 +201,24 @@ export class DashboardComponent {
 
 
   selectStep(){
+    // if(this.stepper.selectedIndex == 0){
+    //   if(this.cartCheck == true){
+    //     this.router.navigate(['pages/cart']);
+    //   }else{
+    //     this.message = "You havn't add any course to cart";
+    //     this.alertFlag = 1;
+    //     this.timer();
+    //   }
+    // }else if(this.stepper.selectedIndex == 1){
+    //   if(this.length > 0){
+    //     this.router.navigate(['pages/application']);
+    //   }else{
+    //     this.message = "You havn't apply any course";
+    //     this.alertFlag = 1;
+    //     this.timer();
+    //   }
+    // }else 
     if(this.stepper.selectedIndex == 0){
-      if(this.cartCheck == true){
-        this.router.navigate(['pages/cart']);
-      }else{
-        this.message = "You havn't add any course to cart";
-        this.alertFlag = 1;
-        this.timer();
-      }
-    }else if(this.stepper.selectedIndex == 1){
-      if(this.length > 0){
-        this.router.navigate(['pages/application']);
-      }else{
-        this.message = "You havn't apply any course";
-        this.alertFlag = 1;
-        this.timer();
-      }
-    }else if(this.stepper.selectedIndex == 2){
       if(this.application.online_test_details == true){
         this.router.navigate(['pages/application/process'],{queryParams:{appId :this.applicationID,courseID:this.courseID,selectedIndex:0}});
       }else{
@@ -225,7 +226,7 @@ export class DashboardComponent {
         this.alertFlag = 1;
         this.timer();
       }
-    }else if(this.stepper.selectedIndex == 3 ){
+    }else if(this.stepper.selectedIndex == 1 ){
       if(this.application.pi_test_details == true){
         this.router.navigate(['pages/application/process'],{queryParams:{appId :this.applicationID,courseID:this.courseID,selectedIndex:1}});
       }else{
@@ -233,7 +234,7 @@ export class DashboardComponent {
         this.alertFlag = 1;
         this.timer();
       }
-    }else if(this.stepper.selectedIndex == 4){
+    }else if(this.stepper.selectedIndex == 2){
       if(this.application.exam_result == true){
         this.router.navigate(['pages/application/process'],{queryParams:{appId :this.applicationID,courseID:this.courseID,selectedIndex:2}});
       }else{
@@ -241,7 +242,7 @@ export class DashboardComponent {
         this.alertFlag = 1;
         this.timer();
       }
-    }else if(this.stepper.selectedIndex == 5){
+    }else if(this.stepper.selectedIndex == 3){
       if(this.application.status=='accept'){
         if(this.application.exam_result == true && this.application.paidfee == false){
           this.router.navigate(['pages/application/process'],{queryParams:{appId :this.applicationID,courseID:this.courseID,selectedIndex:3}});

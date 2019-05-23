@@ -40,6 +40,7 @@ export class AdminApplicationComponent {
   serverDateId: any;
   onlineTime: any;
   message: string;
+  acturial_given_data: any;
 
   constructor( 
   private dialogService: NbDialogService,
@@ -105,7 +106,9 @@ export class AdminApplicationComponent {
     else if(index == 1){
 		this.tab_type = 'unticked',
 		this.status = 'reject';
-	  }
+	  }else if(index == 2){
+      this.tab_type = 'actutialGiven'
+    }
     if(this.tab_type === 'new' ||   this.tab_type ==='accept' ||  this.tab_type === 'reject'){
       this.showOne = false;
       this.adminApi.getApplication(this.tab_type,2019).subscribe(data=>{
@@ -137,9 +140,9 @@ export class AdminApplicationComponent {
         this.filterText = term;
       });
 
-    }else if(this.tab_type === 'iccr' || this.tab_type === 'iccr_accept' || this.tab_type === 'iccr_reject'){     
-      this.adminApi.getIccrApplication(this.status).subscribe(data=>{
-        this.iccr_data = data['data'];
+    }else if(this.tab_type === 'unticked' ){     
+      this.adminApi.getUntickedApplication(this.tab_type).subscribe(data=>{
+        this.unticked_data = data['data'];
       })
         this.filterInput
         .valueChanges
@@ -147,19 +150,18 @@ export class AdminApplicationComponent {
         .subscribe(term => {
         this.filterText = term;
       });
-
-    }else if(this.tab_type === 'unticked' ){     
-		this.adminApi.getUntickedApplication(this.tab_type).subscribe(data=>{
-		  this.unticked_data = data['data'];
-		})
-		  this.filterInput
-		  .valueChanges
-		  .debounceTime(200)
-		  .subscribe(term => {
-		  this.filterText = term;
-		});
   
-	  } 
+	  }else if(this.tab_type === 'actutialGiven'){
+      this.adminApi.getactutialGiven(this.tab_type).subscribe(data=>{
+        this.acturial_given_data = data['data'];
+      })
+        this.filterInput
+        .valueChanges
+        .debounceTime(200)
+        .subscribe(term => {
+        this.filterText = term;
+      });
+    }
 
   }
 
@@ -416,6 +418,56 @@ export class AdminApplicationComponent {
 
   errata(userId,category){
     this.router.navigate(['pages/adminErrata'],{queryParams:{userId : userId ,category:category}});
+  }
+
+  DownloadTranscript(file_path,id){
+    if(file_path){
+      var name = 'acturial_document';
+      this.adminApi.downloadFiles(file_path)
+      .subscribe(data => {
+        saveAs(data, name);    
+      });
+    }else{
+      document.getElementById("elignumbererror"+id).innerHTML ="Student has not uploaded dowcument.";
+			document.getElementById("elignumbererror"+id).style.color = "red";
+    }
+  }
+
+  sendToVerifydocument(e,id,course_id,user_id,checkEligiblity,enrollment_no,documentdata){
+    if(documentdata){
+      var data={
+          id:id,
+          user_id:user_id,
+          course_id:course_id,
+          value:e.checked
+      }
+    
+        this.confirmationService.confirm({
+          message: 'Do you want to Proceed ?',
+          header: 'Confirmation',
+          icon: 'pi pi-exclamation-triangle',
+          accept: () => {
+            this.showOne = false;
+            this.loading = true;
+            this.adminApi.validDocument(data).subscribe(data=>{
+              if(data['status'] === 200){
+                this.loading = false;
+              }else if(data['status'] === 400){
+                this.loading = false;
+              }
+            })
+          },
+          reject: () => {
+            this.ngOnInit();
+          } 
+      })
+    }else{
+      document.getElementById("verifyerror"+id).innerHTML ="Student has not uploaded dowcument.";
+      document.getElementById("verifyerror"+id).style.color = "red";
+      setTimeout(()=>{
+        this.getApplicationAccepted(2);
+      },1500);
+    }
   }
 
 }

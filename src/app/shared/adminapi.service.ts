@@ -49,6 +49,14 @@ getUntickedApplication(unticked){
   }
 }
 
+getactutialGiven(tab){
+  try{
+      return this.httpClient.get(`${this.baseUrl}/admin_api/Application/acturialgiven_applications?tab=`+tab);
+  }catch(error) {
+      this.handleError("getApplication : "+JSON.stringify(error));
+  }
+}
+
 getIccrApplication(tab){
   try{
       return this.httpClient.get(`${this.baseUrl}/admin_api/iccr?tab=`+tab);
@@ -360,6 +368,16 @@ transcriptSetDefault(id,email){
 checkeligiblity(data){
   try{
       return this.httpClient.post(`${this.baseUrl}/admin_api/Eligibility/eligibCheck`,{
+        data : data,
+      });
+  }catch(error) {
+      this.handleError("checkeligiblity : "+JSON.stringify(error));
+    }
+}
+
+validDocument(data){
+  try{
+      return this.httpClient.post(`${this.baseUrl}/admin_api/Application/validDocument`,{
         data : data,
       });
   }catch(error) {
