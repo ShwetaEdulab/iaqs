@@ -7,13 +7,18 @@ import { HeaderComponent } from '../../@theme/components/header/header.component
 import { NbDateService , NbDialogService, NbStepperComponent } from '@nebular/theme';
 import { NbAuthService, NbAuthJWTToken } from '@nebular/auth';
 import { OnlineTestPaymentdialog } from '../../pages/application/applicationsteps/dialog/onlinetestpaymentdialog';
+import { Applydialog } from '../../pages/application/applicationsteps/dialog/applydialog';
 import { config } from '../../../../config';
+import {ConfirmationService} from 'primeng/api';
+import {
+	FormGroup,FormBuilder,Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'application',
   styleUrls: ['./application.component.scss'],
   templateUrl: './application.component.html',
-  providers:[HeaderComponent],
+  providers:[HeaderComponent,ConfirmationService],
 })
 export class ApplicationComponent  {
   id : any;
@@ -32,6 +37,9 @@ export class ApplicationComponent  {
   testradio;
   showupload = false;
   showbutton = false;
+  isDisabled = false;
+  qatForm: FormGroup;
+  applicationdata: any;
 
   constructor(
     private router : Router,
@@ -40,6 +48,8 @@ export class ApplicationComponent  {
     private comp: HeaderComponent,
     private dialogService: NbDialogService,
     private authService: NbAuthService,
+    private confirmationService: ConfirmationService,
+    private fb: FormBuilder,
   ) {
 
   }
@@ -51,25 +61,42 @@ export class ApplicationComponent  {
         this.id = user['id'];
       });
 
-      var getMyApplicationrsp = await  this.apiservice.getMyApplication(this.id);
-      getMyApplicationrsp.subscribe(
+      this.qatForm = this.fb.group({
+        qatGivenCtrl: ['', [Validators.required]],
+      });
+
+      var getQatData = await  this.apiservice.getQatdata(this.id);
+      getQatData.subscribe(
         data => {
           this.status = data['status'];
           if(this.status == '400'){
           }else if(this.status == '200'){
-            this.applications =  data['data']['userApplications'];
-            this.paymentDetails = data['data']['onlineTestPayment'];
-            this.applicationID = this.applications[0]['application']['id'];
-            this.courseID = this.applications[0]['application']['course_id'];
             this.Userdata = data['data']['User'];
+            this.applicationdata = data['data'];
             if(this.Userdata.acturial_test == null){
-              this.testradio = null ;
-            }else if(this.Userdata.acturial_test == 'true' && this.applications[0].application.acturial_document==null){
-              this.testradio = this.Userdata.acturial_test ;
+              //this.testradio = null ;
+              this.qatForm.patchValue({ 
+								qatGivenCtrl: null
+							});
+            }else if(this.Userdata.acturial_test == 'true' && this.Userdata.acturial_document == null){
+              this.isDisabled = true;
+              //this.testradio = this.Userdata.acturial_test ;
               this.showupload = true;
-            }else{
-              this.testradio = this.Userdata.acturial_test ;
-              this.showbutton = true;
+              this.qatForm.patchValue({ 
+								qatGivenCtrl: this.Userdata.acturial_test
+							});
+            }else if(this.Userdata.acturial_test == 'true' && this.Userdata.acturial_document != null){
+              this.isDisabled = true;
+              //this.testradio = this.Userdata.acturial_test ;
+              this.qatForm.patchValue({ 
+								qatGivenCtrl: this.Userdata.acturial_test
+							});
+            }else if(this.Userdata.acturial_test == 'false'){
+              this.isDisabled = true;
+              //this.testradio = this.Userdata.acturial_test ;
+              this.qatForm.patchValue({ 
+								qatGivenCtrl: this.Userdata.acturial_test
+							});
             }
           }
           
@@ -77,6 +104,36 @@ export class ApplicationComponent  {
       error => {
           console.error("Error in wishlist :", error);
       });
+
+
+
+      // var getMyApplicationrsp = await  this.apiservice.getMyApplication(this.id);
+      // getMyApplicationrsp.subscribe(
+      //   data => {
+      //     this.status = data['status'];
+      //     if(this.status == '400'){
+      //     }else if(this.status == '200'){
+      //       this.applications =  data['data']['userApplications'];
+      //       this.paymentDetails = data['data']['onlineTestPayment'];
+      //       this.applicationID = this.applications[0]['application']['id'];
+      //       this.courseID = this.applications[0]['application']['course_id'];
+      //       this.Userdata = data['data']['User'];
+      //       console.log("this.Userdata.acturial_test======>"+this.Userdata.acturial_test)
+      //       if(this.Userdata.acturial_test == null){
+      //         this.testradio = null ;
+      //       }else if(this.Userdata.acturial_test == 'true' && this.applications[0].application.acturial_document==null){
+      //         this.testradio = this.Userdata.acturial_test ;
+      //         this.showupload = true;
+      //       }else{
+      //         this.testradio = this.Userdata.acturial_test ;
+      //         this.showbutton = true;
+      //       }
+      //     }
+          
+      // },
+      // error => {
+      //     console.error("Error in wishlist :", error);
+      // });
   }
 
   loadsteps(applicationID,courseID){
@@ -118,23 +175,42 @@ export class ApplicationComponent  {
   checkradio(x) {
     var datavalue;
     this.Dropdownvar = x;
-    var saveacturialtest = this.apiservice.saveacturial(this.Dropdownvar);
-      saveacturialtest.subscribe(
-        data => {
-          this.status = data['status'];
-          if(this.status == '400'){
-          }else if(this.status == '200'){
-            if(this.Dropdownvar == "true"){
-              this.showupload = true;
-              this.showbutton = true;
-            }else if(this.Dropdownvar == "false"){
-              this.showbutton = true;
-            } 
-          }
+    this.confirmationService.confirm({
+      message: 'Are You Sure to want to proceed? Once you select one of the option below you cant change in future.',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      rejectVisible:false,
+      acceptLabel :'OK',
+      accept: () => {
+        var saveacturialtest = this.apiservice.saveacturial(this.Dropdownvar);
+        saveacturialtest.subscribe(
+          data => {
+            this.status = data['status'];
+            if(this.status == '400'){
+            }else if(this.status == '200'){
+              this.ngOnInit();
+              // if(this.Dropdownvar == "true"){
+              //   this.showupload = true;
+              //   this.showbutton = true;
+              // }else if(this.Dropdownvar == "false"){
+              //   this.showbutton = true;
+              // } 
+            }
+        },
+        error => {
+            console.error("Error in wishlist :", error);
+        });
       },
-      error => {
-          console.error("Error in wishlist :", error);
-      });
+      reject: () => {
+        this.qatForm.controls['qatGivenCtrl'].reset();
+        this.ngOnInit();
+      }
+    })
+
+
+    
+    
+    
   }
 
   onBeforeSend(event) {
@@ -152,15 +228,7 @@ export class ApplicationComponent  {
     if(event.files && event.files.length) {
       const [file] = event.files;
       reader.readAsDataURL(file);
-     // var json = JSON.parse(event.xhr.response);
-     // console.log("jsonjson========>"+json);
-     // var yourData = json.Data; // or json["Data"]
-      //var yourStatus = json.status; // or json["Data"]
-      //var yourMessage = json.message; // or json["Data"]
-      //if(yourStatus == 200){
-        this.showupload = false;
-        this.showbutton = true; 
-      //}
+      this.ngOnInit();
     }
 
   }
@@ -178,6 +246,24 @@ export class ApplicationComponent  {
     
     if ($event.files[0].size > maxFileSize) {
       this.uploaderror = true;
+    }
+  }
+
+  applyToQat(appId,course_id){
+    if(appId == null || course_id == null){
+      this.dialogService.open(Applydialog, {
+        closeOnBackdropClick : false,
+        context: {
+          title: 'This is a title passed to the dialog component',
+        },
+      }).onClose
+      .subscribe(
+        (data: any) => {
+          this.ngOnInit();
+          err => console.error(err)
+      })
+    }else{
+      this.router.navigate(['/pages/application/process'],{queryParams:{appId:appId,courseID:course_id}})
     }
   }
   

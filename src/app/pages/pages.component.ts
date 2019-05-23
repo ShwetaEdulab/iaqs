@@ -46,13 +46,13 @@ export class PagesComponent {
       }
 
       for (var a in MENU_ITEMS){
-        if(MENU_ITEMS[a].title == 'Admission Process'){
-          if(this.show == 'false'){
-            MENU_ITEMS[a].hidden = true;
-          }else{
-            MENU_ITEMS[a].hidden = false;
-          }
-        }
+        // if(MENU_ITEMS[a].title == 'Admission Process'){
+        //   if(this.show == 'false'){
+        //     MENU_ITEMS[a].hidden = true;
+        //   }else{
+        //     MENU_ITEMS[a].hidden = false;
+        //   }
+        // }
         if(MENU_ITEMS[a].title == 'Downloads'){
           if(this.showdownload == 'false'){
             MENU_ITEMS[a].hidden = true;

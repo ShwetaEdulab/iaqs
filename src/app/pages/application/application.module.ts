@@ -6,6 +6,7 @@ import { NbAccordionModule,NbAlertModule } from '@nebular/theme';
 import { FormsModule } from '@angular/forms';
 import {NbStepperModule} from '@nebular/theme/components/stepper/stepper.module';
 import {FileUploadModule} from 'primeng/fileupload';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
 @NgModule({
   imports: [
     ThemeModule,
@@ -15,6 +16,7 @@ import {FileUploadModule} from 'primeng/fileupload';
     NbAlertModule,
     NbStepperModule,
     FileUploadModule,
+    ConfirmDialogModule,
   ],
   declarations: [
     ApplicationComponent,

@@ -108,7 +108,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
 
   {
-    title: 'Admission Process',
+    title: 'QAT',
     icon: 'ion-filing',
     link: '/pages/application',
     data: {
@@ -141,15 +141,15 @@ export const MENU_ITEMS: NbMenuItem[] = [
       resource: 'faq'
     },
   },
-  {
-    title: 'Help',
-    icon: 'ion-help-buoy',
-    link: '/pages/help',
-    data: {
-      permission: 'view',
-      resource: 'help'
-    },
-  },
+  // {
+  //   title: 'Help',
+  //   icon: 'ion-help-buoy',
+  //   link: '/pages/help',
+  //   data: {
+  //     permission: 'view',
+  //     resource: 'help'
+  //   },
+  // },
 
    /**Institute Menus*/
    {

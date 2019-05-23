@@ -189,6 +189,32 @@ getProfileCompleteness(){
 
   }
 
+  getQatdata(user_id){
+    try{
+      return this.httpClient.post(`${this.baseUrl}/getQatdata`,{"user_id":user_id});      
+    }catch(error) {
+      this.handleError("getMyApplication : "+error);
+    }
+
+  }
+
+  getSaturday(){
+    try{
+      return this.httpClient.post(`${this.baseUrl}/api/myApplication/date`,{});      
+    }catch(error) {
+      this.handleError("getMyApplication : "+error);
+    }
+  }
+
+
+  saveExamdate(date,app_id,course_id){
+    try{
+      return this.httpClient.post(`${this.baseUrl}/api/myApplication/examdate`,{exam_date : date,app_id:app_id,course_id:course_id});      
+    }catch(error) {
+      this.handleError("getMyApplication : "+error);
+    }
+  }
+
   saveacturial(value){
     try{
       return this.httpClient.post(`${this.baseUrl}/api/myApplication/saveacturial`,{"value":value});      

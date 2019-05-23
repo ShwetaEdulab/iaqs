@@ -7,36 +7,87 @@
       <nb-card-header>Complete all steps to complete your admission process for Course {{OnlinePersonaldetails?.specialization}} !!!</nb-card-header>
       <nb-card-body>
         <nb-stepper (click)="checktabs(stepper.selectedIndex,tabcheck1,tabcheck2,tabcheck3,tabcheck4,tabcheck5)" orientation="vertical" disableStepNavigation #stepper>
-          <nb-step [stepControl]="OnlineEntranceForm" [completed]="tabcheck1"  label="Online Entrance Exam Details" class="step-container">
+          <nb-step [stepControl]="OnlineEntranceForm" [completed]="tabcheck1"  label="Quantitative Aptitude Test Details" class="step-container">
             <form [formGroup]="OnlineEntranceForm" class="step-container" style="width: 635px;">
                 <input type="hidden" ngModel="{{onlinectrlval}}" formControlName="onlinepaymentCtrl">
                 <nb-card status="success" *ngIf="examgiven == false">
-                  <nb-card-header>Online Entrance Exam Details</nb-card-header>
+                  <nb-card-header>Quantitative Aptitude Test Details</nb-card-header>
                   <nb-card-body>
-                    <div class="row paddingForDetails">
-                      <div class="col-md-4 enrollDetailsCol1">
-                          Date of exam
-                      </div>
-                      <div class="col-md-1 enrollDetailsCol1">
-                        :
-                      </div>
-                      <div class="col-md-5 enrollDetailsCol2">
-                          <input type="text" nbInput class="form-control" ngModel="{{OnlinePersonaldetails?.online_test_date}}"
-                          formControlName="testDateCtrl">
-                      </div>
+                    <div *ngIf="onlineTestPayment == true  && OnlinePersonaldetails?.online_test_date ==''"> 
+                          <div class="row">
+                              <div class="col-md-4">
+                                <h5>Time Of Exam : 2PM To 4PM</h5>
+                              </div>
+                          </div>
+                          <div class="row">
+                              <div class="col-md-4">
+                                  <h5>Select One Date : </h5>
+                                </div>
+                          </div>
+                          <div class="row">
+                                <div class="col-xl-2"></div>
+                                <div class="col-xl-4">
+                                    <label class="radio-inline">
+                                        <h5><input id="rdb1" name="gender" type="radio" value="{{examdates?.nextSaturday}}" (click)="checkradio(examdates?.nextSaturday1)" />{{examdates?.nextSaturday}}</h5>
+                                    </label>
+                                </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-xl-2"></div>
+                              <div class="col-xl-4">
+                                  <label class="radio-inline">
+                                      <h5><input id="rdb2" name="gender" type="radio"  value="{{examdates?.secondnextSaturday}}" (click)="checkradio(examdates?.secondnextSaturday1)" />{{examdates?.secondnextSaturday}}</h5>
+                                  </label>
+                              </div>
+                          </div>
+                            <div class="row">
+                                <div class="col-xl-2"></div>
+                                <div class="col-xl-4">
+                                    <label class="radio-inline">
+                                        <h5><input id="rdb3" name="gender" type="radio" value="{{examdates?.thirdnextSaturday}}" (click)="checkradio(examdates?.thirdnextSaturday1)" />{{examdates?.thirdnextSaturday}}</h5>
+                                    </label>
+                                </div>
+                          </div>
+                          <div class="row">
+                              <div class="col-xl-2"></div>
+                              <div class="col-xl-4">
+                                  <label class="radio-inline">
+                                      <h5><input id="rdb4" name="gender" type="radio"  value="{{examdates?.fourthnextSaturday}}" (click)="checkradio(examdates?.fourthnextSaturday1)" />{{examdates?.fourthnextSaturday}}</h5>
+                                  </label>
+                              </div>
+                          </div>
+                          <div class="row">
+                              <button nbButton class="col-md-4 col-sm-4 col-xs-4 offset-md-4" (click)="saveexamdate()"
+                              hero status="info">Save Date</button><br>
+                              <span *ngIf="showerror == true" style="color:red;">Select Date</span>
+                          </div>
                     </div>
-                    <div class="row">
-                      <div class="col-xl-4 enrollDetailsCol1">
-                        Time
+                    <div *ngIf="onlineTestPayment == true && OnlinePersonaldetails?.online_test_date!=''" >
+                      <div class="row paddingForDetails">
+                        <div class="col-md-4 enrollDetailsCol1">
+                            Date of exam
+                        </div>
+                        <div class="col-md-1 enrollDetailsCol1">
+                          :
+                        </div>
+                        <div class="col-md-5 enrollDetailsCol2">
+                            <input type="text" nbInput class="form-control" ngModel="{{OnlinePersonaldetails?.online_test_date}}"
+                            formControlName="testDateCtrl">
+                        </div>
                       </div>
-                      <div class="col-md-1 enrollDetailsCol1">
-                        :
-                      </div>
-                      <div class="col-xl-5 enrollDetailsCol2">
-                          <input type="text" nbInput class="form-control" ngModel="{{OnlinePersonaldetails?.online_test_time}}"
-                          formControlName="testTimeCtrl">
-                      </div>
-                      </div>
+                     <div class="row">
+                        <div class="col-xl-4 enrollDetailsCol1">
+                          Time
+                        </div>
+                        <div class="col-md-1 enrollDetailsCol1">
+                          :
+                        </div>
+                        <div class="col-xl-5 enrollDetailsCol2">
+                            <input type="text" nbInput class="form-control" ngModel="{{OnlinePersonaldetails?.online_test_time}}"
+                            formControlName="testTimeCtrl">
+                        </div>
+                    </div>
+                    </div>
                       <div class="row">
                           <div class="col-xl-12" *ngIf="onlineTestPayment == false">
                               <button nbButton class="col-md-4 col-sm-4 col-xs-4 offset-md-4" style="margin-top:10px;" (click)="onlineexamfee()"
@@ -47,20 +98,20 @@
                   <button nbButton nbStepperNext>next</button>
                 </nb-card>
                 <nb-card status="success" *ngIf="examgiven == true">
-                    <nb-card-header>Online Entrance Exam Details</nb-card-header>
+                    <nb-card-header>Quantitative Aptitude Test Details</nb-card-header>
                     <nb-card-body>
-                        <div class="row">
+                        <div class="row" *ngIf="acturial_document_verify == 'fasle'">
                           <div class="col-xl-12" style="text-align:center;">
-                            You Have already given passed acturial paper wait until admin verify your document.
+                            <h5>You have already uploaded the marksheet. Please wait until admin verifies the document.</h5>
                           </div>
                         </div>
                         <div class="row" *ngIf="acturial_document_verify == 'true'">
                             <div class="col-xl-12" style="text-align:center;">
-                              Admin verified your document.
+                             <h5>Admin verified your document.</h5>
                             </div>
                           </div>
                     </nb-card-body>
-                    <button *ngIf="acturial_document_verify == 'true'" nbButton nbStepperNext>next</button>
+                    <button *ngIf="acturial_document_verify == 'true'" nbButton nbStepperNext (click)="next()">next</button>
                 </nb-card>
             </form>
           </nb-step>
@@ -72,14 +123,19 @@
                       <nb-card-body>
                           <div class="row">
                             <div class="col-xl-12" *ngIf="personalFee == false" style="text-align:center;">
-                              If you want to reserved the seat, pay the specified amount. ( This Fee is refundable.)
+                              <h5>If you want to reserved your seat, yor are required to pay a refundable deposite of Rs.20,000.</h5>
                             </div><br>
                           <div class="col-xl-12" *ngIf="personalFee == false">
                               <button nbButton class="col-md-4 col-sm-4 col-xs-4 offset-md-4" style="margin-top:10px;" (click)="proceedforpayment()"
-                                  hero status="info">Proceed For Payment</button>
-                          </div><br><br>
+                                  hero status="info">Proceed For Payment</button><br>
+                          </div>
+                          <br>
+                          <br>
+                          <div class="col-xl-12" *ngIf="personalFee == false" style="color:red">
+                            <br><h5>(Note: The deposite is refundable if you do not clear the personal interview round.)</h5>
+                          </div>
                           <div class="col-xl-12" *ngIf="pi_test_date==''" style="text-align:center">
-                            Wait Until the admin schedule your personal interview.
+                            <h5>You are required to wait until admin scheduled the interview.</h5>
                           </div>
                         </div>
                       </nb-card-body>

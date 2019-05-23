@@ -1,4 +1,4 @@
-<nb-alert status="danger" closable (close)="onClose()" *ngIf="alertflag == 1">
+<!-- <nb-alert status="danger" closable (close)="onClose()" *ngIf="alertflag == 1">
     Your Application is under process with the Eligibility department.
 </nb-alert>
 
@@ -49,4 +49,61 @@
             </nb-card>
         </div>
     </div>
-</div>
+</div> -->
+
+<nb-card status="success">
+    <nb-card-header><h3>QAT</h3></nb-card-header>
+    <nb-card-body>
+        <div class="row">
+            <div class="col-xl-12">
+                <h4>Quantitative Aptitude Test (QAT) is an online entrance test for Bachelor’s and Master’s program in Actuarial and Quantitative finance. It is conducted by Institute of Actuarial and Quantitative Studies (IAQS) to ensure that the students of all backgrounds and streams are at par with no biases in the admission process.</h4>
+            </div>
+        </div><br><br>
+        <form [formGroup]="qatForm">     
+            <div class="row">
+                <div class="col-xl-12">
+                    <h5>Have you given or passed any acturial paper or ACET?</h5>       
+                </div><br><br>
+                <div class="col-xl-12">
+                    <fieldset [disabled]="isDisabled">
+                        <div class="col-xl-4">
+                            <label class="radio-inline">
+                                <h5><input id="rdb1" type="radio" formControlName="qatGivenCtrl" [disabled]="isDisabled" value="true" (click)="checkradio('true')" /> Yes</h5>
+                            </label>
+                        </div>
+                        <div class="col-xl-4">
+                            <label class="radio-inline">
+                                <h5><input id="rdb2" type="radio" formControlName="qatGivenCtrl" [disabled]="isDisabled" value="false" (click)="checkradio('false')"/> No</h5>
+                            </label>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </form>
+        <div class="row" *ngIf="showupload == true">
+            <div class="col-xl-12">
+                <h5>Upload the mention document above :</h5>
+            </div><br><br>
+            <div class="col-xl-4">
+                <p-fileUpload class="form-control" [accept]= "'.pdf,.jpg,.jpeg,.png,.PNG,.JPEG,.JPG,.PDF'" chooseLabel="Browse"
+                    name="file" url="{{serverUrl}}/api/myApplication/upload?userid={{id}}&acturialExam=true" 
+                    maxFileSize="5000000" (onBeforeSend)="onBeforeSend($event)"
+                    (onUpload)="onUpload($event)" 
+                    (onSelect)="onSelect($event);">
+                </p-fileUpload>
+                <span *ngIf='uploaderror == true'>Max uploaded file size should be 5 MB.</span>
+            </div>
+        </div>
+
+    </nb-card-body>
+    <nb-card-footer>
+        <div class="col-xl-12" *ngIf="Userdata?.acturial_test == 'false' && applicationdata?.uca == false">
+            <button nbButton class="col-md-4 col-sm-4 col-xs-4 offset-md-4" (click)="applyToQat(applicationdata?.application_id,applicationdata?.course_id)">Apply</button>
+        </div>
+        <div *ngIf="(Userdata?.acturial_test == 'true' && Userdata?.acturial_document != null) || applicationdata?.uca == true">
+            <button nbButton class="col-md-4 col-sm-4 col-xs-4 offset-md-4" (click)="applyToQat(applicationdata?.application_id,applicationdata?.course_id)">Next</button>
+        </div>
+    </nb-card-footer>
+</nb-card>
+
+<p-confirmDialog [style]="{width: '425px'}"></p-confirmDialog>

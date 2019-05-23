@@ -8,6 +8,7 @@ import {NbStepperModule} from '@nebular/theme/components/stepper/stepper.module'
 import { NbInputModule,NbDatepickerModule,NbSelectModule , NbCardModule , NbSpinnerModule } from '@nebular/theme';
 import {FileUploadModule} from 'primeng/fileupload';
 import {TabViewModule} from 'primeng/tabview';
+import { Applydialog } from './dialog/applydialog';
 import { OnlineTestPaymentdialog } from './dialog/onlinetestpaymentdialog';
 import { Secondpaymentdialog } from './dialog/Secondpaymentdialog';
 import { Thirdpaymentdialog } from './dialog/Thirdpaymentdialog';
@@ -43,6 +44,7 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
   ],
   declarations: [
     ApplicationStepsComponent,
+    Applydialog,
     OnlineTestPaymentdialog,
     Secondpaymentdialog,
     Thirdpaymentdialog,
@@ -51,6 +53,7 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
   ],
   providers: [],
   entryComponents: [
+    Applydialog,
     OnlineTestPaymentdialog,
     Secondpaymentdialog,
     Thirdpaymentdialog,

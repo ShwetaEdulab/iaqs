@@ -66,6 +66,9 @@ export class ApplicationStepsComponent implements OnInit {
   onlinectrlval: any;
   profilecomplete: any;
   total_marks: any;
+  examdates: any;
+  date_exam: any;
+  showerror = false;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -161,6 +164,19 @@ export class ApplicationStepsComponent implements OnInit {
     //   stuEmailCtrl: ['', Validators.required],
     //   stuAmountCtrl: ['', Validators.required],
     // });
+    this.api.getSaturday()
+    .subscribe(
+      (data: any) => {
+        this.examdates = data['data'];
+        console.log("data['data']====>"+data['data'])
+        console.log("data['data']====>"+JSON.stringify(data['data']));
+      },
+      error => {
+        console.error("Error", error);
+      }
+    
+    )
+
     this.api.getenrollmentdetails('onlinedetail',this.route.snapshot.queryParamMap.get('appId'))
     .subscribe(
       (data: any) => {
@@ -178,10 +194,12 @@ export class ApplicationStepsComponent implements OnInit {
         this.onlineTestPayment = data['data']['onlineTestPayment'];
         this.examgiven = data['data']['examgiven'];
         this.acturial_document_verify = data['data']['acturial_document_verify'];
+        console.log("this.acturial_document_verify=========>"+this.acturial_document_verify);
         this.personalFee = data['data']['second_payment'];
         this.pi_test_date = data['data']['pi_test_date'];
         this.specialization = data['data']['specialization'];
         if(this.examgiven == true && this.acturial_document_verify == 'true'){
+          console.log("Coming here remove validators");
           this.OnlineEntranceForm.controls['testDateCtrl'].setValidators([]); 
           this.OnlineEntranceForm.controls['testDateCtrl'].updateValueAndValidity(); 
           this.OnlineEntranceForm.controls['testTimeCtrl'].setValidators([]); 
@@ -538,13 +556,50 @@ export class ApplicationStepsComponent implements OnInit {
     })
   }
 
+  checkradio(x){
+    this.date_exam = x;
+    console.log("date_exam=======>"+this.date_exam);
+  }
+
+  saveexamdate(){
+    console.log("date_exam=======>"+this.date_exam);
+    if(this.date_exam == undefined){
+      this.showerror = true;
+    }else{
+      this.confirmationService.confirm({
+        message: 'Are You Sure to want to proceed?',
+        header: 'Confirmation',
+        icon: 'pi pi-exclamation-triangle',
+        rejectVisible:false,
+        acceptLabel :'OK',
+        accept: () => {
+          this.api.saveExamdate(this.date_exam,this.applicationId,this.courseID).subscribe(data => {
+            if(data['status'] == 200){
+              console.log("222222222200000000000000000000000000")
+              this.ngOnInit();
+            }else if(data['status'] ==400){
+              console.log("444444444444444400000000000000000000000000")
+            }
+            error => {
+                console.error("Error in saveexamdate :", error);
+            }
+          });
+        },
+        reject: () => {
+          //this.ngOnInit();
+        }
+      })
+    }
+  }
+
   next(){
     const invalid = [];
-    const controls = this.PersonalInterviewForm.controls;
+    const controls = this.OnlineEntranceForm.controls;
     for (const name in controls) {
         if (controls[name].invalid) {
             invalid.push(name);
         }
+        console.log("invalid=="+invalid);
     }
   }
 }
