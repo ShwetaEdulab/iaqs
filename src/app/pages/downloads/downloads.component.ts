@@ -198,7 +198,22 @@ export class DownloadsComponent  {
         .subscribe(data => {
         saveAs(data, file);    
       });
+    }else if(document == 'QAT__qb'){
+      var location = 'pdf';
+      this.api.downloadDocument(location,file)
+        .subscribe(data => {
+        saveAs(data, file);    
+      });
     }
+  }
+
+  downloadQB(){
+    var file = 'Q&A Bank for QAT- Part1.pdf';
+      var location = 'pdf';
+      this.api.downloadDocument(location,file)
+        .subscribe(data => {
+        saveAs(data, file);    
+      });
   }
 }
 

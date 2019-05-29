@@ -20,6 +20,16 @@
     </div>
 </div>
 <div class="row">
+  <div class="col-md-6">
+      <nb-card status="info">
+          <nb-card-header>Q&A Bank for QAT</nb-card-header>
+        <nb-card-body>
+            <button nbButton shape="round" size="small" status="success" (click)="downloaddocument('QAT__qb','QA Bank for QAT- Part1.pdf')">Download</button>
+        </nb-card-body>
+        </nb-card>
+  </div>
+</div>
+<div class="row">
 <div class="col-md-6" *ngIf="applications_count >= 2">
     <nb-card status="info">
       <nb-card-header>Select specialization</nb-card-header>
