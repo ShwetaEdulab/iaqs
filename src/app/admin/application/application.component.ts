@@ -458,7 +458,8 @@ export class AdminApplicationComponent {
             })
           },
           reject: () => {
-            this.ngOnInit();
+            //this.ngOnInit();
+            this.getApplicationAccepted(2);
           } 
       })
     }else{

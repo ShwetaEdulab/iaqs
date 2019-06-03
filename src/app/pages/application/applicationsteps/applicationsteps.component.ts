@@ -153,23 +153,21 @@ export class ApplicationStepsComponent implements OnInit {
       interviewTimeCtrl : ['', Validators.required],
       MarksExamCtrl : ['', Validators.required],
     });
-    // this.CoursePayForm = this.formBuilder.group({
-    //   examStatusCtrl : ['', Validators.required],
-    //   stuNameCtrl : ['', Validators.required],
-    //   stuAddCtrl: ['', Validators.required],
-    //   stuCityCtrl: ['', Validators.required],
-    //   stuStateCtrl: ['', Validators.required],
-    //   stuZipCtrl: ['', Validators.required],
-    //   stuTelCtrl: ['', Validators.required],
-    //   stuEmailCtrl: ['', Validators.required],
-    //   stuAmountCtrl: ['', Validators.required],
-    // });
+    this.CoursePayForm = this.formBuilder.group({
+      examStatusCtrl : ['', Validators.required],
+      stuNameCtrl : ['', Validators.required],
+      stuAddCtrl: ['', Validators.required],
+      stuCityCtrl: ['', Validators.required],
+      stuStateCtrl: ['', Validators.required],
+      stuZipCtrl: ['', Validators.required],
+      stuTelCtrl: ['', Validators.required],
+      stuEmailCtrl: ['', Validators.required],
+      stuAmountCtrl: ['', Validators.required],
+    });
     this.api.getSaturday()
     .subscribe(
       (data: any) => {
         this.examdates = data['data'];
-        console.log("data['data']====>"+data['data'])
-        console.log("data['data']====>"+JSON.stringify(data['data']));
       },
       error => {
         console.error("Error", error);
@@ -194,12 +192,10 @@ export class ApplicationStepsComponent implements OnInit {
         this.onlineTestPayment = data['data']['onlineTestPayment'];
         this.examgiven = data['data']['examgiven'];
         this.acturial_document_verify = data['data']['acturial_document_verify'];
-        console.log("this.acturial_document_verify=========>"+this.acturial_document_verify);
         this.personalFee = data['data']['second_payment'];
         this.pi_test_date = data['data']['pi_test_date'];
         this.specialization = data['data']['specialization'];
         if(this.examgiven == true && this.acturial_document_verify == 'true'){
-          console.log("Coming here remove validators");
           this.OnlineEntranceForm.controls['testDateCtrl'].setValidators([]); 
           this.OnlineEntranceForm.controls['testDateCtrl'].updateValueAndValidity(); 
           this.OnlineEntranceForm.controls['testTimeCtrl'].setValidators([]); 
@@ -282,19 +278,9 @@ export class ApplicationStepsComponent implements OnInit {
           (data: any) => {
             err => console.error(err)
           }
-        )
-        // this.api.thirdpaymentrequest(this.applicationId,this.courseID,'1000')
-        // .subscribe(
-        //   data => {
-        //     this.secondpayment();
-        //   },
-        //   error => {
-        //     console.log("Error", error);
-        //   }
-        // ); 
+        ) 
       },
       reject: () => {
-        //this.ngOnInit();
       }
     })
   }
@@ -331,13 +317,13 @@ export class ApplicationStepsComponent implements OnInit {
 			this.tabcheck2 = false;
 		}
 
-		if(this.OnlinePersonaldetails.pi_test_date!='' && this.OnlinePersonaldetails.pi_test_time!='' && this.Marksdetails.total_marks!=''){
+		if(tab3){
 			this.tabcheck3 = true;
 		}else{
 			this.tabcheck3 = false;
     }
     
-		if(this.Marksdetails.total_marks!=''){
+		if(tab4){
 			this.tabcheck4 = true;
 		}else{
 			this.tabcheck4 = false;
@@ -371,7 +357,9 @@ export class ApplicationStepsComponent implements OnInit {
         }else{
           if(tab1 == false){
             this.stepper.selectedIndex = 0;
-          } else {
+          }else if(tab2 == false){
+            this.stepper.selectedIndex = 1;
+          }else {
             this.stepper.selectedIndex = tab_index;
           }
         }	
@@ -411,7 +399,7 @@ export class ApplicationStepsComponent implements OnInit {
        }else{
         if(tab1 == false){
           this.stepper.selectedIndex = 0;
-        }if(tab2 == false){
+        }else if(tab2 == false){
            this.stepper.selectedIndex = 1;
          }else if(tab3 == false){
            this.stepper.selectedIndex = 2;
@@ -427,20 +415,22 @@ export class ApplicationStepsComponent implements OnInit {
           this.stepper.selectedIndex = 1;
         }else if(tab3 == false) {
           this.stepper.selectedIndex = 2;
-        }else if(tab4 == false && (this.application_status_value=='reject' || this.application_status_value=='new' || this.application_status_value=='' || this.application_status_value==null)){
-          this.stepper.selectedIndex = 2;
-        }else if(tab4 == false && this.application_status_value=='accept'){
+        }else if(tab4 == false){
           this.stepper.selectedIndex = 3;
+        }else {
+          this.stepper.selectedIndex = tab_index;
         }
       }else{
-        if(tab2 == false){
+        if(tab1 == false){
           this.stepper.selectedIndex = 0;
-        }else if(tab3 == false){
+        }else if(tab2 == false){
           this.stepper.selectedIndex = 1;
-        }else if(tab4 == false && (this.application_status_value=='reject' || this.application_status_value=='new' || this.application_status_value=='' || this.application_status_value==null)){
+        }else if(tab3 == false){
           this.stepper.selectedIndex = 2;
-        }else if(tab4 == false && this.application_status_value=='accept'){
+        }else if(tab4 == false){
           this.stepper.selectedIndex = 3;
+        }else {
+          this.stepper.selectedIndex = tab_index;
         }
       }	
     }
@@ -545,7 +535,6 @@ export class ApplicationStepsComponent implements OnInit {
     .subscribe(
       (data: any) => {
         this.pi_test_date = "";
-        //this.personalFee = true;
         err => console.error(err)
       })
   }
@@ -558,11 +547,9 @@ export class ApplicationStepsComponent implements OnInit {
 
   checkradio(x){
     this.date_exam = x;
-    console.log("date_exam=======>"+this.date_exam);
   }
 
   saveexamdate(){
-    console.log("date_exam=======>"+this.date_exam);
     if(this.date_exam == undefined){
       this.showerror = true;
     }else{
@@ -575,10 +562,8 @@ export class ApplicationStepsComponent implements OnInit {
         accept: () => {
           this.api.saveExamdate(this.date_exam,this.applicationId,this.courseID).subscribe(data => {
             if(data['status'] == 200){
-              console.log("222222222200000000000000000000000000")
               this.ngOnInit();
             }else if(data['status'] ==400){
-              console.log("444444444444444400000000000000000000000000")
             }
             error => {
                 console.error("Error in saveexamdate :", error);

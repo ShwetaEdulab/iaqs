@@ -15,7 +15,7 @@
                   <nb-card-body>
                     <div *ngIf="onlineTestPayment == true  && OnlinePersonaldetails?.online_test_date ==''"> 
                           <div class="row">
-                              <div class="col-md-4">
+                              <div class="col-md-12">
                                 <h5>Time Of Exam : 2PM To 4PM</h5>
                               </div>
                           </div>
@@ -204,8 +204,8 @@
                           <div class="col-xl-12" *ngIf="Marksdetails?.application_status=='Fail'">
                             <button  nbButton class="col-md-4 col-sm-4 col-xs-4 offset-md-4" style="margin-top:10px;" (click)="examresult(Marksdetails?.application_status)"
                               hero status="info">{{Marksdetails?.application_status}}</button>
-                            <button  nbButton class="col-md-4 col-sm-4 col-xs-4 offset-md-4" style="margin-top:10px;" (click)="reapply(applicationId,courseID)"
-                              hero status="info">To Reapply for the Same Course Click Here</button>
+                            <!-- <button  nbButton class="col-md-4 col-sm-4 col-xs-4 offset-md-4" style="margin-top:10px;" (click)="reapply(applicationId,courseID)"
+                              hero status="info">To Reapply for the Same Course Click Here</button> -->
                           </div>
                           <div class="row" *ngIf="Marksdetails?.application_status == 'Pass' && profilecomplete == ''">
                             <div class="col-xl-12" style="text-align:center;">
@@ -223,7 +223,7 @@
                   </nb-card>
               </form>
           </nb-step>
-          <!-- <nb-step [stepControl]="CoursePayForm" [completed]="tabcheck5"  label="Pay Course Fee" class="step-container">
+          <nb-step [stepControl]="CoursePayForm" [completed]="tabcheck5"  label="Pay Course Fee" class="step-container">
               <form [formGroup]="CoursePayForm" class="step-container" style="width: 635px;">
                 <input type="hidden" ngModel="{{accept_value}}" formControlName="examStatusCtrl">
                   <nb-card [style.width.px]="700" [style.height.px]="600" status="success">
@@ -297,7 +297,7 @@
                     </nb-card-footer>
                   </nb-card>
               </form>
-          </nb-step> -->
+          </nb-step>
         </nb-stepper>
       </nb-card-body>
     </nb-card> 

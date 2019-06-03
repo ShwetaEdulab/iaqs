@@ -12,13 +12,13 @@ template: `
   <nb-card-header>
     <div class="row">
       <div class="col-md-12">
-        <h3 style="color:#ffffff">Payment for Online Test ( Course {{course_name}} )</h3>
+      <h3 style="color:#ffffff">Payment to Reserved seat</h3>
       </div>
     </div>
   </nb-card-header>
   <nb-card-body>
     <div class="row" style="margin-bottom:7px">
-        First You need to pay the fees :
+    <div class="col-md-12">First You need to pay the fees :</div>
     </div>
     <div class="row" style="margin-bottom:7px">
       <div class="col-md-3">Name</div>
