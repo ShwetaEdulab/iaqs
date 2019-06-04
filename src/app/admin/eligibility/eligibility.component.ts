@@ -29,6 +29,7 @@ export class AdminEligibilityComponent {
   public filterInput = new FormControl();
   showOne = false;
   showTwo = false;
+  showThree = false;
   date = new Date();
   min: Date;
   max = new Date();
@@ -39,6 +40,7 @@ export class AdminEligibilityComponent {
   serverOnlineTime: any;
   serverTimeId: any;
   onlinePITime: any;
+  piLocation:any;
   constructor(protected adminApi : AdminApiService,
     private router : Router,
     private confirmationService: ConfirmationService,
@@ -56,10 +58,12 @@ export class AdminEligibilityComponent {
     this.adminApi.getApplicationinEligibility('new',this.selectedYear).subscribe(data=>{
       this.showOne = false;
       this.showTwo = false;
+      this.showThree = false;
       this.application_data = data['data'];
       this.severPITest = data['dates']['pitest'];
       this.serverOnlineTime = data['dates']['pi_time'];
       this.serverTimeId = data['dates']['pitestId'];
+      this.piLocation = data['dates']['pi_location'];
       //this.onlinePITime = data['dates']['pi_time'];
       if(data['dates']['pitest'] == null || data['dates']['pitest'] == '' || data['dates']['pitest'] == undefined){
         this.piTest = null;
@@ -97,6 +101,7 @@ export class AdminEligibilityComponent {
       this.adminApi.getApplicationinEligibility(this.tab_type,this.selectedYear).subscribe(data=>{
         this.application_data = data['data'];
         this.severPITest = data['dates']['pitest'];
+        this.piLocation = data['dates']['pi_location'];
         if(data['dates']['pitest'] == null || data['dates']['pitest'] == '' || data['dates']['pitest'] == undefined){
           this.piTest = null;
         }else{
@@ -173,64 +178,100 @@ export class AdminEligibilityComponent {
   }
 
   sendToForeign(e,id,course_id,user_id,checkEligiblity){
-    var data={
-        id:id,
-        user_id:user_id,
-        course_id:course_id,
-        value:e.checked
-    }
-    var PI_test_date = ((document.getElementById("DOBtxt") as HTMLInputElement).value);
-    //var PI_test_time = ((document.getElementById("inputPITime") as HTMLInputElement).value);
-    var PI_test_time = this.onlinePITime;
-    if(PI_test_date=="" || PI_test_date==null || PI_test_date==undefined){
-      this.showOne = true;
-      this.message ="Please Select Date";
-      setTimeout(()=>{
-        this.ngOnInit();
-      },2500);
-    }else if(this.severPITest==null || this.severPITest =="" || this.severPITest ==undefined){
-      this.showOne = true;
-      this.message ="Please Save Date";
-      setTimeout(()=>{
-        this.ngOnInit();
-      },2500);
-    }else if(PI_test_time== null || PI_test_time =="" || PI_test_time== undefined){
-      this.showTwo = true;
-      this.message = "Please Select Time";
-      setTimeout(()=>{
-        this.ngOnInit();
-      },2500);
-    }else if(this.serverOnlineTime==null || this.serverOnlineTime =="" || this.serverOnlineTime ==undefined){
-      this.showTwo = true;
-      this.message = "Please Save Time";
-      setTimeout(()=>{
-        this.ngOnInit();
-      },2500);
-    }else{
-      this.confirmationService.confirm({
-        //message: 'Are you sure that you want to proceed?',
-        message:'Do you want to schedule the exam on '+PI_test_date+'?',
-        header: 'Confirmation',
-        icon: 'pi pi-exclamation-triangle',
-        accept: () => {
-          this.showOne = false;
-          this.loading = true;
-          this.adminApi.checkforeign(data).subscribe(data=>{
-            if(data['status'] === 200){
-              this.loading = false;
-              this.ngOnInit();  
-            } else if(data['status'] === 400){
-              this.loading = false;
-              alert(data['message']);
-              this.ngOnInit();
-            }
-          })
-        },
-        reject: () => {
+      var data={
+          id:id,
+          user_id:user_id,
+          course_id:course_id,
+          value:e.checked
+      }
+      var PI_test_date = ((document.getElementById("DOBtxt") as HTMLInputElement).value);
+      var PI_test_time = this.onlinePITime;
+      var PI_Location = ((document.getElementById("locationtxt") as HTMLInputElement).value);
+      if(PI_test_date=="" || PI_test_date==null || PI_test_date==undefined){
+        this.showOne = true;
+        this.message ="Please Select Date";
+        setTimeout(()=>{
           this.ngOnInit();
-        } 
-    })
-    }
+        },2500);
+      }else if(this.severPITest==null || this.severPITest =="" || this.severPITest ==undefined){
+        this.showOne = true;
+        this.message ="Please Save Date";
+        setTimeout(()=>{
+          this.ngOnInit();
+        },2500);
+      }else if(PI_test_time== null || PI_test_time =="" || PI_test_time== undefined){
+        this.showTwo = true;
+        this.message = "Please Select Time";
+        setTimeout(()=>{
+          this.ngOnInit();
+        },2500);
+      }else if(this.serverOnlineTime==null || this.serverOnlineTime =="" || this.serverOnlineTime ==undefined){
+        this.showTwo = true;
+        this.message = "Please Save Time";
+        setTimeout(()=>{
+          this.ngOnInit();
+        },2500);
+      }else if(PI_Location==null || PI_Location =="" || PI_Location ==undefined){
+        this.showThree = true;
+        this.message = "PI location is required.";
+        setTimeout(()=>{
+          this.ngOnInit();
+        },2500);
+      }else if(this.piLocation==null || this.piLocation =="" || this.piLocation ==undefined){
+        this.showThree = true;
+        this.message = "Please Save PI location.";
+        setTimeout(()=>{
+          this.ngOnInit();
+        },2500);
+      }else{
+        if(e.checked==true){
+          this.confirmationService.confirm({
+            message:'Do you want to schedule the exam on '+PI_test_date+' for location '+this.piLocation+'?',
+            header: 'Confirmation',
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              this.showOne = false;
+              this.loading = true;
+              this.adminApi.checkforeign(data).subscribe(data=>{
+                if(data['status'] === 200){
+                  this.loading = false;
+                  this.ngOnInit();  
+                } else if(data['status'] === 400){
+                  this.loading = false;
+                  alert(data['message']);
+                  this.ngOnInit();
+                }
+              })
+            },
+            reject: () => {
+              this.ngOnInit();
+            } 
+          })
+        }else if(e.checked==false){
+          this.confirmationService.confirm({
+            message: 'Are you sure that you want to revert dates?',
+            header: 'Confirmation',
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              this.showOne = false;
+              this.loading = true;
+              this.adminApi.checkforeign(data).subscribe(data=>{
+                if(data['status'] === 200){
+                  this.loading = false;
+                  this.ngOnInit();  
+                } else if(data['status'] === 400){
+                  this.loading = false;
+                  alert(data['message']);
+                  this.ngOnInit();
+                }
+              })
+            },
+            reject: () => {
+              this.ngOnInit();
+            } 
+          })
+        }
+      }
   }
 
   DownloadProvisionalLetter(user_id,id){
@@ -447,4 +488,67 @@ export class AdminEligibilityComponent {
     }
   }
 
+  saveLocation(value){
+    var PI_test_date = ((document.getElementById("DOBtxt") as HTMLInputElement).value);
+    var PI_test_location = ((document.getElementById("locationtxt") as HTMLInputElement).value);
+    var PI_test_time = this.onlinePITime;
+    if(PI_test_date == "" || PI_test_date == null || PI_test_date == undefined || this.severPITest==null || this.severPITest =="" || this.severPITest ==undefined){
+      this.confirmationService.confirm({
+        message: 'Please first add date.',
+        header: 'Confirmation',
+        icon: 'pi pi-exclamation-triangle',
+        rejectVisible:false,
+        acceptLabel :'OK',
+        accept: () => {
+          this.ngOnInit();
+        },
+      })
+    }else if(PI_test_time=="" || PI_test_time==null || PI_test_time==undefined){
+      this.confirmationService.confirm({
+        message: 'Please add Time.',
+        header: 'Confirmation',
+        icon: 'pi pi-exclamation-triangle',
+        rejectVisible:false,
+        acceptLabel :'OK',
+        accept: () => {
+          this.ngOnInit();
+        },
+      })
+    }else if(PI_test_location=="" || PI_test_location==null || PI_test_location==undefined){
+      this.confirmationService.confirm({
+        message: 'Please add Location.',
+        header: 'Confirmation',
+        icon: 'pi pi-exclamation-triangle',
+        rejectVisible:false,
+        acceptLabel :'OK',
+        accept: () => {
+          this.ngOnInit();
+        },
+      })
+    }else{
+      this.confirmationService.confirm({
+        message: 'Are you sure you want to save location for the exam schedule on '+PI_test_date+'.',
+        header: 'Confirmation',
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+          this.adminApi.saveLocation(value,PI_test_location).subscribe(data=>{
+            if(data['status'] === 200){
+              alert('Location Save Successfully');
+              this.ngOnInit();
+            }
+          })
+        },
+        reject: () => {
+          this.ngOnInit();
+        },
+      })
+    }
+  }
+
+  onKeyUp(event: any) {
+    this.showThree = true;
+    this.message = "Please Save PI location.";
+    //this.values = event.target.value;
+    //console.log(this.values);
+  };
 }

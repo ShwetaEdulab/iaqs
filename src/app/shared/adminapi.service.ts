@@ -833,6 +833,17 @@ saveTime(value,Online_test_time){
 
 }
 
+saveLocation(value,PI_test_location){
+  try{
+      return this.httpClient.post(`${this.baseUrl}/admin_api/Application/saveLocation`,{
+        PI_test_location : PI_test_location,
+        dateId : value
+      });
+  }catch(error) {
+      this.handleError("getStudentEducationDetails : "+JSON.stringify(error));
+  }
+}
+
 enterPIMarks(id,pi_test_marks,course_id){
   try{
     return this.httpClient.post(`${this.baseUrl}/admin_api/foreignoffice/savePIMarks`,{

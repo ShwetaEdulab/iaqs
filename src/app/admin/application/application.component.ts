@@ -204,38 +204,72 @@ export class AdminApplicationComponent {
         this.ngOnInit();
       },2500);
     }else{
-      this.confirmationService.confirm({
-        //message: 'Are you sure that you want to proceed?',
-        message: 'Do you want to schedule the exam on '+Online_test_date+'?',
-        header: 'Confirmation',
-        icon: 'pi pi-exclamation-triangle',
-        accept: () => {
-          this.showOne = false;
-          this.loading = true;
-          this.adminApi.checkeligiblity(data).subscribe(data=>{
-            if(data['status'] === 200){
-              this.loading = false;
-              //this.ngOnInit();
-              if(e.checked == true){
-                this.adminApi.downloadFiles(data[`data`])
-                .subscribe(data => {
-                  saveAs(data, enrollment_no+'_hallticket.pdf');
-                  this.ngOnInit();  
-                });
-              }else if(e.checked == false){
+      if(e.checked == true){
+        this.confirmationService.confirm({
+          //message: 'Are you sure that you want to proceed?',
+          message: 'Do you want to schedule the exam on '+Online_test_date+'?',
+          header: 'Confirmation',
+          icon: 'pi pi-exclamation-triangle',
+          accept: () => {
+            this.showOne = false;
+            this.loading = true;
+            this.adminApi.checkeligiblity(data).subscribe(data=>{
+              if(data['status'] === 200){
+                this.loading = false;
+                this.ngOnInit();
+                // if(e.checked == true){
+                //   this.ngOnInit();  
+                //   // this.adminApi.downloadFiles(data[`data`])
+                //   // .subscribe(data => {
+                //   //   saveAs(data, enrollment_no+'_hallticket.pdf');
+                //   // });
+                // }else if(e.checked == false){
+                //   this.ngOnInit();
+                // }
+              }else if(data['status'] === 400){
+                this.loading = false;
+                alert(data['message']);
                 this.ngOnInit();
               }
-            }else if(data['status'] === 400){
-              this.loading = false;
-              alert(data['message']);
-              this.ngOnInit();
-            }
-          })
-        },
-        reject: () => {
-          this.ngOnInit();
-        } 
-    })
+            })
+          },
+          reject: () => {
+            this.ngOnInit();
+          } 
+        })
+      }else if(e.checked == false){
+        this.confirmationService.confirm({
+          message: 'Are you sure that you want to revert dates?',
+          header: 'Confirmation',
+          icon: 'pi pi-exclamation-triangle',
+          accept: () => {
+            this.showOne = false;
+            this.loading = true;
+            this.adminApi.checkeligiblity(data).subscribe(data=>{
+              if(data['status'] === 200){
+                this.loading = false;
+                this.ngOnInit();
+                // if(e.checked == true){
+                //   this.adminApi.downloadFiles(data[`data`])
+                //   .subscribe(data => {
+                //     saveAs(data, enrollment_no+'_hallticket.pdf');
+                //     this.ngOnInit();  
+                //   });
+                // }else if(e.checked == false){
+                //   this.ngOnInit();
+                // }
+              }else if(data['status'] === 400){
+                this.loading = false;
+                alert(data['message']);
+                this.ngOnInit();
+              }
+            })
+          },
+          reject: () => {
+            this.ngOnInit();
+          } 
+        })
+      }
     }
   }
 

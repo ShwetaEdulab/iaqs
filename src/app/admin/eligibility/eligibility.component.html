@@ -7,28 +7,34 @@
 			<p-tabPanel header="Personal Interview Details">
 				<b><h3>Personal Interview Details</h3></b><br>
 				<div class="row">
-					<div class="col-xl-4">
+					<div class="col-xl-3">
 						<mat-form-field class="example-full-width">
 							<input matInput  type="text" [value]="filterText"
 							[placeholder]="filterPlaceholder" [formControl]="filterInput" />
 						</mat-form-field>
 					</div>
-					<div class="col-xl-4">
+					<div class="col-xl-3">
 						<label for="DOBtxt">Date of PI Test<span style="color:red;">*</span></label><br>
 						<input nbInput [(ngModel)]="piTest" placeholder="Select Date of PI Test" id="DOBtxt" 
 								[nbDatepicker]="formpicker" ><br>
 						<nb-datepicker #formpicker [min]="max"></nb-datepicker><br>
-						<button nbButton  size="xsmall" outline status="info" (click)="saveDate('pit')">Save Date</button>
+						<button nbButton  size="xsmall" outline status="info" (click)="saveDate('pit')">Save Date</button><br>
 						<span *ngIf="showOne" style="color: red">{{message}}</span><br>
 					</div>
-					<div class="col-xl-4">
-						<label for="inputPITime">Time of Personal Interview Test<span style="color:red;">*</span></label><br>
+					<div class="col-xl-3">
+						<label for="inputPITime">Time of Personal Interview Test<span style="color:red;">*</span></label><br><br>
 						<!-- <input [ngxTimepicker]="picker1" id="inputPITime" [(ngModel)]="onlinePITime" nbInput 
 							placeholder="Select Time of Online Test" name="onlinePITime"><br>
 						<ngx-material-timepicker #picker1></ngx-material-timepicker><br> -->
 						<p-calendar [readonlyInput]="true" id="inputPITime" [(ngModel)]="onlinePITime" [timeOnly]="true"></p-calendar><br><br>
-						<button nbButton size="xsmall" outline status="info" (click)="saveTime(serverTimeId)">Save Time</button>
+						<button nbButton size="xsmall" outline status="info" (click)="saveTime(serverTimeId)">Save Time</button><br>
 						<span *ngIf="showTwo" style="color: red">{{message}}</span><br>
+					</div>
+					<div class="col-xl-3">
+						<label for="locationtxt">Location PI Test<span style="color:red;">*</span></label><br>
+						<input  id="locationtxt" nbInput type="text" [(ngModel)]="piLocation" (keyup)="onKeyUp($event)" placeholder="Location of PI Test"  class="form-control"><br>
+						<button nbButton size="xsmall" outline status="info" (click)="saveLocation(serverTimeId)">Save Location</button><br>
+						<span *ngIf="showThree" style="color:red;">{{message}}</span> 
 					</div>
 				</div>
 				
@@ -75,7 +81,7 @@
 									</section>
 									<i class="fa ion-email" status="info" nbPopover="Raise Ticket" nbPopoverMode="hover" (click)="Ticket(application.email);"></i>
 								</td>
-								<td>{{application?.pi_test_date}}</td>				
+								<td>{{application?.pi_test_date}}<br>{{application?.pi_test_time}}<br>{{application?.pi_test_location}}</td>				
 							</tr>
 						</tbody>				
 					</table>
