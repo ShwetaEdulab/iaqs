@@ -5,6 +5,7 @@ import { NbSearchService } from '@nebular/theme';
 import { NbDialogService } from '@nebular/theme';
 import {PeerComponent } from './peer.component';
 import { HeaderComponent } from '../../@theme/components/header/header.component';
+import { NbAuthService, NbAuthJWTToken } from '@nebular/auth';
 
 @Component({
     selector: 'college',
@@ -19,7 +20,12 @@ import { HeaderComponent } from '../../@theme/components/header/header.component
       private searchService : NbSearchService,
       private dialogService: NbDialogService,
       private comp: HeaderComponent,
+      private authService: NbAuthService,
     ) {
+      this.authService.onTokenChange()
+        .subscribe((token: NbAuthJWTToken) => {
+        this.userId = token.getPayload()['id'];
+      });
     }
     courseid ;
     collegeId;
@@ -50,6 +56,7 @@ import { HeaderComponent } from '../../@theme/components/header/header.component
     mobile :any;
     peer : any;
     peer_id : any;
+    userId;
 
     async ngOnInit() {
       this.api.getTheme();

@@ -1,3 +1,13 @@
+<script>
+  gtag('event', 'page_view', {
+    'send_to': 'AW-739031338',
+    'items': [{
+      'id': userId,
+      'location_id': userId,
+      'google_business_vertical': 'education'
+    }]
+  });
+</script>
 <div *ngIf="user?.role == 'student'">
   <nb-card status="success" *ngIf = "cartCheck == true || ucaFlag == true">
     <nb-card-header>Track Your Application Progress</nb-card-header>

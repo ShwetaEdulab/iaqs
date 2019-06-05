@@ -45,6 +45,7 @@ export class DashboardComponent {
   public filterText: string;
   public filterPlaceholder: string;
   public filterInput = new FormControl();
+  userId;
 
   constructor(
     private userService: UserService,
@@ -59,6 +60,10 @@ export class DashboardComponent {
       this.min = this.dateService.addMonth(this.dateService.today(), -1);
       this.max = this.dateService.addMonth(this.dateService.today(), 1);
       this.getScreenSize();
+      this.authService.onTokenChange()
+        .subscribe((token: NbAuthJWTToken) => {
+        this.userId = token.getPayload()['id'];
+      });
     }
   
   async ngOnInit() {

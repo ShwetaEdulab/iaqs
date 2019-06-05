@@ -5,6 +5,7 @@ import {
   ActivatedRoute
 } from '@angular/router';
 import { HeaderComponent } from '../../@theme/components/header/header.component';
+import { NbAuthService, NbAuthJWTToken } from '@nebular/auth';
 
 @Component({
   selector: 'ngx-settings',
@@ -14,13 +15,19 @@ import { HeaderComponent } from '../../@theme/components/header/header.component
 })
 export class SettingsComponent implements OnInit {
 
-
+  userId;
   constructor(
     private api : ApiService,
     private route: ActivatedRoute,
     private router: Router,
     private comp: HeaderComponent,
-  ) { }
+    private authService: NbAuthService,
+  ) {
+    this.authService.onTokenChange()
+      .subscribe((token: NbAuthJWTToken) => {
+      this.userId = token.getPayload()['id'];
+    });
+   }
 
 
   ngOnInit() {

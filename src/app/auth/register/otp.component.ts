@@ -5,7 +5,14 @@ import { ApiService } from '../../shared/api.service';
 
 @Component({
     selector: 'nb-dialog',
-    template: `
+		template: `
+		<html>
+		<head>
+			<!-- Event snippet for Register_Now conversion page -->
+			<script>
+				gtag('event', 'conversion', {'send_to': 'AW-739031338/FnphCO7J1aEBEKrysuAC'});
+			</script>
+		</head>
     <nb-card class="col-md-12">
       <nb-card-header id="header">Verify Otp Here</nb-card-header>
       <nb-card-body>
@@ -42,7 +49,8 @@ import { ApiService } from '../../shared/api.service';
 	 
 		</div>          
         </nb-card-footer>
-    </nb-card>
+		</nb-card>
+		<html>
     `,
     })
 

@@ -41,6 +41,7 @@ providers:[HeaderComponent],
 export class CourseComponent {
   gallery: any;
   video: any;
+  userId;
   constructor(private router: Router,
     private route: ActivatedRoute,
     private api: ApiService,
@@ -50,6 +51,10 @@ export class CourseComponent {
     private socket : SocketService,
     private dialogService: NbDialogService,
   ) {
+    this.authService.onTokenChange()
+      .subscribe((token: NbAuthJWTToken) => {
+      this.userId = token.getPayload()['id'];
+    });
 
   }
   loading = true;

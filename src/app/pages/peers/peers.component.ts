@@ -7,6 +7,7 @@ import { ApiService } from '../../shared/api.service';
 import { Observable } from 'rxjs';
 import { NbDialogService } from '@nebular/theme';
 import {PeerComponent } from '../collegeinfo/peer.component';
+import { NbAuthService, NbAuthJWTToken } from '@nebular/auth';
 @Component({
   selector: 'peers',
   styleUrls: ['./peers.scss'],
@@ -24,10 +25,17 @@ export class PeersComponent  {
   peer_id : any;
   college_id;
   courseid;
+  userId;
   constructor(private searchService: NbSearchService,
-             protected api : ApiService, 
-            private route : ActivatedRoute,
-              private dialogService: NbDialogService) {
+    protected api : ApiService, 
+    private route : ActivatedRoute,
+    private authService: NbAuthService,
+    private dialogService: NbDialogService
+  ) {
+      this.authService.onTokenChange()
+        .subscribe((token: NbAuthJWTToken) => {
+        this.userId = token.getPayload()['id'];
+      });
    
   }
 

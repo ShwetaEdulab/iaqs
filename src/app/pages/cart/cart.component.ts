@@ -4,6 +4,7 @@ import { ApiService } from '../../shared/api.service';
 import { NbDateService, NbDialogService } from '@nebular/theme';
 import { Firstpaymentdialog } from './dialog/Firstpaymentdialog';
 import { HeaderComponent } from '../../@theme/components/header/header.component';
+import { NbAuthService, NbAuthJWTToken } from '@nebular/auth';
 
 @Component({
   selector: 'cart',
@@ -17,12 +18,18 @@ export class CartComponent  {
     { title: 'View' },
     { title: 'Checkout' },
   ];
+  userId;
   constructor(private router : Router,
     private api : ApiService,
     protected dateService: NbDateService<Date>,
     private dialogService: NbDialogService,
     private comp: HeaderComponent,
+    private authService: NbAuthService,
 ) {
+  this.authService.onTokenChange()
+      .subscribe((token: NbAuthJWTToken) => {
+      this.userId = token.getPayload()['id'];
+    });
    
   }
  cartList;

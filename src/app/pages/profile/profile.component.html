@@ -1,3 +1,13 @@
+<script>
+  gtag('event', 'page_view', {
+    'send_to': 'AW-739031338',
+    'items': [{
+      'id': userId,
+      'location_id': userId,
+      'google_business_vertical': 'education'
+    }]
+  });
+</script>
 <div id="editPage" class="col-md-12" [hidden]="!show">
   <nb-card status="success">
     <nb-card-header>Edit Profile</nb-card-header>
@@ -1522,10 +1532,10 @@
               <div class="row justify-content-between">
                   <div class="col-xl-12">
                     <button nbButton class="col-md-4 col-sm-4 col-xs-4 offset-md-4" style="margin-top:10px;" (click)="Letter(profile_info?.id)"
-                        hero status="info">Preview Letter</button>
+                        hero status="info" [nbSpinner]="loading27" nbSpinnerStatus="danger" nbSpinnerSize="xlarge" >Preview Letter</button>
                   </div>
                   <div class="col-xl-12" *ngIf="profileCompleteness == true">
-                    <button nbButton class="col-md-4 col-sm-4 col-xs-4 offset-md-4" size="small" hero status="info" style="margin-top:10px;" (click)="quickApply()">Pay Course Fee</button>
+                    <button nbButton class="col-md-4 col-sm-4 col-xs-4 offset-md-4" size="small" hero status="info" style="margin-top:10px;" (click)="quickApply()">Quick Apply</button>
                   </div>
               </div>
               </div>

@@ -6,6 +6,7 @@ import { NbDialogService } from '@nebular/theme';
 import { HeaderComponent } from '../../@theme/components/header/header.component';
 import { FormControl } from '@angular/forms';
 import { config } from '../../../../config';
+import { NbAuthService, NbAuthJWTToken } from '@nebular/auth';
 
 @Component({
     selector: 'totalcourse',
@@ -20,8 +21,14 @@ import { config } from '../../../../config';
       private searchService : NbSearchService,
       private dialogService: NbDialogService,
       private comp: HeaderComponent,
+      private authService: NbAuthService,
     ) {
+      this.authService.onTokenChange()
+        .subscribe((token: NbAuthJWTToken) => {
+        this.userId = token.getPayload()['id'];
+      });
     }
+    userId;
     p: number = 1;
     courselist_data: any = [];
     serverUrl = config.serverUrl;

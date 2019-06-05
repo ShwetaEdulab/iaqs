@@ -4,7 +4,7 @@ import { ApiService } from '../../../shared/api.service';
 import { CountriesService } from '../../../@core/data/countries.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NbDateService , NbDialogService, NbStepperComponent } from '@nebular/theme';
-import { NbAuthService, } from '@nebular/auth';
+import { NbAuthService, NbAuthJWTToken } from '@nebular/auth';
 import { UserService } from '../../../@core/data/users.service';
 import { saveAs } from 'file-saver';
 import { OnlineTestPaymentdialog } from './dialog/onlinetestpaymentdialog';
@@ -69,6 +69,7 @@ export class ApplicationStepsComponent implements OnInit {
   examdates: any;
   date_exam: any;
   showerror = false;
+  userId;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -85,6 +86,10 @@ export class ApplicationStepsComponent implements OnInit {
   ) {
     this.min = this.dateService.today();
     this.max = this.dateService.today();
+    this.authService.onTokenChange()
+      .subscribe((token: NbAuthJWTToken) => {
+      this.userId = token.getPayload()['id'];
+    });
   }
 
   ngOnInit() {

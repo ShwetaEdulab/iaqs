@@ -214,7 +214,7 @@ export class ProfileComponent {
   loading24 = false;
   loading25 = false;
   loading26 = false;
-
+  loading27 = false;
   SamplePhoto: any;
   SampleSign: any;
   SampleExperienceCertificate: any;
@@ -275,6 +275,7 @@ export class ProfileComponent {
   selectedCategory: any;
   isDisabled = false;
   alertflagCourse: number;
+  userId;
 
   constructor(private userService: UserService,
     private fb: FormBuilder,
@@ -293,6 +294,10 @@ export class ProfileComponent {
     private socket : SocketService,
   ) {
     this.Countries = this.countries.getData();
+    this.authService.onTokenChange()
+      .subscribe((token: NbAuthJWTToken) => {
+      this.userId = token.getPayload()['id'];
+    });
   }
 
 
@@ -2111,10 +2116,18 @@ export class ProfileComponent {
   }
 
   Letter(userId) {
+    this.loading27 = true;
     this.api.previewLetter(userId)
       .subscribe(
         (data: any) => {
-          this.downloadTranscript(data.data)
+          if(data['status'] == 200){
+            this.downloadTranscript(data.data);
+            this.loading27 = false;
+            alert('Downloading.....')
+          }else if(data['status'] == 400){
+            this.loading27 = false;
+            alert('Problem occured while downloading the pdf !!')
+          }
           err => console.error(err)
         });
   }

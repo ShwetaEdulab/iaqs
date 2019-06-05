@@ -40,6 +40,7 @@ export class ApplicationComponent  {
   isDisabled = false;
   qatForm: FormGroup;
   applicationdata: any;
+  userId;
 
   constructor(
     private router : Router,
@@ -51,6 +52,10 @@ export class ApplicationComponent  {
     private confirmationService: ConfirmationService,
     private fb: FormBuilder,
   ) {
+    this.authService.onTokenChange()
+      .subscribe((token: NbAuthJWTToken) => {
+      this.userId = token.getPayload()['id'];
+    });
 
   }
   async ngOnInit() {

@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router , ActivatedRoute } from '@angular/router';
-import { NbAuthService } from '@nebular/auth';
+import { NbAuthService, NbAuthJWTToken } from '@nebular/auth';
 import { ApiService } from '../../shared/api.service';
 import { saveAs } from 'file-saver';
 import { HeaderComponent } from '../../@theme/components/header/header.component';
@@ -34,11 +34,16 @@ export class DownloadsComponent  {
   show1 = true;
   show2 = true;
   show3 = true;
+  userId;
   constructor(private authService: NbAuthService,
     public http: HttpClient,
      protected api : ApiService,
      private comp: HeaderComponent,
      ) {
+      this.authService.onTokenChange()
+        .subscribe((token: NbAuthJWTToken) => {
+        this.userId = token.getPayload()['id'];
+      });
   }
   ngOnInit() {
     this.api.getTheme();

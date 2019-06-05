@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import {Data} from '../../shared/data';
 import { RouterExtService } from '../../shared/identifyUrl';
 import { HeaderComponent } from '../../@theme/components/header/header.component';
+import { NbAuthService, NbAuthJWTToken } from '@nebular/auth';
 @Component({
   selector: 'search',
   styleUrls: ['./search.component.scss'],
@@ -41,16 +42,22 @@ export class SearchComponent  {
   public filterInput = new FormControl();
   urrl;
   college_url;
+  userId;
   constructor(private searchService: NbSearchService,
-              private customsearch : SearchService,
-              private router : Router,
-              protected api : ApiService, 
-              private fb: FormBuilder,
-              private route : ActivatedRoute,
-              private data : Data,
-              private routerExtService : RouterExtService,
-              private comp: HeaderComponent,
-            ) {
+    private customsearch : SearchService,
+    private router : Router,
+    protected api : ApiService, 
+    private fb: FormBuilder,
+    private route : ActivatedRoute,
+    private data : Data,
+    private routerExtService : RouterExtService,
+    private comp: HeaderComponent,
+    private authService: NbAuthService,
+  ) {
+    this.authService.onTokenChange()
+      .subscribe((token: NbAuthJWTToken) => {
+      this.userId = token.getPayload()['id'];
+    });
    
   }
 
