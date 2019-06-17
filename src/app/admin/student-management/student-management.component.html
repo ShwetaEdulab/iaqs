@@ -19,13 +19,22 @@
 			</div>
 			<div class="col-lg-3 ">
 				<mat-form-field>
-					<mat-select placeholder="select Year"[(ngModel)]="selectedYear" name="selectedYear" id="yearCtrl"  (ngModelChange)="filterYear($event)" >
+					<mat-select placeholder="select Year" [(ngModel)]="selectedYear" name="selectedYear" id="yearCtrl"  (ngModelChange)="filterYear($event)" >
 						<mat-option value="2017">2017-2018</mat-option>
 						<mat-option value="2018">2018-2019</mat-option>
 						<mat-option value="2019">2019-2020</mat-option>
 					</mat-select>
 				</mat-form-field>
 			</div>
+			<div class="col-lg-3 ">
+					<mat-form-field>
+						<mat-select placeholder="select type" [(ngModel)]="selectedtype" name="selectedtype" id="stuCtrl"  (ngModelChange)="filterStudType($event)" >
+							<mat-option value="registered">Registered</mat-option>
+							<mat-option value="interested">Interested</mat-option>
+							<mat-option value="not_interested">Not Interested</mat-option>
+						</mat-select>
+					</mat-form-field>
+				</div>
 			
 		</div>
 		<table class="table table-striped w-auto">
@@ -44,6 +53,7 @@
 						<th>Registered Date</th>
 						<th>Action</th>
 						<th>Profile Completeness</th>
+						<th>Input for filter</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -62,7 +72,13 @@
 							<i class="fa ion-person" status="info" nbPopover="View More" nbPopoverMode="hover" (click)="viewMore('studentmgmt',student.id);"></i><br>
 							<i class="fa ion-email" status="info" nbPopover="Raise Ticket" nbPopoverMode="hover" (click)="Ticket(student.email);"></i>										
 						</td>	
-						<td><nb-progress-bar [value]="student.profile_completeness" outline status="info" [displayValue]="true"></nb-progress-bar></td>				
+						<td><nb-progress-bar [value]="student.profile_completeness" outline status="info" [displayValue]="true"></nb-progress-bar></td>
+						<td>
+							<mat-form-field class="example-full-width" *ngIf="student.user_show_type!=''">
+								<input matInput placeholder="student type" value="{{student.user_show_type}}" readonly>
+							</mat-form-field><br>
+							<button nbButton size="xsmall" outline status="info" (click)="saveOption(student.id,student.user_show_type)">Save Option</button>
+						</td>			
 					</tr>
 				</tbody>				
 			</table>

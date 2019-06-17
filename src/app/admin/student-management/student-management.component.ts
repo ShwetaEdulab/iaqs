@@ -3,6 +3,8 @@ import { FormControl } from '@angular/forms';
 import { AdminApiService } from '../../shared/adminapi.service';
 import { Router } from '@angular/router';
 import { NbAuthJWTToken,NbAuthService } from '@nebular/auth';
+import { NbDialogService, NbToastrService,NbStepperComponent,NbThemeService } from '@nebular/theme';
+import { SavestudenttypeDialogComponent } from './dialog/savestudenttype';
 
 @Component({
   selector: 'ngx-student-management',
@@ -11,16 +13,23 @@ import { NbAuthJWTToken,NbAuthService } from '@nebular/auth';
 })
 export class StudentManagementComponent implements OnInit {
   selectedYear ='2019'
+  selectedtype;
   public filterText: string;
   public filterPlaceholder: string;
   public filterInput = new FormControl();
   p: number = 1;
   studentdata: any;
   active: any;
+  public options2 = [
+    {"id": 1, "name": "Registered"},
+    {"id": 2, "name": "Interested"},
+    {"id": 3, "name": "Not-Interested"}
+  ]
   constructor(
     protected adminApi : AdminApiService,
     private router : Router,
     private authService : NbAuthService,
+    private dialogService: NbDialogService,
   ) {
     this.authService.onTokenChange()
       .subscribe((token: NbAuthJWTToken) => {
@@ -34,7 +43,7 @@ export class StudentManagementComponent implements OnInit {
     this.filterText = "";
     this.filterPlaceholder = "Search";
     this.adminApi.getallstudents().subscribe((data)=>{
-      this.studentdata = data['data']
+      this.studentdata = data['data'];
       this.active=data['counts'];
     })
     this.filterInput
@@ -47,6 +56,21 @@ export class StudentManagementComponent implements OnInit {
 
   filterYear(year){
     this.adminApi.getallstudents().subscribe((data)=>{
+      this.studentdata = data['data']
+      this.active=data['counts'];
+    })
+    this.filterInput
+      .valueChanges
+      .debounceTime(200)
+      .subscribe(term => {
+        
+      this.filterText = term;
+    });
+
+  }
+
+  filterStudType(stu_type){
+    this.adminApi.getallstudentstypewise(stu_type).subscribe((data)=>{
       this.studentdata = data['data']
       this.active=data['counts'];
     })
@@ -79,6 +103,24 @@ export class StudentManagementComponent implements OnInit {
       }
       
     })
+  }
+
+  saveOption(userId,user_show_type){
+   this.dialogService.open(SavestudenttypeDialogComponent,{
+      closeOnBackdropClick : false,
+      context: {
+        userid : userId,
+        user_show_type:user_show_type
+      }
+    }).onClose
+      .subscribe(
+        (data: any) => {
+          this.ngOnInit()
+    });
+  }
+
+  filterstudent(data,user_id){
+    console.log("data========>"+data);
   }
  
 

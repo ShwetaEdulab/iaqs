@@ -45,6 +45,7 @@ import {
   import { EducationDetailsDialogComponent } from "./dialog/education_details";
   import { PaymentDetailsDialogComponent } from "./dialog/paymentDetails";
   import { SeatAllocationDialogComponent } from "./dialog/seatAllocation";
+ 
   import {DataTableModule} from "angular-6-datatable";
   import {MatSelectModule} from '@angular/material/select';
   import { AdminForeignOfficeComponent } from './foreignoffice.component';
@@ -92,14 +93,16 @@ import {
       MoreCollegesDialogComponent,
       PaymentDetailsDialogComponent,
       EducationDetailsDialogComponent,
-      SeatAllocationDialogComponent
+      SeatAllocationDialogComponent,
+      
     ],
     entryComponents: [
       PreferencesDialogComponent,
       MoreCollegesDialogComponent,
       PaymentDetailsDialogComponent,
       EducationDetailsDialogComponent,
-      SeatAllocationDialogComponent
+      SeatAllocationDialogComponent,
+      
     ],
     providers: [],
   })

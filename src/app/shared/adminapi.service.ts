@@ -243,6 +243,14 @@ getallstudents(){
     }
 }
 
+getallstudentstypewise(stu_type){
+  try{
+      return this.httpClient.get(`${this.baseUrl}/admin_api/students?stu_type=`+stu_type);
+  }catch(error) {
+      this.handleError("getallstudents : "+JSON.stringify(error));
+    }
+}
+
 downloadFiles(pdf):Observable<Blob>{
   try{
   let headers = new HttpHeaders();
@@ -867,6 +875,18 @@ totalseats(user_id,course_id,application_id){
       this.handleError("getStudentPreferencesList : "+JSON.stringify(error));
   }
 }
+
+saveStudenttype(user_id,value){
+  try{
+      return this.httpClient.post(`${this.baseUrl}/admin_api/students/saveStudenttype`,{
+          userId : user_id,
+          value :value,           
+      });
+  }catch(error) {
+      this.handleError("getStudentPreferencesList : "+JSON.stringify(error));
+  }
+}
+
 
 allocateSeat(user_id,course_id,application_id,category){
   try{

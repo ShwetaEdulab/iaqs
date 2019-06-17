@@ -131,23 +131,42 @@
                   <nb-card status="success">
                       <nb-card-header>Reserved Seat</nb-card-header>
                       <nb-card-body>
-                          <div class="row">
+                          <div class="row" *ngIf="UserData?.acturial_test == 'true'">
                             <div class="col-xl-12" *ngIf="personalFee == false" style="text-align:center;">
                               <h5>If you want to reserved your seat, yor are required to pay a refundable deposite of Rs.20,000.</h5>
                             </div><br>
-                          <div class="col-xl-12" *ngIf="personalFee == false">
-                              <button nbButton class="col-md-4 col-sm-4 col-xs-4 offset-md-4" style="margin-top:10px;" (click)="proceedforpayment()"
-                                  hero status="info">Proceed For Payment</button><br>
+                            <div class="col-xl-12" *ngIf="personalFee == false">
+                                <button nbButton class="col-md-4 col-sm-4 col-xs-4 offset-md-4" style="margin-top:10px;" (click)="proceedforpayment()"
+                                    hero status="info">Proceed For Payment</button><br>
+                            </div>
+                            <br>
+                            <br>
+                            <div class="col-xl-12" *ngIf="personalFee == false" style="color:red">
+                              <br><h5>(Note: The deposite is refundable if you do not clear the personal interview round.)</h5>
+                            </div>
+                            <div class="col-xl-12" *ngIf="pi_test_date==''" style="text-align:center">
+                              <h5>You are required to wait until admin scheduled the interview.</h5>
+                            </div>
                           </div>
-                          <br>
-                          <br>
-                          <div class="col-xl-12" *ngIf="personalFee == false" style="color:red">
-                            <br><h5>(Note: The deposite is refundable if you do not clear the personal interview round.)</h5>
+                          <div *ngIf="UserData?.acturial_test == 'false'">
+                              <div  class="row" *ngIf="OnlinePersonaldetails.reserved_seat == true">
+                                  <div class="col-xl-12" *ngIf="personalFee == false" style="text-align:center;">
+                                      <h5>If you want to reserved your seat, yor are required to pay a refundable deposite of Rs.20,000.</h5>
+                                  </div><br>
+                                  <div class="col-xl-12" *ngIf="personalFee == false">
+                                        <button nbButton class="col-md-4 col-sm-4 col-xs-4 offset-md-4" style="margin-top:10px;" (click)="proceedforpayment()"
+                                            hero status="info">Proceed For Payment</button><br>
+                                  </div>
+                                  <br>
+                                  <br>
+                                  <div class="col-xl-12" *ngIf="personalFee == false" style="color:red">
+                                    <br><h5>(Note: The deposite is refundable if you do not clear the personal interview round.)</h5>
+                                  </div>
+                              </div>
+                              <div class="col-xl-12" *ngIf="pi_test_date==''" style="text-align:center">
+                                <h5>You are required to wait until admin scheduled the interview.</h5>
+                              </div>
                           </div>
-                          <div class="col-xl-12" *ngIf="pi_test_date==''" style="text-align:center">
-                            <h5>You are required to wait until admin scheduled the interview.</h5>
-                          </div>
-                        </div>
                       </nb-card-body>
                       <button nbButton nbStepperNext>next</button>
                   </nb-card>
@@ -204,16 +223,17 @@
                         </div>
                         <div class="col-md-5 enrollDetailsCol2">
                             <input type="text" nbInput class="form-control" ngModel="{{Marksdetails?.total_marks}}"
-                            formControlName="totalMarksCtrl">
+                            formControlName="totalMarksCtrl" [readonly]="true">
                         </div>
                       </div>
                       <div class="row justify-content-between">
-                          <div class="col-xl-12" style="text-align:center">
-                              {{Marksdetails?.application_status}}
+                          <div class="col-xl-12" *ngIf="Marksdetails?.application_status=='Pass'">
+                            <h5 style="color:green;text-align:center;">You have successfully made it to your desired course.You can now proceed to pay the fees and grab your seat!</h5>
                           </div><br>
                           <div class="col-xl-12" *ngIf="Marksdetails?.application_status=='Fail'">
+                            <h5 style="color:red;text-align:center;">You have not cleared the examination. Click here to re-apply.</h5>
                             <button  nbButton class="col-md-4 col-sm-4 col-xs-4 offset-md-4" style="margin-top:10px;" (click)="examresult(Marksdetails?.application_status)"
-                              hero status="info">{{Marksdetails?.application_status}}</button>
+                              hero status="info">ReApply</button>
                             <!-- <button  nbButton class="col-md-4 col-sm-4 col-xs-4 offset-md-4" style="margin-top:10px;" (click)="reapply(applicationId,courseID)"
                               hero status="info">To Reapply for the Same Course Click Here</button> -->
                           </div>

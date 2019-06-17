@@ -16,6 +16,7 @@ import { config } from '../../../../../config';
 import { HeaderComponent } from '../../../@theme/components/header/header.component';
 import {ConfirmationService} from 'primeng/api';
 import { SocketService } from '../../../shared/socket.service';
+import { Applydialog } from '../../../pages/application/applicationsteps/dialog/applydialog';
 
 
 @Component({
@@ -70,6 +71,7 @@ export class ApplicationStepsComponent implements OnInit {
   date_exam: any;
   showerror = false;
   userId;
+  UserData: any;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -184,6 +186,7 @@ export class ApplicationStepsComponent implements OnInit {
     .subscribe(
       (data: any) => {
         this.OnlinePersonaldetails = data['data'];
+        this.UserData = data['data']['UserData'];
         if(data['data']['onlineTestPayment'] == true){
           this.onlinectrlval = data['data']['onlineTestPayment']
         }else{
@@ -294,14 +297,26 @@ export class ApplicationStepsComponent implements OnInit {
     if(result=='Pass'){
       
     }else if(result=='Fail'){
-      this.alertflag = 1;
-      this.message = "You have not cleared the examination. You could re-apply for the online entrance test and give one more shot!";
+      this.dialogService.open(Applydialog, {
+        closeOnBackdropClick : false,
+        context: {
+          title: 'This is a title passed to the dialog component',
+        },
+      }).onClose
+      .subscribe(
+        (data: any) => {
+          //this.ngOnInit();
+          this.router.navigate(['/pages/application'])
+          err => console.error(err)
+      })
+      //this.alertflag = 1;
+      //this.message = "You have not cleared the examination. You could re-apply for the online entrance test and give one more shot!";
     }else if(result=='new'){
-      this.alertflag = 1;
-      this.message = "Your Application is under process.";
+      //this.alertflag = 1;
+     // this.message = "Your Application is under process.";
     }else{
-      this.alertflag = 1;
-      this.message = "There is something went wrong.";
+      //this.alertflag = 1;
+      //this.message = "There is something went wrong.";
     }
   }
 

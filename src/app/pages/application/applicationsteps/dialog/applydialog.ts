@@ -108,7 +108,7 @@ constructor(protected ref: NbDialogRef<Applydialog>,
                 data => {
                   this.applicationID = data['data'];
                   this.ref.close();
-                  this.router.navigate(['/pages/application/process'],{queryParams:{appId:this.applicationID,courseID:courseid}})
+                  //this.router.navigate(['/pages/application/process'],{queryParams:{appId:this.applicationID,courseID:courseid}})
                 },
                 error => {
                     console.log("Error", error);

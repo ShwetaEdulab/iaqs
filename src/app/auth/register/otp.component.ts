@@ -8,9 +8,14 @@ import { ApiService } from '../../shared/api.service';
 		template: `
 		<html>
 		<head>
-			<!-- Event snippet for Register_Now conversion page -->
+			<!-- Global site tag (gtag.js) - Google Analytics -->
+			<script async src="https://www.googletagmanager.com/gtag/js?id=UA-140596437-1"></script>
 			<script>
-				gtag('event', 'conversion', {'send_to': 'AW-739031338/FnphCO7J1aEBEKrysuAC'});
+				window.dataLayer = window.dataLayer || [];
+				function gtag(){dataLayer.push(arguments);}
+				gtag('js', new Date());
+			
+				gtag('config', 'UA-140596437-1');
 			</script>
 		</head>
     <nb-card class="col-md-12">

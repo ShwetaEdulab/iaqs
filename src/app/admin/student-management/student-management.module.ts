@@ -16,6 +16,7 @@ import {
 
   import {MatSelectModule} from '@angular/material/select';
 import {MatIconModule} from '@angular/material/icon';
+import { SavestudenttypeDialogComponent } from "./dialog/savestudenttype";
   
   @NgModule({
     imports: [
@@ -33,10 +34,14 @@ import {MatIconModule} from '@angular/material/icon';
       MatSelectModule,
       MatIconModule,
       NbButtonModule,
-      NbProgressBarModule
+      NbProgressBarModule,
     ],
     declarations: [
         StudentManagementComponent,
+        SavestudenttypeDialogComponent
+    ],
+    entryComponents:[
+      SavestudenttypeDialogComponent
     ],
     providers: [],
   })
