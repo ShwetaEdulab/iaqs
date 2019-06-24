@@ -71,6 +71,10 @@
                               hero status="info">Save Date</button><br>
                               <span *ngIf="showerror == true" style="color:red;">Select Date</span>
                           </div>
+                          <div class="row">
+                            
+
+                          </div>
                     </div>
                     <div *ngIf="onlineTestPayment == true && OnlinePersonaldetails?.online_test_date!=''" >
                       <div class="row paddingForDetails">
@@ -147,6 +151,9 @@
                             <div class="col-xl-12" *ngIf="pi_test_date==''" style="text-align:center">
                               <h5>You are required to wait until admin scheduled the interview.</h5>
                             </div>
+                            <div class="col-xl-12" *ngIf="pi_test_date!=''" style="text-align:center">
+                              <h5>Your interview is scheduled.</h5>
+                            </div>
                           </div>
                           <div *ngIf="UserData?.acturial_test == 'false'">
                               <div  class="row" *ngIf="OnlinePersonaldetails.reserved_seat == true">
@@ -165,6 +172,9 @@
                               </div>
                               <div class="col-xl-12" *ngIf="pi_test_date==''" style="text-align:center">
                                 <h5>You are required to wait until admin scheduled the interview.</h5>
+                              </div>
+                              <div class="col-xl-12" *ngIf="pi_test_date!=''" style="text-align:center">
+                                <h5>Your interview is scheduled.</h5>
                               </div>
                           </div>
                       </nb-card-body>
@@ -228,7 +238,7 @@
                       </div>
                       <div class="row justify-content-between">
                           <div class="col-xl-12" *ngIf="Marksdetails?.application_status=='Pass'">
-                            <h5 style="color:green;text-align:center;">You have successfully made it to your desired course.You can now proceed to pay the fees and grab your seat!</h5>
+                            <h5 style="color:green;text-align:center;">You have successfully made it to your desired course.You can now proceed the fees!</h5>
                           </div><br>
                           <div class="col-xl-12" *ngIf="Marksdetails?.application_status=='Fail'">
                             <h5 style="color:red;text-align:center;">You have not cleared the examination. Click here to re-apply.</h5>
@@ -319,7 +329,7 @@
                       <div class="col-md-3"></div>
                       <div class="col-md-6">
                         <button *ngIf="upload_location == false && amountpay == false" nbButton hero status="primary" (click)="paythirdpayment()">Proceed For Payment</button>
-                        <button *ngIf="upload_location == true && amountpay == false" nbButton hero status="primary" (click)="uploadsecondpaymentreceipt()">Upload Challan</button>
+                        <!-- <button *ngIf="upload_location == true && amountpay == false" nbButton hero status="primary" (click)="uploadsecondpaymentreceipt()">Upload Challan</button> -->
                         <button *ngIf="amountpay == true" nbButton hero status="primary">Amount Paid Successfully</button>
                       </div>
                       <div class="col-md-3"></div>

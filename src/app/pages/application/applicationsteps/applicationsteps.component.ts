@@ -254,7 +254,11 @@ export class ApplicationStepsComponent implements OnInit {
         (data: any) => {  
           this.user_data =  data['data']['user'];
           //this.amount = data['data']['fees'];
-          this.amount = '1,80,000';
+          if(this.personalFee == true){
+            this.amount = '1,80,000';
+          }else if(this.personalFee == false){
+            this.amount = '2,00,000';
+          }
           this.course_name = data['data']['specialization'];
           this.upload_location = data['data']['upload_challan_location'];
           this.amountpay = data['data']['amountpay'];
@@ -265,6 +269,12 @@ export class ApplicationStepsComponent implements OnInit {
   async paythirdpayment(){
     this.applicationId = this.route.snapshot.queryParamMap.get('appId');
     this.courseID = this.route.snapshot.queryParamMap.get('courseID');
+    var amount_value;
+    if(this.personalFee == true){
+      amount_value = '1,80,000';
+    }else if(this.personalFee == false){
+      amount_value = '2,00,000';
+    }
     this.confirmationService.confirm({
       message: 'Are You Sure to want to proceed?',
       header: 'Confirmation',
@@ -278,7 +288,7 @@ export class ApplicationStepsComponent implements OnInit {
             title: 'This is a title passed to the dialog component',
             applicationID : this.applicationId,
             courseID : this.courseID,
-            amount : '180000',
+            amount : amount_value,
             order_id : '3'
           },
         }).onClose
