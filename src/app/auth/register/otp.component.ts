@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { NbDialogRef,NbToastrService } from '@nebular/theme';
 import { Router } from '@angular/router';
 import { ApiService } from '../../shared/api.service';
-
+declare function googletest():any;
 @Component({
     selector: 'nb-dialog',
 		template: `
@@ -49,10 +49,22 @@ import { ApiService } from '../../shared/api.service';
         	<div class="col-lg-6"><button nbButton *ngIf="resend_input===false" (click)="update_number_otp()" hero status="primary" id="resend" style="visibility: visible;margin-top:10px;" >Update & Send</button></div>
     	</div>
 	  
-		<div class="row">
+		<div class="row" *ngIf="showButton == false">
 		<div class="col-lg-3"><button nbButton outline status="primary" (click)="verify(3000,'bottom-end')" >Verify</button></div>           
 	 
-		</div>          
+		</div>
+		<div *ngIf="showButton == true">
+			<div class="row">
+				<div class="col-lg-10" style="color:green;">
+					Thank you for registering with us.         
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-10">
+					<button nbButton outline status="primary" (click)="redirect()">Ok</button>       
+				</div>
+			</div>
+		</div>        
         </nb-card-footer>
 		</nb-card>
 		<html>
@@ -77,6 +89,7 @@ contact ;
 mobile;
 phone_code;
 otpValidation;
+showButton = false;
 
     constructor(protected ref: NbDialogRef<OtpComponent>,
       private router : Router,
@@ -99,21 +112,19 @@ otpValidation;
 			  (data: any) => {
 	
 				if(data['status'] == 200){
-				  this.alert=data['status'] ;
-					this.toastrService.show(
-						`Otp Verified Successfully ! `,{duration},{position}
-					);
-					this.router.navigate(['auth/login'])
-					this.ref.close();
-							this.alertflag=1;        
-		
-				  }
-				  else if(data['status'] == 400){
 					this.alert=data['status'] ;
-				  }
-	
-	
-			  });
+					this.showButton = true;
+					// this.toastrService.show(
+					// 	`Otp Verified Successfully ! `,{duration},{position}
+					// );
+					// this.router.navigate(['auth/login'])
+					// this.ref.close();
+					// this.alertflag=1;        
+		
+				}else if(data['status'] == 400){
+						this.alert=data['status'] ;
+				}
+			});
 		}
 		
 	
@@ -160,7 +171,13 @@ otpValidation;
 			this.mobile=this.userContactNo;
 			this.phone_code=this.userCountryCode;
 			this.resend_input = false;
-		  }
+			}
+	
+	redirect(){
+		googletest();
+		this.ref.close();
+		this.router.navigate(['auth/login'])
+	}
 		   
     
 }

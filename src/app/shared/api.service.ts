@@ -1187,6 +1187,14 @@ deletegalleriess(Id){
   
 }
 
+checkFirstPayment(userId){
+  try{
+    return this.httpClient.post(`${this.baseUrl}/api/myApplication/checkFirstPayment`,{"userId":userId});
+  }catch(error) {
+    this.handleError("checkFirstPayment : "+error);
+  }
+}
+
   private handleError(error){
     console.error(error);
    }

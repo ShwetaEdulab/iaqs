@@ -205,10 +205,16 @@ export class DownloadsComponent  {
       });
     }else if(document == 'QAT__qb'){
       var location = 'pdf';
-      this.api.downloadDocument(location,file)
-        .subscribe(data => {
-        saveAs(data, file);    
-      });
+      this.api.checkFirstPayment(this.userId).subscribe(result => {
+        if(result['status']==200){
+          this.api.downloadDocument(location,file)
+            .subscribe(data => {
+            saveAs(data, file);    
+          });
+        }else if(result['status']==400){
+          alert("Please First Apply for QAT.");
+        }
+      })
     }
   }
 

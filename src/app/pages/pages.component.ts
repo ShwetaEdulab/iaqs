@@ -30,7 +30,7 @@ export class PagesComponent {
   var checkapplications =  this.api.checkapplications();
   checkapplications.subscribe(
     (data: any) => {
-      console.log("data['status']=====>"+data['status']);
+      //console.log("data['status']=====>"+data['status']);
       if(data['status']== 200){
         this.show = 'true';
       }else if(data['status']== 400){

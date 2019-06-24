@@ -52,7 +52,7 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {MatDialogModule} from '@angular/material/dialog';
 //const socketconfig: SocketIoConfig = { url: 'http://93.104.211.51:2', options: {} };
 //const socketconfig: SocketIoConfig = { url: 'http://93.104.211.51', options: {reconnection: true,transports: ['websocket'],secure: true} };
-const socketconfig: SocketIoConfig = { url: 'wss://iaqs.admissiondesk.org', options: {reconnection: true,transports: ['websocket'],secure: true} };
+const socketconfig: SocketIoConfig = { url: 'wss://iaqs.in', options: {reconnection: true,transports: ['websocket'],secure: true} };
 @NgModule({
   declarations: [AppComponent,
     RegisterComponent,
