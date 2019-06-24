@@ -136,7 +136,7 @@ export const NB_CORE_PROVIDERS = [
         // remove: '*',
       },
       admin: {
-        view:['adminDashboard','studentManagement','adminApplication','adminEligibility','adminErrata','adminView','adminForeignOffice','AdminReuploadedTranscript','adminReport','theme','help','adminInstitute',],
+        view:['adminDashboard','studentManagement','adminApplication','adminEligibility','adminErrata','adminView','adminForeignOffice','AdminReuploadedTranscript','adminReport','theme','help','adminInstitute','paymentDetails'],
         //create: '*',
         // edit: '*',
         // remove: '*',

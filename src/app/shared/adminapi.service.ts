@@ -921,6 +921,14 @@ getAllCollegeDetail(college_id){
   }
 }
 
+getPaymentDetails(order_no){
+  try{
+    return this.httpClient.get(`${this.baseUrl}/admin_api/paymentDetails/getPaymentDetails?order_no=`+order_no);
+  }catch(error) {
+      this.handleError("getPaymentDetails : "+JSON.stringify(error));
+  }
+}
+
 
   private handleError(error){
     console.error(error);

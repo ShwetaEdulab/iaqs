@@ -98,6 +98,15 @@ export const MENU_ITEMS: NbMenuItem[] = [
     },
   },
   {
+    title: 'Payment Details',
+    icon: 'fas fa-wallet',
+    link: '/pages/paymentDetails',
+    data: {
+      permission: 'view',
+      resource: 'paymentDetails'
+    },
+  },
+  {
     title: 'Institute Management',
     icon: 'far fa-building',
     link: '/pages/adminInstitute',

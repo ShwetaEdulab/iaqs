@@ -49,6 +49,7 @@ import { StudentManagementComponent } from '../admin/student-management/student-
 import { AdminReportComponent } from '../admin/report/report.component';
 import { InstituteManagementComponent } from '../admin/institute-management/institute-management.component';
 import { ViewInstituteComponent } from '../admin/view-institute/view-institute.component';
+import { PaymentDetailsComponent } from '../admin/payment-details/payment-details.component'
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
@@ -230,6 +231,11 @@ const routes: Routes = [{
     component: AdminReuploadedTranscriptComponent,
 
   },
+  {
+    path: 'paymentDetails',
+    component: PaymentDetailsComponent,
+
+  }, 
   {
     path: 'AdminReport',
     component: AdminReportComponent,

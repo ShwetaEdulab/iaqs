@@ -50,6 +50,7 @@ import { StudentMgmtModule } from '../admin/student-management/student-managemen
 import { AdminReportModule } from '../admin/report/report.module';
 import { InstituteManagementModule } from '../admin/institute-management/institute-management.module';
 import { ViewInstituteModule } from '../admin/view-institute/view-institute.module';
+import { PaymentDetailsModule } from '../admin/payment-details/payment-details.module';
 
 
 const PAGES_COMPONENTS = [
@@ -102,6 +103,7 @@ const PAGES_COMPONENTS = [
     AdminReportModule,
     InstituteManagementModule,
     ViewInstituteModule,
+    PaymentDetailsModule
   ],
   providers: [Data],
   declarations: [

@@ -63,7 +63,7 @@ const socketconfig: SocketIoConfig = { url: 'wss://iaqs.in', options: {reconnect
     ForgotPasswordComponent,
     resetPasswordComponent,
     ResendEmailComponent,
-    InstituteRegisterComponent,
+    InstituteRegisterComponent
     ],
   imports: [
     BrowserModule,
