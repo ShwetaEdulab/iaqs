@@ -70,10 +70,14 @@
                               <button nbButton class="col-md-4 col-sm-4 col-xs-4 offset-md-4" (click)="saveexamdate()"
                               hero status="info">Save Date</button><br>
                               <span *ngIf="showerror == true" style="color:red;">Select Date</span>
-                          </div>
-                          <div class="row">
-                            
-
+                          </div><br><br>
+                          <div class="row" *ngIf="OnlinePersonaldetails?.show_qat_link == '1'">
+                            <div class="col-xl-7">
+                                <h5>If you want to start test now Click button</h5>
+                            </div>
+                            <div class="col-xl-5">
+                                <button nbButton (click)="examStart()" hero status="info">Start Exam</button>
+                            </div>
                           </div>
                     </div>
                     <div *ngIf="onlineTestPayment == true && OnlinePersonaldetails?.online_test_date!=''" >
@@ -101,6 +105,15 @@
                             formControlName="testTimeCtrl">
                         </div>
                     </div>
+                    <!-- <div class="row" *ngIf="OnlinePersonaldetails?.show_qat_link == '1'">
+                      <div class="col-xl-6">
+                          <h5>If you want to start test now Click button</h5>
+                      </div>
+                      <div class="col-xl-6">
+                          <button nbButton class="col-md-4 col-sm-4 col-xs-4 offset-md-4" (click)="examStart()"
+                          hero status="info">Start Exam</button>
+                      </div>
+                    </div> -->
                     </div>
                       <div class="row">
                           <div class="col-xl-12" *ngIf="onlineTestPayment == false">

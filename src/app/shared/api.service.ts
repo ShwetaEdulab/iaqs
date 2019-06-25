@@ -215,6 +215,14 @@ getProfileCompleteness(){
     }
   }
 
+  examStart(app_id,course_id){
+    try{
+      return this.httpClient.post(`${this.baseUrl}/api/myApplication/examStart`,{app_id:app_id,course_id:course_id});      
+    }catch(error) {
+      this.handleError("getMyApplication : "+error);
+    }
+  }
+
   saveacturial(value){
     try{
       return this.httpClient.post(`${this.baseUrl}/api/myApplication/saveacturial`,{"value":value});      

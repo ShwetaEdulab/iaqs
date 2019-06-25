@@ -186,6 +186,7 @@ export class ApplicationStepsComponent implements OnInit {
     .subscribe(
       (data: any) => {
         this.OnlinePersonaldetails = data['data'];
+        console.log("JSON.stringify()======>"+JSON.stringify(this.OnlinePersonaldetails));
         this.UserData = data['data']['UserData'];
         if(data['data']['onlineTestPayment'] == true){
           this.onlinectrlval = data['data']['onlineTestPayment']
@@ -605,6 +606,32 @@ export class ApplicationStepsComponent implements OnInit {
         }
       })
     }
+  }
+
+  examStart(){
+    this.confirmationService.confirm({
+      message: 'Are You Sure to want to start the test now?  (Note: You are only eligible to appear for the test once.)',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      rejectVisible:false,
+      acceptLabel :'OK',
+      accept: () => {
+        this.api.examStart(this.applicationId,this.courseID).subscribe(data => {
+          if(data['status'] == 200){
+            window.open("https://tests.mettl.com/authenticateKey/163b59e4", "_blank");
+            this.ngOnInit();
+          }else if(data['status'] ==400){
+            alert("Please try again!")
+          }
+          error => {
+              console.error("Error in saveexamdate :", error);
+          }
+        });
+      },
+      reject: () => {
+        //this.ngOnInit();
+      }
+    })
   }
 
   next(){
